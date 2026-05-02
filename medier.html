@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Medier (TV, radio & aviser)</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Medier – TV, radio & aviser</small>
+    </div>
+  
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mørk</span>
+      </button></div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <div class="toolbar">
+    <div class="input" role="search">
+      🔎 <input id="filter" type="search" placeholder="Søg i medier…" aria-label="Søg i links">
+    </div>
+    <span class="badge"><strong id="count">0</strong> links</span>
+  </div>
+
+  <ul id="links" class="link-list" aria-label="Medier"></ul>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  function sortDa(arr, key){ return arr.slice().sort((a,b)=> a[key].localeCompare(b[key],'da',{sensitivity:'base'})); }
+  function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return '' } }
+  function render(listEl, data){
+    listEl.innerHTML = '';
+    const sorted = sortDa(data,'name');
+    sorted.forEach(({name,url})=>{
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
+        <span>${name}</span><span class="host">${host(url)}</span></a>`;
+      listEl.appendChild(li);
+    });
+    document.getElementById('count').textContent = String(sorted.length);
+  }
+  function wireFilter(inputEl, listEl){
+    inputEl.addEventListener('input', ()=>{
+      const q = inputEl.value.toLowerCase().trim();
+      for(const li of listEl.querySelectorAll('li')){
+        li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
+      }
+    });
+  }
+
+  const LINKS = [
+    {name:'Altinget', url:'https://www.altinget.dk'},
+    {name:'B.T.', url:'https://www.bt.dk'},
+    {name:'Berlingske', url:'https://www.berlingske.dk'},
+    {name:'Børsen', url:'https://borsen.dk'},
+    {name:'DR (DRTV & DR Lyd)', url:'https://www.dr.dk'},
+    {name:'Ekstra Bladet', url:'https://ekstrabladet.dk'},
+    {name:'Finans', url:'https://finans.dk'},
+    {name:'Information', url:'https://www.information.dk'},
+    {name:'Jyllands-Posten', url:'https://www.jp.dk'},
+    {name:'Kristeligt Dagblad', url:'https://www.kristeligt-dagblad.dk'},
+    {name:'Politiken', url:'https://politiken.dk'},
+    {name:'Radio4', url:'https://radio4.dk'},
+    {name:'TV 2', url:'https://tv2.dk'},
+    {name:'Weekendavisen', url:'https://www.weekendavisen.dk'},
+    {name:'Zetland', url:'https://www.zetland.dk'}
+  ];
+
+  const listEl = document.getElementById('links');
+  const filterEl = document.getElementById('filter');
+  render(listEl, LINKS);
+  wireFilter(filterEl, listEl);
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+  <script src="assets/theme.js"></script>
+  <script src="assets/pwa-update.js"></script>
+</body>
+</html>

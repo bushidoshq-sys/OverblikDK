@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Banker</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Banker</small>
+    </div>
+  
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mørk</span>
+      </button></div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <div class="toolbar">
+    <div class="input" role="search">🔎
+      <input id="filter" type="search" placeholder="Søg i banker…" aria-label="Søg i links">
+    </div>
+    <span class="badge"><strong id="count">0</strong> links</span>
+  </div>
+
+  <ul id="links" class="link-list" aria-label="Banker"></ul>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  function sortDa(a,k){return a.slice().sort((x,y)=>x[k].localeCompare(y[k],'da',{sensitivity:'base'}))}
+  function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
+  function render(el,data){
+    el.innerHTML=''; const s=sortDa(data,'name');
+    s.forEach(({name,url})=>{const li=document.createElement('li');li.innerHTML=`<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;el.appendChild(li)});
+    document.getElementById('count').textContent=String(s.length);
+  }
+  function wireFilter(inp,ul){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const li of ul.querySelectorAll('li')){li.style.display=li.textContent.toLowerCase().includes(q)?'':''}})}
+
+  const LINKS = [
+    {name:'AL – Arbejdernes Landsbank', url:'https://www.al-bank.dk'},
+    {name:'BLS – Lån & Spar Bank', url:'https://www.lsb.dk'},
+    {name:'Coop Bank', url:'https://www.coopbank.dk'},
+    {name:'Danske Bank', url:'https://danskebank.dk'},
+    {name:'Djurslands Bank', url:'https://www.djurslandsbank.dk'},
+    {name:'Handelsbanken Danmark', url:'https://www.handelsbanken.dk'},
+    {name:'Jyske Bank', url:'https://www.jyskebank.dk'},
+    {name:'Landbobanken (Ringkjøbing Landbobank)', url:'https://landbobanken.dk'},
+    {name:'Lunar', url:'https://www.lunar.dk'},
+    {name:'Merkur Andelskasse', url:'https://www.merkur.dk'},
+    {name:'Middelfart Sparekasse', url:'https://midspar.dk/'},
+    {name:'Nordea Danmark', url:'https://www.nordea.dk'},
+    {name:'Nykredit Bank', url:'https://www.nykredit.dk'},
+    {name:'Saxo Bank', url:'https://www.home.saxo'},
+    {name:'Spar Nord Bank', url:'https://www.sparnord.dk'},
+    {name:'Sparekassen Kronjylland', url:'https://www.sparkron.dk'},
+    {name:'Sydbank', url:'https://www.sydbank.dk'},
+    {name:'Vestjysk Bank', url:'https://www.vestjyskbank.dk'}
+  ];
+
+  const list=document.getElementById('links'); const input=document.getElementById('filter');
+  render(list, LINKS); wireFilter(input, list);
+  document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+
+  <script src="assets/theme.js"></script>
+  <script src="assets/pwa-update.js"></script>
+</body>
+</html>

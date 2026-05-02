@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Reklamer & ugeaviser</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Reklamer & ugeaviser</small>
+    </div>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+      <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+      <span class="theme-toggle__text">Mørk</span>
+    </button>
+  </div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <section class="quick-panel" aria-labelledby="adsTitle">
+    <div class="quick-head">
+      <div>
+        <p class="section-kicker">Post & tilbud</p>
+        <h2 id="adsTitle">📬 Reklamer & ugeaviser</h2>
+        <p>Genveje til online tilbudsaviser og officielle Nej tak-ordninger.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="input" role="search">🔎
+      <input id="filter" type="search" placeholder="Søg i reklamer og ugeaviser…" aria-label="Søg i links">
+    </div>
+    <span class="badge"><strong id="count">0</strong> links</span>
+  </div>
+
+  <ul id="links" class="link-list" aria-label="Reklamer og ugeaviser"></ul>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  function sortDa(arr, key){ return arr.slice().sort((a,b)=> a[key].localeCompare(b[key],'da',{sensitivity:'base'})); }
+  function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return '' } }
+  function render(listEl, data){
+    listEl.innerHTML = '';
+    const sorted = sortDa(data,'name');
+    sorted.forEach(({name,url,desc})=>{
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
+        <span>${name}<small class="host">${desc || host(url)}</small></span><span class="host">${host(url)}</span></a>`;
+      listEl.appendChild(li);
+    });
+    document.getElementById('count').textContent = String(sorted.length);
+  }
+  function wireFilter(inputEl, listEl){
+    inputEl.addEventListener('input', ()=>{
+      const q = inputEl.value.toLowerCase().trim();
+      for(const li of listEl.querySelectorAll('li')){
+        li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
+      }
+    });
+  }
+
+  const LINKS = [
+    {name:'eTilbudsavis', url:'https://etilbudsavis.dk/', desc:'Online tilbudsaviser og tilbud samlet ét sted'},
+    {name:'MineTilbud', url:'https://minetilbud.dk/', desc:'Tilbudsaviser, reklamer og lokale tilbud'},
+    {name:'Reklamer Nej Tak – FK Distribution', url:'https://fk.dk/privat/reklamer-nej-tak/', desc:'Tilmeld eller ændr Nej tak-ordning'},
+    {name:'Borger.dk – Beskyttelse mod reklamer', url:'https://www.borger.dk/bolig-og-flytning/beskyttelse-mod-reklamer', desc:'Offentlig vejledning om reklamer og Robinsonlisten'},
+    {name:'Forbrug.dk – Reklamer Nej Tak', url:'https://forbrug.dk/emner/reklamer-og-spam/reklamer-nej-tak', desc:'Forklaring af Nej tak-ordningen'}
+  ];
+
+  const listEl = document.getElementById('links');
+  const filterEl = document.getElementById('filter');
+  render(listEl, LINKS);
+  wireFilter(filterEl, listEl);
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<script src="assets/theme.js"></script>
+<script src="assets/pwa-update.js"></script>
+</body>
+</html>

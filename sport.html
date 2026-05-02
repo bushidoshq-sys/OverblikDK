@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Sport</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Sport</small>
+    </div>
+  
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mørk</span>
+      </button></div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <div class="toolbar">
+    <div class="input" role="search">🔎
+      <input id="filter" type="search" placeholder="Søg i sport eller Superliga-klub" aria-label="Søg i links">
+    </div>
+    <span class="badge"><strong id="count">0</strong> links</span>
+  </div>
+
+  <h2>Generelt</h2>
+  <ul id="links" class="link-list" aria-label="Sport – generelt"></ul>
+
+  <hr class="sep" />
+
+  <h2>Superliga-klubber</h2>
+  <ul id="superliga-links" class="link-list" aria-label="Superliga-klubber"></ul>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  function sortDa(a,k){return a.slice().sort((x,y)=>x[k].localeCompare(y[k],'da',{sensitivity:'base'}))}
+  function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
+  function render(el,data){
+    el.innerHTML=''; const s=sortDa(data,'name');
+    s.forEach(({name,url})=>{
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;
+      el.appendChild(li);
+    });
+    return s.length;
+  }
+  function wireFilter(inp, lists){
+    inp.addEventListener('input',()=>{
+      const q = inp.value.toLowerCase().trim();
+      lists.forEach(ul => {
+        for (const li of ul.querySelectorAll('li')) {
+          li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
+        }
+      });
+    });
+  }
+
+  // Generelle sportslinks
+  const GENERAL = [
+    {name:'Danmarks Idrætsforbund (DIF)', url:'https://www.dif.dk'},
+    {name:'DBU – Dansk Boldspil-Union', url:'https://dbu.dk'},
+    {name:'Håndbold.dk', url:'https://danskhaandbold.dk/'},
+    {name:'OL Danmark', url:'https://www.ol.dk'},
+    {name:'Team Danmark', url:'https://www.teamdanmark.dk'},
+    // original listing Brøndby etc. kan være her, hvis ønsket...
+  ];
+
+  const SUPERLIGA = [
+    {name:'AaB', url:'https://aabsport.dk'},
+    {name:'AGF', url:'https://agf.dk'},
+    {name:'Brøndby IF', url:'https://brondby.com'},
+    {name:'FC København', url:'https://fck.dk'},
+    {name:'FC Midtjylland', url:'https://www.fcm.dk'},
+    {name:'FC Nordsjælland', url:'https://fcn.dk'},
+    {name:'Lyngby BK', url:'https://lyngby-boldklub.dk'},
+    {name:'Odense Boldklub (OB)', url:'https://ob.dk'},
+    {name:'Randers FC', url:'https://randersfc.dk'},
+    {name:'Silkeborg IF', url:'https://www.silkeborgif.com'},
+    {name:'SønderjyskE Fodbold', url:'https://www.soenderjyske.dk'},
+    {name:'Vejle Boldklub', url:'https://vejle-boldklub.dk'},
+    {name:'Viborg FF', url:'https://vff.dk'}
+  ];
+  // Listen er opdateret til de 12 nuværende Superligaklubber :contentReference[oaicite:7]{index=7}
+
+  const genList = document.getElementById('links');
+  const supList = document.getElementById('superliga-links');
+  const filter = document.getElementById('filter');
+
+  const genCount = render(genList, GENERAL);
+  render(supList, SUPERLIGA);
+  document.getElementById('count').textContent = genCount + SUPERLIGA.length;
+
+  wireFilter(filter, [genList, supList]);
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+  <script src="assets/theme.js"></script>
+  <script src="assets/pwa-update.js"></script>
+</body>
+</html>

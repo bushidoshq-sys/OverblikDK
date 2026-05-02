@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Forretninger</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Forretninger</small>
+    </div>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+      <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+      <span class="theme-toggle__text">Mørk</span>
+    </button>
+  </div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <section class="quick-panel" aria-labelledby="shopsTitle">
+    <div class="quick-head">
+      <div>
+        <p class="section-kicker">Indkøb</p>
+        <h2 id="shopsTitle">🛒 Dagligvareforretninger</h2>
+        <p>Genveje til tilbudsaviser og nærmeste butik i Google Maps.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid" aria-label="Dagligvareforretninger">
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>Netto</h3>
+        <p>Se Netto-avisen eller find nærmeste Netto.</p>
+        <div class="store-actions" aria-label="Netto handlinger">
+          <a class="store-action" href="https://netto.dk/netto-avisen/" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=Netto%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>REMA 1000</h3>
+        <p>Se REMA 1000s avis eller find nærmeste REMA 1000.</p>
+        <div class="store-actions" aria-label="REMA 1000 handlinger">
+          <a class="store-action" href="https://rema1000.dk/avis" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=REMA%201000%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>føtex</h3>
+        <p>Se føtex-avis eller find nærmeste føtex.</p>
+        <div class="store-actions" aria-label="føtex handlinger">
+          <a class="store-action" href="https://www.foetex.dk/foetex-avis/" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=f%C3%B8tex%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>Bilka</h3>
+        <p>Se Bilka-avisen eller find nærmeste Bilka.</p>
+        <div class="store-actions" aria-label="Bilka handlinger">
+          <a class="store-action" href="https://www.bilka.dk/bilkaavisen/" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=Bilka%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>Coop 365discount</h3>
+        <p>Se ugens avis/tilbud eller find nærmeste Coop 365discount.</p>
+        <div class="store-actions" aria-label="Coop 365discount handlinger">
+          <a class="store-action" href="https://365discount.coop.dk/365avis/" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=Coop%20365discount%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>SuperBrugsen</h3>
+        <p>Se tilbud eller find nærmeste SuperBrugsen.</p>
+        <div class="store-actions" aria-label="SuperBrugsen handlinger">
+          <a class="store-action" href="https://superbrugsen.coop.dk/avis/" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=SuperBrugsen%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>Lidl</h3>
+        <p>Se Lidl-tilbudsavisen eller find nærmeste Lidl.</p>
+        <div class="store-actions" aria-label="Lidl handlinger">
+          <a class="store-action" href="https://www.lidl.dk/c/tilbudsavis/s10013730" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=Lidl%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>Kvickly</h3>
+        <p>Se Kvickly-avisen eller find nærmeste Kvickly.</p>
+        <div class="store-actions" aria-label="Kvickly handlinger">
+          <a class="store-action" href="https://kvickly.coop.dk/avis/" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=Kvickly%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>Brugsen / Dagli'Brugsen</h3>
+        <p>Se Brugsen-avisen eller find nærmeste Brugsen.</p>
+        <div class="store-actions" aria-label="Brugsen handlinger">
+          <a class="store-action" href="https://brugsen.coop.dk/avis/" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=Brugsen%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>MENY</h3>
+        <p>Se MENY-avisen eller find nærmeste MENY.</p>
+        <div class="store-actions" aria-label="MENY handlinger">
+          <a class="store-action" href="https://meny.dk/ugensavis" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=MENY%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>SPAR</h3>
+        <p>Se SPAR-avisen eller find nærmeste SPAR.</p>
+        <div class="store-actions" aria-label="SPAR handlinger">
+          <a class="store-action" href="https://spar.dk/ugensavis" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=SPAR%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>Min Købmand</h3>
+        <p>Se Min Købmand-avisen eller find nærmeste Min Købmand.</p>
+        <div class="store-actions" aria-label="Min Købmand handlinger">
+          <a class="store-action" href="https://xn--minkbmand-o8a.dk/ugensavis" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=Min%20K%C3%B8bmand%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card store-card">
+      <div class="icon">🛒</div>
+      <div class="store-card__content">
+        <h3>Let-Køb</h3>
+        <p>Se Let-Køb-avisen eller find nærmeste Let-Køb.</p>
+        <div class="store-actions" aria-label="Let-Køb handlinger">
+          <a class="store-action" href="https://ugensavis.xn--letkb-yua.dk/" target="_blank" rel="noopener noreferrer">Tilbudsavis</a>
+          <a class="store-action store-action--secondary" href="https://www.google.com/maps/search/?api=1&query=Let-K%C3%B8b%20n%C3%A6r%20mig" target="_blank" rel="noopener noreferrer">Find nærmeste butik</a>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<script src="assets/theme.js"></script>
+<script src="assets/pwa-update.js"></script>
+</body>
+</html>

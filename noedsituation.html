@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Nødsituation</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ed1c24" />
+  <meta name="description" content="OverblikDK – samlet nødhjælp, position og nødkontakter." />
+</head>
+<body>
+  <header class="header">
+    <div class="brand container">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>OverblikDK</h1>
+        <small>Nødsituation</small>
+      </div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mørk</span>
+      </button>
+    </div>
+    <div class="navline"></div>
+  </header>
+
+  <main class="container">
+    <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+    <section class="emergency-panel" aria-labelledby="emergencyTitle">
+      <div class="emergency-head">
+        <div>
+          <p class="section-kicker">Samlet nød-hjælp</p>
+          <h2 id="emergencyTitle">🚨 Nødsituation</h2>
+          <p>Ring 112, vis din position eller kontakt dine egne nødkontakter. Alt gemmes lokalt på telefonen.</p>
+        </div>
+        <span class="privacy-pill">Kun lokalt</span>
+      </div>
+
+      <div class="emergency-actions">
+        <button class="emergency-call danger" type="button" id="call112Btn">Ring 112</button>
+        <button class="emergency-call" type="button" id="showPositionBtn">📍 Vis min position</button>
+        <button class="emergency-call" type="button" id="sharePositionBtn">Del min position</button>
+        <button class="emergency-call" type="button" id="addEmergencyContactBtn">Tilføj nødkontakt</button>
+        <button class="emergency-call" type="button" id="sendOkayBtn">👍 Jeg er okay</button>
+      </div>
+
+      <div id="positionBox" class="position-box" hidden></div>
+
+      <div class="emergency-note">
+        <strong>Vigtigt:</strong> Ved akut fare skal du ringe 112. Position via browser kan være upræcis, især indendørs. Appen venter på bedre data, før den bruger positionen.
+      </div>
+    </section>
+
+    <section class="emergency-panel" aria-labelledby="contactsTitle">
+      <div class="emergency-head">
+        <div>
+          <p class="section-kicker">Personligt</p>
+          <h2 id="contactsTitle">👥 Nødkontakter</h2>
+          <p>Gem op til 3 personer. Du kan ringe, sende SMS, sende position, redigere eller slette dem.</p>
+        </div>
+        <span class="privacy-pill">Maks. 3</span>
+      </div>
+      <div id="emergencyContacts" class="emergency-contacts" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="container">
+    © <span id="year"></span> OverblikDK · BushidoDK
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="assets/theme.js"></script>
+  <script src="assets/location-tools.js"></script>
+  <script src="assets/emergency.js"></script>
+  <script src="assets/pwa-update.js"></script>
+</body>
+</html>

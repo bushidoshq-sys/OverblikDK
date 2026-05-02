@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Biblioteker</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Biblioteker</small>
+    </div>
+  
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mørk</span>
+      </button></div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <div class="toolbar">
+    <div class="input" role="search">
+      🔎 <input id="filter" type="search" placeholder="Søg i biblioteker…" aria-label="Søg i links">
+    </div>
+    <span class="badge"><strong id="count">0</strong> links</span>
+  </div>
+
+  <ul id="links" class="link-list" aria-label="Biblioteker"></ul>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  function sortDa(arr, key){ return arr.slice().sort((a,b)=> a[key].localeCompare(b[key],'da',{sensitivity:'base'})); }
+  function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return '' } }
+  function render(listEl, data){
+    listEl.innerHTML = '';
+    const sorted = sortDa(data,'name');
+    sorted.forEach(({name,url})=>{
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
+        <span>${name}</span><span class="host">${host(url)}</span></a>`;
+      listEl.appendChild(li);
+    });
+    document.getElementById('count').textContent = String(sorted.length);
+  }
+  function wireFilter(inputEl, listEl){
+    inputEl.addEventListener('input', ()=>{
+      const q = inputEl.value.toLowerCase().trim();
+      for(const li of listEl.querySelectorAll('li')){
+        li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
+      }
+    });
+  }
+
+  const LINKS = [
+    {name:'Aalborg Bibliotekerne', url:'https://www.aalborgbibliotekerne.dk'},
+    {name:'Aarhus Bibliotekerne', url:'https://www.aakb.dk'},
+    {name:'Bibliotek.dk', url:'https://bibliotek.dk'},
+    {name:'Det Kgl. Bibliotek', url:'https://www.kb.dk'},
+    {name:'eReolen', url:'https://ereolen.dk'},
+    {name:'Esbjerg Kommunes Biblioteker', url:'https://www.esbjergbibliotek.dk/'},
+    {name:'Gentofte Bibliotekerne', url:'https://genbib.dk/'},
+    {name:'Gladsaxe Bibliotekerne', url:'https://gladbib.dk/'},
+    {name:'Herning Bibliotekerne', url:'https://www.herningbib.dk'},
+    {name:'Københavns Biblioteker', url:'https://bibliotek.kk.dk'},
+    {name:'Odense Bibliotekerne', url:'https://www.odensebib.dk'},
+    {name:'Randers Bibliotek', url:'https://www.randersbib.dk'}
+  ];
+
+  const listEl = document.getElementById('links');
+  const filterEl = document.getElementById('filter');
+  render(listEl, LINKS);
+  wireFilter(filterEl, listEl);
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+  <script src="assets/theme.js"></script>
+  <script src="assets/pwa-update.js"></script>
+</body>
+</html>

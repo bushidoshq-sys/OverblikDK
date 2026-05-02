@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Kultur</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Kultur</small>
+    </div>
+  
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mørk</span>
+      </button></div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <div class="toolbar">
+    <div class="input" role="search">🔎
+      <input id="filter" type="search" placeholder="Søg i kultur…" aria-label="Søg i links">
+    </div>
+    <span class="badge"><strong id="count">0</strong> links</span>
+  </div>
+
+  <ul id="links" class="link-list" aria-label="Kultur"></ul>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  function sortDa(a,k){return a.slice().sort((x,y)=>x[k].localeCompare(y[k],'da',{sensitivity:'base'}))}
+  function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
+  function render(el,data){
+    el.innerHTML=''; const s=sortDa(data,'name');
+    s.forEach(({name,url})=>{
+      const li=document.createElement('li');
+      li.innerHTML=`<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;
+      el.appendChild(li);
+    });
+    document.getElementById('count').textContent=s.length;
+  }
+  function wireFilter(inp,ul){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const li of ul.querySelectorAll('li')){li.style.display=li.textContent.toLowerCase().includes(q)?'':''}})}
+
+  const LINKS = [
+    {name:'Arbejdermuseet', url:'https://arbejdermuseet.dk'},
+    {name:'Den Gamle By', url:'https://dengamleby.dk'},
+    {name:'Det Kgl. Teater', url:'https://kglteater.dk'},
+    {name:'Kulturministeriet', url:'https://kum.dk'},
+    {name:'Louisiana Museum of Modern Art', url:'https://louisiana.dk'},
+    {name:'Nationalmuseet', url:'https://natmus.dk'},
+    {name:'Statens Museum for Kunst', url:'https://www.smk.dk'},
+    {name:'Tivoli København', url:'https://www.tivoli.dk'},
+    {name:'VisitDenmark', url:'https://www.visitdenmark.dk'}
+  ];
+
+  const list=document.getElementById('links'), input=document.getElementById('filter');
+  render(list, LINKS); wireFilter(input, list);
+  document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+
+  <script src="assets/theme.js"></script>
+  <script src="assets/pwa-update.js"></script>
+</body>
+</html>

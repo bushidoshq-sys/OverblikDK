@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Transport</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Transport</small>
+    </div>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+      <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+      <span class="theme-toggle__text">Mørk</span>
+    </button>
+  </div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <section class="departure-panel" aria-labelledby="transportTitle">
+    <div class="departure-head">
+      <div>
+        <p class="kicker">Transport</p>
+        <h2 id="transportTitle">🧭 Ruter og køreplaner</h2>
+        <p>Her linker OverblikDK videre til de officielle rute- og køreplanssider. Ingen live-afgangstavle, ingen API-kald og ingen videredistribution af rejsetrafikdata.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="input" role="search">🔎
+      <input id="filter" type="search" placeholder="Søg i transport…" aria-label="Søg i links">
+    </div>
+    <span class="badge"><strong id="count">0</strong> links</span>
+  </div>
+
+  <div id="transportGroups" aria-label="Transportlinks"></div>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
+  function sortDa(a){return a.slice().sort((x,y)=>x.name.localeCompare(y.name,'da',{sensitivity:'base'}))}
+
+  const GROUPS = [
+    {
+      title: 'Busser og lokale ruter',
+      links: [
+        {name:'BAT – regionale ruter på Bornholm', url:'https://www.bat.dk/koereplaner/regionale-ruter/'},
+        {name:'BAT – lokalruter på Bornholm', url:'https://bat.dk/koereplaner/lokalruter/'},
+        {name:'DOT – køreplaner for bus og havnebus', url:'https://dinoffentligetransport.dk/buskoereplan'},
+        {name:'FynBus – alle køreplaner', url:'https://fynbus.dk/koereplaner-trafikinfo/alle-koereplaner'},
+        {name:'FynBus – rute- og terminalkort', url:'https://fynbus.dk/koereplaner-trafikinfo/rute-og-terminalkort'},
+        {name:'Midttrafik – bybusser', url:'https://www.midttrafik.dk/rejsemuligheder/bybusser/'},
+        {name:'Midttrafik – regional-, lokal- og flexbusser', url:'https://www.midttrafik.dk/rejsemuligheder/regional-lokal-og-flexbusser/'},
+        {name:'NT – find din køreplan', url:'https://www.ntrejse.dk/din-rejse/find-din-koereplan'},
+        {name:'Sydtrafik – alle køreplaner', url:'https://sydtrafik.dk/alle-koereplaner'},
+        {name:'Sydtrafik – køreplaner i din kommune', url:'https://sydtrafik.dk/koereplaner-og-trafikinfo/koereplaner-i-din-kommune'}
+      ]
+    },
+    {
+      title: 'Tog, metro og letbane',
+      links: [
+        {name:'DSB – egen køreplan', url:'https://www.dsb.dk/trafik-information/koereplaner/'},
+        {name:'DSB – strækningskøreplaner', url:'https://www.dsb.dk/trafik-information/koereplaner/koreplaner-strakningskoreplaner-pdf/'},
+        {name:'DOT – køreplaner for S-tog og regionaltog', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse/koereplaner-for-dsb-tog'},
+        {name:'DOT – køreplaner for metro', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse/koereplaner-for-metro'},
+        {name:'Metroen – linjer og køreplaner', url:'https://m.dk/da/linjer-og-koereplaner/'},
+        {name:'Midttrafik – Letbanen', url:'https://www.midttrafik.dk/rejsemuligheder/letbanen/'},
+        {name:'NT – tog og buskøreplaner', url:'https://www.ntrejse.dk/din-rejse/find-din-koereplan'}
+      ]
+    },
+    {
+      title: 'Planlægning, trafikinfo og hovedsider',
+      links: [
+        {name:'Rejseplanen', url:'https://www.rejseplanen.dk'},
+        {name:'DOT – planlæg din rejse', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse'},
+        {name:'Banedanmark', url:'https://banedanmark.dk'},
+        {name:'DSB', url:'https://www.dsb.dk'},
+        {name:'Movia', url:'https://www.moviatrafik.dk'},
+        {name:'FynBus', url:'https://fynbus.dk'},
+        {name:'Midttrafik', url:'https://www.midttrafik.dk'},
+        {name:'Sydtrafik', url:'https://sydtrafik.dk'},
+        {name:'Nordjyllands Trafikselskab', url:'https://www.ntrejse.dk'},
+        {name:'BAT – Bornholms Trafik', url:'https://www.bat.dk'}
+      ]
+    },
+    {
+      title: 'Færger, busrejser og fly',
+      links: [
+        {name:'Bornholmslinjen', url:'https://www.bornholmslinjen.dk'},
+        {name:'ForSea / Øresundslinjen', url:'https://www.oresundslinjen.dk/'},
+        {name:'Molslinjen', url:'https://www.molslinjen.dk'},
+        {name:'Scandlines', url:'https://www.scandlines.dk'},
+        {name:'Kombardo Expressen', url:'https://www.kombardoexpressen.dk'},
+        {name:'FlixBus Danmark', url:'https://www.flixbus.dk'},
+        {name:'CPH Lufthavn', url:'https://www.cph.dk'},
+        {name:'Billund Lufthavn', url:'https://www.bll.dk'},
+        {name:'Aalborg Lufthavn', url:'https://www.aal.dk'},
+        {name:'DAT – Danish Air Transport', url:'https://dat.dk'},
+        {name:'Norwegian', url:'https://www.norwegian.com/dk'},
+        {name:'SAS', url:'https://www.flysas.com/dk-da'}
+      ]
+    }
+  ];
+
+  function renderGroups(groups) {
+    const root = document.getElementById('transportGroups');
+    root.innerHTML = '';
+    let total = 0;
+    groups.forEach((group) => {
+      const section = document.createElement('section');
+      section.className = 'transport-group';
+      section.innerHTML = `<h2>${group.title}</h2><ul class="link-list"></ul>`;
+      const ul = section.querySelector('ul');
+      sortDa(group.links).forEach(({name,url}) => {
+        total++;
+        const li = document.createElement('li');
+        li.dataset.search = `${group.title} ${name} ${host(url)}`.toLowerCase();
+        li.innerHTML = `<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;
+        ul.appendChild(li);
+      });
+      root.appendChild(section);
+    });
+    document.getElementById('count').textContent = String(total);
+  }
+
+  function wireFilter() {
+    const inp = document.getElementById('filter');
+    inp.addEventListener('input', () => {
+      const q = inp.value.toLowerCase().trim();
+      document.querySelectorAll('.transport-group').forEach((section) => {
+        let visible = 0;
+        section.querySelectorAll('li').forEach((li) => {
+          const show = !q || li.dataset.search.includes(q);
+          li.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+        section.style.display = visible ? '' : 'none';
+      });
+    });
+  }
+
+  renderGroups(GROUPS);
+  wireFilter();
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<script src="assets/theme.js"></script>
+<script src="assets/pwa-update.js"></script>
+</body>
+</html>

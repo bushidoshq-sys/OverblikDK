@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b5ed7"/>
+      <stop offset="1" stop-color="#0a4cb5"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="92" fill="url(#g)"/>
+  <path d="M100 104h312a28 28 0 0 1 28 28v248a28 28 0 0 1-28 28H100a28 28 0 0 1-28-28V132a28 28 0 0 1 28-28z" fill="rgba(255,255,255,.14)" stroke="rgba(255,255,255,.7)" stroke-width="14"/>
+  <text x="256" y="235" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif" font-size="104" font-weight="800" fill="white">OverblikDK</text>
+  <rect x="166" y="287" width="180" height="60" rx="30" fill="white" opacity=".95"/>
+  <text x="256" y="328" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif" font-size="38" font-weight="800" fill="#0b5ed7">BushidoDK</text>
+</svg>

@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – danske links, tilbudsaviser og lokale genveje</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ed1c24" />
+  <meta name="description" content="OverblikDK samler danske links, transport, tilbudsaviser og lokale funktioner ét sted. Hurtigt, simpelt og uden tracking." />
+  <meta name="application-name" content="OverblikDK" />
+  <meta name="robots" content="index, follow" />
+
+  <style>
+    .install-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding-top: 0.75rem;
+      padding-bottom: 0.4rem;
+      background: var(--bg, Canvas);
+    }
+
+    .install-bar[hidden] {
+      display: none !important;
+    }
+
+    .install-btn {
+      display: block;
+      width: 100%;
+      padding: 1.3rem;
+      margin: 0;
+
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+
+      border: none;
+      border-radius: 18px;
+
+      background: linear-gradient(135deg, #ed1c24, #9f1239);
+      color: #fff;
+
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .install-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand container">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>OverblikDK</h1>
+        <small>Din genvej til danske links</small>
+      </div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mørk</span>
+      </button>
+    </div>
+    <div class="navline"></div>
+  </header>
+  <div class="install-bar container" id="installBar">
+    <button id="installAppBtn" class="install-btn" type="button">📱 Føj OverblikDK til hjemmeskærm</button>
+  </div>
+
+  <main class="container">
+    <section class="quick-panel" aria-labelledby="quickTitle">
+      <div class="quick-head">
+        <div>
+          <p class="section-kicker">Hurtige handlinger</p>
+          <h2 id="quickTitle">⚡ OverblikDK hjælper</h2>
+          <p>Store genveje til de funktioner man typisk skal bruge hurtigt.</p>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+        <a class="quick-action danger" href="noedsituation.html">🚨 Nødsituation</a>
+      </div>
+    </section>
+
+    <dialog id="localSetupDialog" class="local-dialog" aria-labelledby="localSetupTitle">
+      <form method="dialog" class="local-dialog__box">
+        <div class="quick-head">
+          <div>
+            <p class="section-kicker">Førstegangsopsætning</p>
+            <h2 id="localSetupTitle">📍 Brug lokation</h2>
+            <p>OverblikDK kan bruge lokation til at finde ting i nærheden. Lokation bruges kun når du trykker og gemmes ikke som GPS-koordinater.</p>
+          </div>
+          <span class="privacy-pill">Gemmer ikke GPS</span>
+        </div>
+
+        <label class="settings-check">
+          <input type="checkbox" id="regionalSortSetupToggle">
+          <span>
+            <strong>Regional sortering</strong><br>
+            Vis links der passer til min kommune/region først.
+          </span>
+        </label>
+
+        <div class="emergency-actions">
+          <button class="emergency-call" type="button" id="localLookupBtn">Ja</button>
+          <button class="emergency-call" type="button" id="localDismissBtn">Nej</button>
+        </div>
+        <div id="localStatus" class="position-box" hidden></div>
+        <div id="localResults" class="local-results"></div>
+      </form>
+    </dialog>
+
+
+    <details class="settings-panel" aria-labelledby="settingsTitle">
+      <summary class="settings-summary">⚙️ OverblikDK indstillinger</summary>
+      <div class="quick-head">
+        <div>
+          <p class="section-kicker">Indstillinger</p>
+          <h2 id="settingsTitle">⚙️ OverblikDK indstillinger</h2>
+          <p>Styr hvordan OverblikDK bruger lokation. Det gemmes kun lokalt i appen.</p>
+        </div>
+      </div>
+      <label class="settings-check">
+        <input type="checkbox" id="regionalSortToggle">
+        <span>
+          <strong>Regional sortering</strong><br>
+          Brug lokation/DAWA til at vise mest relevante kort først.
+        </span>
+      </label>
+      <div class="emergency-actions">
+        <button class="emergency-call" type="button" id="refreshLocalContextBtn">Opdater kommune/region</button>
+        <button class="emergency-call" type="button" onclick="OverblikDKLocation.openLocationHelp()">Forbedr lokation</button>
+      </div>
+      <div id="regionalSortStatus" class="position-box">Regional sortering er slået fra.</div>
+    </details>
+    <section class="favorites-panel" aria-labelledby="favoritesTitle">
+      <div class="quick-head">
+        <div>
+          <p class="section-kicker">Personligt</p>
+          <h2 id="favoritesTitle">⭐ Favoritter</h2>
+          <p>Gem dine vigtigste links lokalt på telefonen.</p>
+        </div>
+        <button class="emergency-call" type="button" id="addFavoriteBtn">Tilføj favorit</button>
+      </div>
+      <div id="favoritesList" class="favorites-list" aria-live="polite"></div>
+    </section>
+
+<section class="nearby-panel" aria-labelledby="nearbyTitle">
+      <div class="nearby-panel__head">
+        <div>
+          <p class="kicker nearby-kicker">Lokalt</p>
+          <h2 id="nearbyTitle">Find nærmeste</h2>
+          <p class="nearby-note">Bruger kun din lokation, når du trykker. Koordinater gemmes ikke i appen.</p>
+        </div>
+      </div>
+      <div class="nearby-actions" aria-label="Find nærmeste sted">
+        <button class="nearby-btn" type="button" data-nearby="atm">🏧 Hæveautomat</button>
+        <button class="nearby-btn" type="button" data-nearby="fuel">⛽ Tankstation</button>
+      </div>
+      <div id="nearbyStatus" class="nearby-status" role="status" aria-live="polite">Vælg en kategori ovenfor.</div>
+      <ul id="nearbyResults" class="nearby-results" aria-label="Nærmeste resultater"></ul>
+    </section>
+
+    <section id="categoryGrid" class="grid" aria-label="Kategorier">
+      <a class="card" data-category="offentlige" href="offentlige.html"><div class="icon">🏛️</div><div><h3>Offentlige</h3><p>MitID, Borger.dk, SKAT, Sundhed.dk, Virk.dk m.fl.</p></div></a>
+      <a class="card" data-category="medier" href="medier.html"><div class="icon">🗞️</div><div><h3>Medier (TV & Radio)</h3><p>DR, TV 2, aviser, netmedier og radio.</p></div></a>
+      <a class="card" data-category="hospitaler" href="hospitaler.html"><div class="icon">🏥</div><div><h3>Hospitaler</h3><p>Regionslinks og større hospitaler.</p></div></a>
+      <a class="card" data-category="biblioteker" href="biblioteker.html"><div class="icon">📚</div><div><h3>Biblioteker</h3><p>Bibliotek.dk, eReolen og kommunale biblioteker.</p></div></a>
+      <a class="card" data-category="transport" href="transport.html"><div class="icon">🚌</div><div><h3>Transport</h3><p>Køreplaner, ruteoversigter og officielle transportsider samlet ét sted.</p></div></a>
+      <a class="card" data-category="uddannelse" href="uddannelse.html"><div class="icon">🎓</div><div><h3>Uddannelse</h3><p>Universiteter, SU, Optagelse.dk, Uddannelsesguiden.</p></div></a>
+      <a class="card" data-category="banker" href="banker.html"><div class="icon">🏦</div><div><h3>Banker</h3><p>Danske Bank, Nordea, Jyske Bank, Sydbank m.fl.</p></div></a>
+      <a class="card" data-category="forretninger" href="forretninger.html"><div class="icon">🛒</div><div><h3>Forretninger</h3><p>Dagligvarer, tilbudsaviser og nærmeste butik.</p></div></a>
+      <a class="card" data-category="reklamer" href="reklamer.html"><div class="icon">📬</div><div><h3>Reklamer & ugeaviser</h3><p>Tilbudsaviser, reklamer og Nej tak-ordninger.</p></div></a>
+      <a class="card" data-category="kommuner" href="kommuner.html"><div class="icon">🏘️</div><div><h3>Kommuner</h3><p>Officielle oversigter og direkte links til kommuner.</p></div></a>
+      <a class="card" data-category="kultur" href="kultur.html"><div class="icon">🎭</div><div><h3>Kultur</h3><p>Museer, teatre, festivaler, kulturinstitutioner.</p></div></a>
+      <a class="card" data-category="sport" href="sport.html"><div class="icon">⚽</div><div><h3>Sport</h3><p>DBU, DIF, Team Danmark og Superliga-klubber.</p></div></a>
+    </section>
+  
+  </main>
+
+  <footer class="container">
+    © <span id="year"></span> OverblikDK · BushidoDK
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const installBar = document.getElementById('installBar');
+    const installBtn = document.getElementById('installAppBtn');
+    let deferredInstallPrompt = null;
+
+    function isRunningAsInstalledApp() {
+      return (
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.navigator.standalone === true
+      );
+    }
+
+    function hideInstallButton() {
+      if (installBar) installBar.hidden = true;
+      if (installBtn) installBtn.hidden = true;
+    }
+
+    if (isRunningAsInstalledApp()) {
+      hideInstallButton();
+    }
+
+    window.addEventListener('appinstalled', hideInstallButton);
+
+    // Android/Chromium install-klar
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (isRunningAsInstalledApp()) {
+          hideInstallButton();
+          return;
+        }
+
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+          await deferredInstallPrompt.userChoice;
+          deferredInstallPrompt = null;
+          return;
+        }
+
+        alert(
+          "Sådan føjer du OverblikDK til hjemmeskærmen:\n\n" +
+          "iPhone/iPad:\n" +
+          "1. Åbn siden i Safari\n" +
+          "2. Tryk på Del-ikonet\n" +
+          "3. Vælg 'Føj til hjemmeskærm'\n\n" +
+          "Android:\n" +
+          "1. Tryk på menu (⋮)\n" +
+          "2. Vælg 'Føj til startskærm' eller 'Installer app'"
+        );
+      });
+    }
+  </script>
+
+
+  <script>
+    (function () {
+      const dialog = document.getElementById('localSetupDialog');
+      const dismissBtn = document.getElementById('localDismissBtn');
+      const KEY = 'overblikdk_local_setup_seen';
+      const SORT_KEY = 'overblikdk_regional_sort';
+      const setupSortToggle = document.getElementById('regionalSortSetupToggle');
+
+      function openLocalDialog() {
+        if (!dialog) return;
+        if (setupSortToggle) setupSortToggle.checked = localStorage.getItem(SORT_KEY) === 'true';
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', 'open');
+      }
+
+      function markSeen() {
+        localStorage.setItem(KEY, 'true');
+      }
+
+      function closeLocalDialog() {
+        if (dialog?.open) dialog.close();
+        else dialog?.removeAttribute('open');
+      }
+
+      dismissBtn?.addEventListener('click', () => {
+        markSeen();
+        closeLocalDialog();
+      });
+
+      document.getElementById('localLookupBtn')?.addEventListener('click', () => {
+        markSeen();
+        if (setupSortToggle) localStorage.setItem(SORT_KEY, setupSortToggle.checked ? 'true' : 'false');
+        window.OverblikDKApplyRegionalSort?.();
+        closeLocalDialog();
+      });
+      document.getElementById('localWatchBtn')?.addEventListener('click', markSeen);
+
+      window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem(KEY) !== 'true') {
+          setTimeout(openLocalDialog, 450);
+        }
+      });
+    })();
+  </script>
+
+  <script src="assets/theme.js"></script>
+  <script src="assets/location-tools.js"></script>
+  <script src="assets/nearby.js"></script>
+  <script src="assets/regional-sort.js"></script>
+
+  
+  <script src="assets/pwa-update.js"></script>
+  <script src="assets/local-data.js"></script>
+  <script src="assets/local-helper.js"></script>
+  <script src="assets/favorites.js"></script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Kommuner</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Kommuner</small>
+    </div>
+  
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mørk</span>
+      </button></div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+
+  <div class="toolbar">
+    <div class="input" role="search">🔎
+      <input id="filter" type="search" placeholder="Søg i kommuner eller regioner…" aria-label="Søg i links">
+    </div>
+    <span class="badge"><strong id="count">0</strong> links</span>
+  </div>
+
+  <div id="regionSections" aria-label="Kommuner og oversigter"></div>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  function sortDa(arr, key){
+    return arr.slice().sort((a,b)=> a[key].localeCompare(b[key], 'da', {sensitivity:'base'}));
+  }
+
+  function host(u){
+    try{ return new URL(u).hostname.replace(/^www\./,''); }catch{ return ''; }
+  }
+
+  const REGIONS = [
+    {
+        "region": "Officielle oversigter",
+        "links": [
+            {
+                "name": "Borger.dk – Vælg kommune",
+                "url": "https://www.borger.dk/hjaelp-og-vejledning/hvad-har-du-brug-for-hjaelp-til/borger-dk/Vaelg-kommune"
+            },
+            {
+                "name": "Danmarks Statistik – Kommunefakta",
+                "url": "https://www.dst.dk/da/Statistik/kommunekort/kommunefakta"
+            },
+            {
+                "name": "KL – Kommunernes Landsforening",
+                "url": "https://www.kl.dk"
+            }
+        ]
+    },
+    {
+        "region": "Region Hovedstaden",
+        "links": [
+            {
+                "name": "Albertslund Kommune",
+                "url": "https://albertslund.dk"
+            },
+            {
+                "name": "Allerød Kommune",
+                "url": "https://alleroed.dk"
+            },
+            {
+                "name": "Ballerup Kommune",
+                "url": "https://ballerup.dk"
+            },
+            {
+                "name": "Bornholms Regionskommune",
+                "url": "https://bornholm.dk"
+            },
+            {
+                "name": "Brøndby Kommune",
+                "url": "https://brondby.dk"
+            },
+            {
+                "name": "Dragør Kommune",
+                "url": "https://dragoer.dk"
+            },
+            {
+                "name": "Egedal Kommune",
+                "url": "https://www.egedalkommune.dk"
+            },
+            {
+                "name": "Fredensborg Kommune",
+                "url": "https://fredensborg.dk"
+            },
+            {
+                "name": "Frederiksberg Kommune",
+                "url": "https://www.frederiksberg.dk"
+            },
+            {
+                "name": "Frederikssund Kommune",
+                "url": "https://frederikssund.dk"
+            },
+            {
+                "name": "Furesø Kommune",
+                "url": "https://furesoe.dk"
+            },
+            {
+                "name": "Gentofte Kommune",
+                "url": "https://gentofte.dk"
+            },
+            {
+                "name": "Gladsaxe Kommune",
+                "url": "https://gladsaxe.dk"
+            },
+            {
+                "name": "Glostrup Kommune",
+                "url": "https://glostrup.dk"
+            },
+            {
+                "name": "Gribskov Kommune",
+                "url": "https://gribskov.dk"
+            },
+            {
+                "name": "Halsnæs Kommune",
+                "url": "https://halsnaes.dk"
+            },
+            {
+                "name": "Helsingør Kommune",
+                "url": "https://helsingor.dk"
+            },
+            {
+                "name": "Herlev Kommune",
+                "url": "https://herlev.dk"
+            },
+            {
+                "name": "Hillerød Kommune",
+                "url": "https://hillerod.dk"
+            },
+            {
+                "name": "Hvidovre Kommune",
+                "url": "https://www.hvidovre.dk"
+            },
+            {
+                "name": "Høje-Taastrup Kommune",
+                "url": "https://www.htk.dk"
+            },
+            {
+                "name": "Hørsholm Kommune",
+                "url": "https://horsholm.dk"
+            },
+            {
+                "name": "Ishøj Kommune",
+                "url": "https://ishoj.dk"
+            },
+            {
+                "name": "Københavns Kommune",
+                "url": "https://www.kk.dk"
+            },
+            {
+                "name": "Lyngby-Taarbæk Kommune",
+                "url": "https://www.ltk.dk"
+            },
+            {
+                "name": "Rudersdal Kommune",
+                "url": "https://rudersdal.dk"
+            },
+            {
+                "name": "Rødovre Kommune",
+                "url": "https://www.rk.dk/forside"
+            },
+            {
+                "name": "Tårnby Kommune",
+                "url": "https://taarnby.dk"
+            },
+            {
+                "name": "Vallensbæk Kommune",
+                "url": "https://vallensbaek.dk"
+            }
+        ]
+    },
+    {
+        "region": "Region Sjælland",
+        "links": [
+            {
+                "name": "Faxe Kommune",
+                "url": "https://faxekommune.dk"
+            },
+            {
+                "name": "Greve Kommune",
+                "url": "https://greve.dk"
+            },
+            {
+                "name": "Guldborgsund Kommune",
+                "url": "https://guldborgsund.dk"
+            },
+            {
+                "name": "Holbæk Kommune",
+                "url": "https://holbaek.dk"
+            },
+            {
+                "name": "Kalundborg Kommune",
+                "url": "https://kalundborg.dk"
+            },
+            {
+                "name": "Køge Kommune",
+                "url": "https://koege.dk"
+            },
+            {
+                "name": "Lejre Kommune",
+                "url": "https://lejre.dk"
+            },
+            {
+                "name": "Lolland Kommune",
+                "url": "https://lolland.dk"
+            },
+            {
+                "name": "Næstved Kommune",
+                "url": "https://naestved.dk"
+            },
+            {
+                "name": "Odsherred Kommune",
+                "url": "https://odsherred.dk"
+            },
+            {
+                "name": "Ringsted Kommune",
+                "url": "https://ringsted.dk"
+            },
+            {
+                "name": "Roskilde Kommune",
+                "url": "https://www.roskilde.dk"
+            },
+            {
+                "name": "Slagelse Kommune",
+                "url": "https://slagelse.dk"
+            },
+            {
+                "name": "Solrød Kommune",
+                "url": "https://solrod.dk"
+            },
+            {
+                "name": "Sorø Kommune",
+                "url": "https://soroe.dk"
+            },
+            {
+                "name": "Stevns Kommune",
+                "url": "https://stevns.dk"
+            },
+            {
+                "name": "Vordingborg Kommune",
+                "url": "https://vordingborg.dk"
+            }
+        ]
+    },
+    {
+        "region": "Region Syddanmark",
+        "links": [
+            {
+                "name": "Assens Kommune",
+                "url": "https://assens.dk"
+            },
+            {
+                "name": "Billund Kommune",
+                "url": "https://billund.dk"
+            },
+            {
+                "name": "Esbjerg Kommune",
+                "url": "https://www.esbjerg.dk"
+            },
+            {
+                "name": "Fanø Kommune",
+                "url": "https://fanoe.dk"
+            },
+            {
+                "name": "Faaborg-Midtfyn Kommune",
+                "url": "https://www.fmk.dk/borger/"
+            },
+            {
+                "name": "Fredericia Kommune",
+                "url": "https://fredericia.dk"
+            },
+            {
+                "name": "Haderslev Kommune",
+                "url": "https://haderslev.dk"
+            },
+            {
+                "name": "Kerteminde Kommune",
+                "url": "https://kerteminde.dk"
+            },
+            {
+                "name": "Kolding Kommune",
+                "url": "https://kolding.dk"
+            },
+            {
+                "name": "Langeland Kommune",
+                "url": "https://langelandkommune.dk"
+            },
+            {
+                "name": "Middelfart Kommune",
+                "url": "https://middelfart.dk"
+            },
+            {
+                "name": "Nordfyns Kommune",
+                "url": "https://www.nordfynskommune.dk/borger/borgerservice/"
+            },
+            {
+                "name": "Nyborg Kommune",
+                "url": "https://nyborg.dk"
+            },
+            {
+                "name": "Odense Kommune",
+                "url": "https://www.odense.dk"
+            },
+            {
+                "name": "Svendborg Kommune",
+                "url": "https://svendborg.dk"
+            },
+            {
+                "name": "Sønderborg Kommune",
+                "url": "https://sonderborgkommune.dk"
+            },
+            {
+                "name": "Tønder Kommune",
+                "url": "https://toender.dk"
+            },
+            {
+                "name": "Varde Kommune",
+                "url": "https://varde.dk"
+            },
+            {
+                "name": "Vejen Kommune",
+                "url": "https://vejen.dk"
+            },
+            {
+                "name": "Vejle Kommune",
+                "url": "https://www.vejle.dk"
+            },
+            {
+                "name": "Ærø Kommune",
+                "url": "https://www.aeroekommune.dk"
+            },
+            {
+                "name": "Aabenraa Kommune",
+                "url": "https://aabenraa.dk"
+            }
+        ]
+    },
+    {
+        "region": "Region Midtjylland",
+        "links": [
+            {
+                "name": "Favrskov Kommune",
+                "url": "https://favrskov.dk"
+            },
+            {
+                "name": "Hedensted Kommune",
+                "url": "https://hedensted.dk"
+            },
+            {
+                "name": "Herning Kommune",
+                "url": "https://www.herning.dk"
+            },
+            {
+                "name": "Holstebro Kommune",
+                "url": "https://holstebro.dk"
+            },
+            {
+                "name": "Horsens Kommune",
+                "url": "https://horsens.dk"
+            },
+            {
+                "name": "Ikast-Brande Kommune",
+                "url": "https://ikast-brande.dk"
+            },
+            {
+                "name": "Lemvig Kommune",
+                "url": "https://lemvig.dk"
+            },
+            {
+                "name": "Norddjurs Kommune",
+                "url": "https://norddjurs.dk"
+            },
+            {
+                "name": "Odder Kommune",
+                "url": "https://odder.dk"
+            },
+            {
+                "name": "Randers Kommune",
+                "url": "https://www.randers.dk"
+            },
+            {
+                "name": "Ringkøbing-Skjern Kommune",
+                "url": "https://www.rksk.dk"
+            },
+            {
+                "name": "Samsø Kommune",
+                "url": "https://samsoe.dk"
+            },
+            {
+                "name": "Silkeborg Kommune",
+                "url": "https://silkeborg.dk"
+            },
+            {
+                "name": "Skanderborg Kommune",
+                "url": "https://skanderborg.dk"
+            },
+            {
+                "name": "Skive Kommune",
+                "url": "https://skive.dk"
+            },
+            {
+                "name": "Struer Kommune",
+                "url": "https://struer.dk"
+            },
+            {
+                "name": "Syddjurs Kommune",
+                "url": "https://syddjurs.dk"
+            },
+            {
+                "name": "Viborg Kommune",
+                "url": "https://viborg.dk"
+            },
+            {
+                "name": "Aarhus Kommune",
+                "url": "https://aarhus.dk"
+            }
+        ]
+    },
+    {
+        "region": "Region Nordjylland",
+        "links": [
+            {
+                "name": "Brønderslev Kommune",
+                "url": "https://www.bronderslev.dk"
+            },
+            {
+                "name": "Frederikshavn Kommune",
+                "url": "https://frederikshavn.dk"
+            },
+            {
+                "name": "Hjørring Kommune",
+                "url": "https://hjoerring.dk"
+            },
+            {
+                "name": "Jammerbugt Kommune",
+                "url": "https://jammerbugt.dk"
+            },
+            {
+                "name": "Læsø Kommune",
+                "url": "https://laesoe.dk"
+            },
+            {
+                "name": "Mariagerfjord Kommune",
+                "url": "https://mariagerfjord.dk"
+            },
+            {
+                "name": "Morsø Kommune",
+                "url": "https://mors.dk"
+            },
+            {
+                "name": "Rebild Kommune",
+                "url": "https://rebild.dk"
+            },
+            {
+                "name": "Thisted Kommune",
+                "url": "https://thisted.dk"
+            },
+            {
+                "name": "Vesthimmerlands Kommune",
+                "url": "https://www.vesthimmerland.dk"
+            },
+            {
+                "name": "Aalborg Kommune",
+                "url": "https://www.aalborg.dk"
+            }
+        ]
+    }
+];
+
+  function renderSections(){
+    const root = document.getElementById('regionSections');
+    root.innerHTML = '';
+    let total = 0;
+
+    REGIONS.forEach(group => {
+      const section = document.createElement('section');
+      section.className = 'region-section';
+      section.dataset.region = group.region.toLowerCase();
+
+      const h2 = document.createElement('h2');
+      h2.textContent = group.region;
+      section.appendChild(h2);
+
+      const ul = document.createElement('ul');
+      ul.className = 'link-list';
+      ul.setAttribute('aria-label', group.region);
+
+      const sorted = sortDa(group.links, 'name');
+      sorted.forEach(({name, url}) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;
+        ul.appendChild(li);
+      });
+
+      total += sorted.length;
+      section.appendChild(ul);
+      root.appendChild(section);
+    });
+
+    document.getElementById('count').textContent = String(total);
+  }
+
+  function wireFilter(){
+    const input = document.getElementById('filter');
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      for (const section of document.querySelectorAll('.region-section')) {
+        let sectionHasVisible = false;
+        const regionName = section.dataset.region || '';
+
+        for (const li of section.querySelectorAll('li')) {
+          const match = li.textContent.toLowerCase().includes(q) || regionName.includes(q);
+          li.style.display = match ? '' : 'none';
+          if (match) {
+            visibleCount++;
+            sectionHasVisible = true;
+          }
+        }
+
+        section.style.display = sectionHasVisible ? '' : 'none';
+      }
+
+      document.getElementById('count').textContent = String(visibleCount);
+    });
+  }
+
+  renderSections();
+  wireFilter();
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<script src="assets/theme.js"></script>
+  <script src="assets/pwa-update.js"></script>
+</body>
+</html>
