@@ -1,386 +1,122 @@
-(() => {
-  const STORAGE_KEY = "overblikdk_emergency_contacts";
+(function () {
+  const posBox = document.getElementById('positionBox');
+  const contactsBox = document.getElementById('emergencyContacts');
+  const KEY = 'overblikdk_emergency_contacts';
 
-  const contactsEl = document.getElementById("emergencyContacts");
-  const addBtn = document.getElementById("addEmergencyContactBtn");
-  const posBtn = document.getElementById("showPositionBtn");
-  const sharePosBtn = document.getElementById("sharePositionBtn");
-  const posBox = document.getElementById("positionBox");
-  const call112Btn = document.getElementById("call112Btn");
-  const sendOkayBtn = document.getElementById("sendOkayBtn");
-
-  if (!contactsEl || !addBtn || !posBtn || !posBox) return;
-
-  let lastPosition = null;
-
-  function loadContacts() {
-    try {
-      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
+  function getContacts() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; }
   }
-
-  function saveContacts(contacts) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts.slice(0, 3)));
+  function saveContacts(c) {
+    localStorage.setItem(KEY, JSON.stringify(c.slice(0, 3)));
   }
-
-  function cleanPhone(phone) {
-    return String(phone || "").replace(/[^\d+]/g, "");
+  function normalizePhone(phone) {
+    return String(phone || '').replace(/[^\d+]/g, '');
   }
-
-  function mapsLink(lat, lon) {
-    return `https://www.google.com/maps?q=${lat},${lon}`;
-  }
-
-  function smsHref(phone, body) {
-    const encoded = encodeURIComponent(body);
-    return `sms:${cleanPhone(phone)}?body=${encoded}`;
-  }
-
-  function setPositionStatus(message, tone = "") {
-    posBox.hidden = false;
-    posBox.className = `position-box${tone ? " " + tone : ""}`;
-    posBox.innerHTML = message;
-  }
-
-  function askContact(existing = {}) {
-    const name = prompt("Navn på nødkontakt:", existing.name || "");
-    if (!name || !name.trim()) return null;
-
-    const phone = prompt("Telefonnummer:", existing.phone || "");
-    if (!phone || !phone.trim()) return null;
-
+  async function getPositionText() {
+    const pos = await window.OverblikDKLocation.getPosition();
+    const lat = pos.coords.latitude.toFixed(6);
+    const lon = pos.coords.longitude.toFixed(6);
     return {
-      name: name.trim(),
-      phone: phone.trim()
+      text: `Min position: ${lat}, ${lon}\nGoogle Maps: ${window.OverblikDKLocation.mapsUrl(lat, lon)}`,
+      url: window.OverblikDKLocation.mapsUrl(lat, lon),
+      accuracy: Math.round(pos.coords.accuracy || 0)
     };
   }
-
-  function editContact(index) {
-    const contacts = loadContacts();
-    const current = contacts[index];
-    if (!current) return;
-
-    const updatedContact = askContact(current);
-    if (!updatedContact) return;
-
-    contacts[index] = updatedContact;
-    saveContacts(contacts);
-    renderContacts();
-  }
-
-  function removeContact(index) {
-    const contacts = loadContacts();
-    const current = contacts[index];
-    if (!current) return;
-
-    const ok = confirm(`Fjern ${current.name} som nødkontakt?`);
-    if (!ok) return;
-
-    contacts.splice(index, 1);
-    saveContacts(contacts);
-    renderContacts();
-  }
-
   function renderContacts() {
-    const contacts = loadContacts();
-    contactsEl.innerHTML = "";
-
+    if (!contactsBox) return;
+    const contacts = getContacts();
     if (!contacts.length) {
-      contactsEl.innerHTML = `
-        <div class="empty-emergency">
-          Ingen nødkontakter gemt endnu. Tilføj fx en pårørende, nabo eller ven.
-        </div>`;
+      contactsBox.textContent = 'Ingen nødkontakter gemt endnu.';
       return;
     }
-
-    contacts.forEach((contact, index) => {
-      const card = document.createElement("article");
-      card.className = "emergency-card";
-
-      const name = document.createElement("h3");
-      name.textContent = contact.name;
-
-      const phone = document.createElement("p");
-      phone.textContent = contact.phone;
-
-      const actions = document.createElement("div");
-      actions.className = "emergency-card-actions";
-
-      const call = document.createElement("a");
-      call.href = `tel:${cleanPhone(contact.phone)}`;
-      call.className = "mini-action";
-      call.textContent = "📞 Ring";
-
-      const sms = document.createElement("a");
-      sms.href = smsHref(contact.phone, "Jeg har brug for hjælp. Ring til mig hurtigst muligt.");
-      sms.className = "mini-action";
-      sms.textContent = "💬 SMS";
-
-      const locate = document.createElement("button");
-      locate.type = "button";
-      locate.className = "mini-action";
-      locate.textContent = "📍 Send position";
-      locate.addEventListener("click", () => sendPosition(contact.phone));
-
-      const edit = document.createElement("button");
-      edit.type = "button";
-      edit.className = "mini-action";
-      edit.textContent = "✏️ Rediger";
-      edit.addEventListener("click", () => editContact(index));
-
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "mini-action remove";
-      remove.textContent = "Slet";
-      remove.addEventListener("click", () => removeContact(index));
-
-      actions.append(call, sms, locate, edit, remove);
-      card.append(name, phone, actions);
-      contactsEl.appendChild(card);
-    });
+    contactsBox.innerHTML = contacts.map((c, i) => `
+      <article class="card">
+        <div class="icon">👤</div>
+        <div>
+          <h3>${c.name}</h3>
+          <p>${c.phone}</p>
+          <div class="emergency-actions">
+            <a class="emergency-call" href="tel:${normalizePhone(c.phone)}">Ring</a>
+            <a class="emergency-call" href="sms:${normalizePhone(c.phone)}">SMS</a>
+            <button class="emergency-call" type="button" data-pos="${i}">Send position</button>
+            <button class="emergency-call" type="button" data-edit="${i}">Rediger</button>
+            <button class="emergency-call danger" type="button" data-del="${i}">Slet</button>
+          </div>
+        </div>
+      </article>
+    `).join('');
+    contactsBox.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', () => {
+      const contacts = getContacts();
+      contacts.splice(Number(btn.dataset.del), 1);
+      saveContacts(contacts);
+      renderContacts();
+    }));
+    contactsBox.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', () => {
+      const contacts = getContacts();
+      const i = Number(btn.dataset.edit);
+      const name = prompt('Navn:', contacts[i].name);
+      if (!name) return;
+      const phone = prompt('Telefon:', contacts[i].phone);
+      if (!phone) return;
+      contacts[i] = { name, phone };
+      saveContacts(contacts);
+      renderContacts();
+    }));
+    contactsBox.querySelectorAll('[data-pos]').forEach(btn => btn.addEventListener('click', async () => {
+      const contacts = getContacts();
+      const c = contacts[Number(btn.dataset.pos)];
+      try {
+        const p = await getPositionText();
+        location.href = `sms:${normalizePhone(c.phone)}?body=${encodeURIComponent(p.text)}`;
+      } catch {
+        alert('Kunne ikke hente position.');
+      }
+    }));
   }
 
-  function requestPosition(callback) {
-    if (!navigator.geolocation) {
-      alert("Din browser understøtter ikke placering.");
-      return;
+  document.getElementById('call112Btn')?.addEventListener('click', () => {
+    if (confirm('Er du sikker på, at du vil ringe 112? Misbrug kan medføre ansvar.')) {
+      location.href = 'tel:112';
     }
-
-    const maxWaitMs = 30000;
-    const preferredAccuracyM = 50;
-    const warnAccuracyM = 100;
-    const hardLimitAccuracyM = 250;
-
-    let bestPosition = null;
-    let finished = false;
-    let watchId = null;
-    let firstReadingShown = false;
-    const started = Date.now();
-
-    setPositionStatus(
-      `<strong>Finder din position…</strong><br>` +
-      `Første måling kan være upræcis. Vent et øjeblik, så telefonen kan hente en bedre GPS-position.`
-    );
-
-    function qualityText(accuracy) {
-      if (accuracy <= 50) return "God nødposition";
-      if (accuracy <= 100) return "Brugbar, men ikke perfekt";
-      if (accuracy <= 250) return "Upræcis — venter på bedre data";
-      return "For upræcis til nødposition";
-    }
-
-    function updateStatus(pos) {
-      const accuracy = Math.round(pos.coords.accuracy || 0);
-      const bestAccuracy = Math.round(bestPosition?.coords?.accuracy || accuracy);
-      const secondsLeft = Math.max(0, Math.ceil((maxWaitMs - (Date.now() - started)) / 1000));
-
-      if (!firstReadingShown) {
-        firstReadingShown = true;
-        setPositionStatus(
-          `<strong>Første lokationsdata modtaget</strong><br>` +
-          `Første måling er ca. ±${accuracy} meter. Det kan være meget upræcist, især indendørs.<br>` +
-          `Venter på bedre data… bedste måling indtil nu: ±${bestAccuracy} meter.`
-        );
-        return;
-      }
-
-      setPositionStatus(
-        `<strong>Forbedrer GPS-præcision…</strong><br>` +
-        `Aktuel måling: ±${accuracy} meter<br>` +
-        `Bedste måling: ±${bestAccuracy} meter<br>` +
-        `${qualityText(bestAccuracy)}<br>` +
-        `Bruger automatisk positionen når den er god nok — eller efter ${secondsLeft} sekunder med bedste fundne måling.`
-      );
-    }
-
-    function finish(pos, reason) {
-      if (finished) return;
-      finished = true;
-      if (watchId !== null) navigator.geolocation.clearWatch(watchId);
-
-      lastPosition = pos;
-      const accuracy = Math.round(pos.coords.accuracy || 0);
-
-      if (accuracy > hardLimitAccuracyM) {
-        setPositionStatus(
-          `<strong>Placeringen er for upræcis</strong><br>` +
-          `Telefonen melder kun ca. ±${accuracy} meter. Det er for usikkert som nødposition.<br>` +
-          `Gå tættere på et vindue eller udendørs, vent et øjeblik, og prøv igen.`,
-          "warning"
-        );
-        return;
-      }
-
-      if (reason === "fallback" && accuracy > warnAccuracyM) {
-        const ok = confirm(
-          "Placeringen er stadig lidt upræcis\n\n" +
-          `Telefonen melder ca. ${accuracy} meters nøjagtighed.\n\n` +
-          "Det kan stadig være brugbart, men er ikke perfekt. Vil du bruge positionen alligevel?"
-        );
-        if (!ok) {
-          setPositionStatus(
-            `<strong>Afsendelse annulleret</strong><br>` +
-            `Bedste position var ca. ±${accuracy} meter.`,
-            "warning"
-          );
-          return;
-        }
-      }
-
-      setPositionStatus(
-        `<strong>Position klar</strong><br>` +
-        `Bedste måling: ca. ±${accuracy} meter.`
-      );
-      callback(pos);
-    }
-
-    function consider(pos) {
-      if (finished) return;
-
-      if (!bestPosition || pos.coords.accuracy < bestPosition.coords.accuracy) {
-        bestPosition = pos;
-      }
-
-      updateStatus(pos);
-
-      const bestAccuracy = bestPosition.coords.accuracy || 99999;
-      const waited = Date.now() - started;
-
-      if (bestAccuracy <= preferredAccuracyM || waited >= maxWaitMs) {
-        finish(bestPosition, bestAccuracy <= preferredAccuracyM ? "accurate" : "fallback");
-      }
-    }
-
-    function fail(err) {
-      if (finished) return;
-      if (bestPosition) {
-        finish(bestPosition, "fallback");
-        return;
-      }
-
-      let msg = "Kunne ikke hente placering.";
-      if (err.code === err.PERMISSION_DENIED) msg = "Placering blev afvist.";
-      if (err.code === err.POSITION_UNAVAILABLE) msg = "Placering er ikke tilgængelig lige nu.";
-      if (err.code === err.TIMEOUT) msg = "Placering tog for lang tid.";
-      setPositionStatus(`<strong>${msg}</strong>`, "warning");
-    }
-
-    watchId = navigator.geolocation.watchPosition(
-      consider,
-      fail,
-      {
-        enableHighAccuracy: true,
-        timeout: maxWaitMs,
-        maximumAge: 0
-      }
-    );
-
-    setTimeout(() => {
-      if (!finished && bestPosition) finish(bestPosition, "fallback");
-      if (!finished && !bestPosition) fail({ code: 3 });
-    }, maxWaitMs + 500);
-  }
-
-  function showPosition() {
-    requestPosition(pos => {
-      const lat = pos.coords.latitude.toFixed(6);
-      const lon = pos.coords.longitude.toFixed(6);
-      const accuracy = Math.round(pos.coords.accuracy || 0);
-      const link = mapsLink(lat, lon);
-
-      setPositionStatus(`
-        <strong>Din position:</strong><br>
-        Breddegrad: ${lat}<br>
-        Længdegrad: ${lon}<br>
-        Nøjagtighed: ca. ${accuracy} meter<br>
-        <a href="${link}" target="_blank" rel="noopener">Åbn i kort</a>
-      `);
-    });
-  }
-
-  function sendPosition(phone) {
-    requestPosition(pos => {
-      const lat = pos.coords.latitude.toFixed(6);
-      const lon = pos.coords.longitude.toFixed(6);
-      const link = mapsLink(lat, lon);
-      const accuracy = Math.round(pos.coords.accuracy || 0);
-      const message = `Jeg har brug for hjælp. Min position er: ${link} (nøjagtighed ca. ${accuracy} meter)`;
-      window.location.href = smsHref(phone, message);
-    });
-  }
-
-  function sharePosition() {
-    requestPosition(async pos => {
-      const lat = pos.coords.latitude.toFixed(6);
-      const lon = pos.coords.longitude.toFixed(6);
-      const accuracy = Math.round(pos.coords.accuracy || 0);
-      const link = mapsLink(lat, lon);
-      const text = `Min position: ${link} (nøjagtighed ca. ${accuracy} meter)`;
-
-      if (navigator.share) {
-        try {
-          await navigator.share({ title: "Min position", text, url: link });
-          return;
-        } catch {
-          // Brugeren kan have lukket delingsmenuen. Fald tilbage til visning.
-        }
-      }
-
-      setPositionStatus(`
-        <strong>Del min position:</strong><br>
-        ${text}<br>
-        <a href="${link}" target="_blank" rel="noopener">Åbn i kort</a>
-      `);
-    });
-  }
-
-  function sendOkayMessage() {
-    const contacts = loadContacts();
-    if (!contacts.length) {
-      alert("Du har ikke gemt nogen nødkontakter endnu.");
-      return;
-    }
-
-    const target = contacts[0];
-    const ok = confirm(
-      `Send “Jeg er okay” til ${target.name}?\n\n` +
-      "Beskeden åbnes som SMS, så du selv kan sende den."
-    );
-
-    if (ok) {
-      window.location.href = smsHref(target.phone, "Jeg er okay. Ingen grund til bekymring.");
-    }
-  }
-
-  call112Btn?.addEventListener("click", () => {
-    const ok = confirm(
-      "Bekræft 112-opkald\n\n" +
-      "Ring kun 112 ved akut fare, alvorlig ulykke, brand, livsfare eller når politi/ambulance/brandvæsen skal rykke ud med det samme.\n\n" +
-      "Misbrug af 112 kan medføre politianmeldelse og straf.\n\n" +
-      "Vil du ringe 112 nu?"
-    );
-
-    if (ok) window.location.href = "tel:112";
   });
 
-  sendOkayBtn?.addEventListener("click", sendOkayMessage);
-  posBtn.addEventListener("click", showPosition);
-  sharePosBtn?.addEventListener("click", sharePosition);
+  document.getElementById('showPositionBtn')?.addEventListener('click', async () => {
+    if (!posBox) return;
+    posBox.hidden = false;
+    posBox.textContent = 'Henter position…';
+    try {
+      const p = await getPositionText();
+      posBox.innerHTML = `${p.text.replace(/\n/g, '<br>')}<br>Nøjagtighed ca. ${p.accuracy} meter.`;
+    } catch {
+      posBox.textContent = 'Kunne ikke hente position.';
+    }
+  });
 
-  addBtn.addEventListener("click", () => {
-    const contacts = loadContacts();
+  document.getElementById('sharePositionBtn')?.addEventListener('click', async () => {
+    try {
+      const p = await getPositionText();
+      if (navigator.share) await navigator.share({ title: 'Min position', text: p.text, url: p.url });
+      else location.href = `sms:?body=${encodeURIComponent(p.text)}`;
+    } catch {
+      alert('Kunne ikke hente position.');
+    }
+  });
+
+  document.getElementById('sendOkayBtn')?.addEventListener('click', () => {
+    location.href = 'sms:?body=' + encodeURIComponent('Jeg er okay.');
+  });
+
+  document.getElementById('addEmergencyContactBtn')?.addEventListener('click', () => {
+    const contacts = getContacts();
     if (contacts.length >= 3) {
-      alert("Du kan gemme op til 3 nødkontakter.");
+      alert('Du kan højst gemme 3 nødkontakter.');
       return;
     }
-
-    const contact = askContact();
-    if (!contact) return;
-
-    contacts.push(contact);
+    const name = prompt('Navn på nødkontakt:');
+    if (!name) return;
+    const phone = prompt('Telefonnummer:');
+    if (!phone) return;
+    contacts.push({ name, phone });
     saveContacts(contacts);
     renderContacts();
   });
