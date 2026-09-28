@@ -47,12 +47,15 @@
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
 
+<script src="assets/local-data.js"></script>
+<script src="assets/local-helper.js"></script>
+
 <script>
   function sortDa(arr, key){ return arr.slice().sort((a,b)=> a[key].localeCompare(b[key],'da',{sensitivity:'base'})); }
   function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return '' } }
   function render(listEl, data){
     listEl.innerHTML = '';
-    const sorted = sortDa(data,'name');
+    const sorted = window.OverblikDKLocalHelper?.sortLinks(data) || sortDa(data,'name');
     sorted.forEach(({name,url})=>{
       const li = document.createElement('li');
       li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
@@ -71,28 +74,28 @@
   }
 
   const LINKS = [
-    {name:'Region Hovedstaden – Hospitaler', url:'https://www.regionh.dk/hospitaler/'},
-    {name:'Region Midtjylland – Hospitaler', url:'https://www.hospitalsenhedmidt.dk/'},
-    {name:'Region Nordjylland – Hospitaler', url:'https://rn.dk/da/'},
-    {name:'Region Sjælland – Hospitaler', url:'https://www.regionsjaelland.dk/sundhed/sygehuse'},
-    {name:'Region Syddanmark – Hospitaler', url:'https://regionsyddanmark.dk/patienter-og-parorende/sygehuse/information-om-sygehuse'},
+    {name:'Region Hovedstaden – Hospitaler', url:'https://www.regionh.dk/hospitaler/', region:'Region Hovedstaden'},
+    {name:'Region Midtjylland – Hospitaler', url:'https://www.hospitalsenhedmidt.dk/', region:'Region Midtjylland'},
+    {name:'Region Nordjylland – Hospitaler', url:'https://rn.dk/da/', region:'Region Nordjylland'},
+    {name:'Region Sjælland – Hospitaler', url:'https://www.regionsjaelland.dk/sundhed/sygehuse', region:'Region Sjælland'},
+    {name:'Region Syddanmark – Hospitaler', url:'https://regionsyddanmark.dk/patienter-og-parorende/sygehuse/information-om-sygehuse', region:'Region Syddanmark'},
 
-    {name:'Aalborg Universitetshospital', url:'https://aalborguh.rn.dk'},
-    {name:'Aarhus Universitetshospital', url:'https://www.auh.dk'},
-    {name:'Amager og Hvidovre Hospital', url:'https://www.hvidovrehospital.dk'},
-    {name:'Bispebjerg og Frederiksberg Hospital', url:'https://www.bispebjerghospital.dk'},
-    {name:'Bornholms Hospital', url:'https://www.bornholmshospital.dk'},
-    {name:'Herlev og Gentofte Hospital', url:'https://www.herlevhospital.dk'},
-    {name:'Nordsjællands Hospital', url:'https://www.nordsjaellandshospital.dk'},
-    {name:'Odense Universitetshospital', url:'https://ouh.dk'},
-    {name:'Regionshospitalet Gødstrup', url:'https://www.regionshospitalet-goedstrup.dk/'},
-    {name:'Regionshospitalet Horsens', url:'https://www.regionshospitalet-horsens.dk/'},
-    {name:'Regionshospitalet Randers', url:'https://www.regionshospitalet-randers.dk/'},
-    {name:'Regionshospitalet Viborg', url:'https://www.hospitalsenhedmidt.dk/afdelinger-og-steder/regionshospitalet-viborg/'},
-    {name:'Rigshospitalet', url:'https://www.rigshospitalet.dk'},
-    {name:'Sydvestjysk Sygehus', url:'https://www.svs.dk'},
-    {name:'Sygehus Lillebælt', url:'https://www.sygehuslillebaelt.dk'},
-    {name:'Sygehus Sønderjylland', url:'https://sygehussonderjylland.dk/'}
+    {name:'Aalborg Universitetshospital', url:'https://aalborguh.rn.dk', region:'Region Nordjylland'},
+    {name:'Aarhus Universitetshospital', url:'https://www.auh.dk', region:'Region Midtjylland'},
+    {name:'Amager og Hvidovre Hospital', url:'https://www.hvidovrehospital.dk', region:'Region Hovedstaden'},
+    {name:'Bispebjerg og Frederiksberg Hospital', url:'https://www.bispebjerghospital.dk', region:'Region Hovedstaden'},
+    {name:'Bornholms Hospital', url:'https://www.bornholmshospital.dk', kommune:'Bornholms Regionskommune', region:'Region Hovedstaden'},
+    {name:'Herlev og Gentofte Hospital', url:'https://www.herlevhospital.dk', region:'Region Hovedstaden'},
+    {name:'Nordsjællands Hospital', url:'https://www.nordsjaellandshospital.dk', region:'Region Hovedstaden'},
+    {name:'Odense Universitetshospital', url:'https://ouh.dk', region:'Region Syddanmark'},
+    {name:'Regionshospitalet Gødstrup', url:'https://www.regionshospitalet-goedstrup.dk/', region:'Region Midtjylland'},
+    {name:'Regionshospitalet Horsens', url:'https://www.regionshospitalet-horsens.dk/', region:'Region Midtjylland'},
+    {name:'Regionshospitalet Randers', url:'https://www.regionshospitalet-randers.dk/', region:'Region Midtjylland'},
+    {name:'Regionshospitalet Viborg', url:'https://www.hospitalsenhedmidt.dk/afdelinger-og-steder/regionshospitalet-viborg/', region:'Region Midtjylland'},
+    {name:'Rigshospitalet', url:'https://www.rigshospitalet.dk', region:'Region Hovedstaden', national:true},
+    {name:'Sydvestjysk Sygehus', url:'https://www.svs.dk', region:'Region Syddanmark'},
+    {name:'Sygehus Lillebælt', url:'https://www.sygehuslillebaelt.dk', region:'Region Syddanmark'},
+    {name:'Sygehus Sønderjylland', url:'https://sygehussonderjylland.dk/', region:'Region Syddanmark'}
   ];
 
   const listEl = document.getElementById('links');
