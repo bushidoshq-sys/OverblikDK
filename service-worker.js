@@ -1,12 +1,13 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-28-location-provider-v15';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-28-home-address-v16';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger.html",
-  "./assets/styles.css?v=13",
+  "./assets/styles.css?v=16",
   "./assets/theme.js?v=6",
-  "./assets/address-provider.js?v=15",
+  "./assets/address-provider.js?v=16",
+  "./assets/address-settings.js?v=16",
   "./assets/location-tools.js?v=15",
   "./assets/regional-sort.js?v=15",
   "./assets/emergency.js?v=10",
