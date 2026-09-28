@@ -6,6 +6,16 @@ window.OverblikDKLocalHelper = (function () {
     return String(value || '').trim().toLocaleLowerCase('da-DK');
   }
 
+  function normalizeMunicipality(value) {
+    return normalize(value)
+      .replace(/\s+regionskommune$/, '')
+      .replace(/\s+kommune$/, '');
+  }
+
+  function normalizeRegion(value) {
+    return normalize(value).replace(/^region\s+/, '');
+  }
+
   function enabled() {
     return localStorage.getItem(SORT_KEY) === 'true';
   }
@@ -15,19 +25,31 @@ window.OverblikDKLocalHelper = (function () {
     catch { return {}; }
   }
 
+  function canonicalRegionFromContext(ctx) {
+    const municipality = normalizeMunicipality(ctx?.kommune);
+    const map = window.OverblikDKLocalData?.municipalityToRegion || {};
+
+    if (municipality) {
+      for (const [name, region] of Object.entries(map)) {
+        if (normalizeMunicipality(name) === municipality) return region;
+      }
+    }
+    return ctx?.region || '';
+  }
+
   function asArray(value) {
     if (!value) return [];
     return Array.isArray(value) ? value : [value];
   }
 
   function municipalityMatches(item, ctx) {
-    const own = normalize(ctx.kommune);
-    return !!own && asArray(item.kommune).some(x => normalize(x) === own);
+    const own = normalizeMunicipality(ctx?.kommune);
+    return !!own && asArray(item.kommune).some(x => normalizeMunicipality(x) === own);
   }
 
   function regionMatches(item, ctx) {
-    const own = normalize(ctx.region);
-    return !!own && asArray(item.region).some(x => normalize(x) === own);
+    const own = normalizeRegion(canonicalRegionFromContext(ctx));
+    return !!own && asArray(item.region).some(x => normalizeRegion(x) === own);
   }
 
   function rank(item, ctx = context()) {
@@ -54,17 +76,27 @@ window.OverblikDKLocalHelper = (function () {
   function sortRegionGroups(groups) {
     if (!enabled()) return groups.slice();
     const ctx = context();
-    const ownRegion = normalize(ctx.region);
+    const ownRegion = normalizeRegion(canonicalRegionFromContext(ctx));
     return groups.map((group, index) => ({group, index}))
       .sort((a, b) => {
-        const ar = normalize(a.group.region);
-        const br = normalize(b.group.region);
-        const score = r => r === ownRegion ? 0 : (r === 'officielle oversigter' ? 1 : 2);
-        const d = score(ar) - score(br);
+        const ar = normalizeRegion(a.group.region);
+        const br = normalizeRegion(b.group.region);
+        const score = r => r === ownRegion ? 0 : (normalize(a.group.region) === 'officielle oversigter' ? 1 : 2);
+        const scoreB = r => r === ownRegion ? 0 : (normalize(b.group.region) === 'officielle oversigter' ? 1 : 2);
+        const d = score(ar) - scoreB(br);
         if (d) return d;
         return a.index - b.index;
       }).map(x => x.group);
   }
 
-  return { enabled, context, rank, sortLinks, sortRegionGroups };
+  return {
+    enabled,
+    context,
+    rank,
+    sortLinks,
+    sortRegionGroups,
+    normalizeMunicipality,
+    normalizeRegion,
+    canonicalRegionFromContext
+  };
 })();
