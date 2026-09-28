@@ -10,8 +10,35 @@
   let sosMode = null;
   let sosOverlay = null;
   let sosVideo = null;
+  let sosPreviousTheme = null;
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  function syncThemeButton(theme) {
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    const dark = theme === 'dark';
+    btn.setAttribute('aria-pressed', String(dark));
+    const icon = btn.querySelector('.theme-toggle__icon');
+    const text = btn.querySelector('.theme-toggle__text');
+    if (icon) icon.textContent = dark ? '☀️' : '🌙';
+    if (text) text.textContent = dark ? 'Lys' : 'Mørk';
+  }
+
+  function enterSOSTheme() {
+    if (sosPreviousTheme !== null) return;
+    sosPreviousTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', 'dark');
+    syncThemeButton('dark');
+  }
+
+  function restoreSOSTheme() {
+    if (sosPreviousTheme === null) return;
+    const theme = sosPreviousTheme;
+    sosPreviousTheme = null;
+    document.documentElement.setAttribute('data-theme', theme);
+    syncThemeButton(theme);
+  }
 
   async function setTorch(on) {
     if (!sosTrack) throw new Error('Ingen kameratrack.');
@@ -116,6 +143,7 @@
     setScreenFlash(false);
     try { if (navigator.vibrate) navigator.vibrate(0); } catch {}
     sosMode = null;
+    restoreSOSTheme();
     try { await sosWakeLock?.release(); } catch {}
     sosWakeLock = null;
     const btn = document.getElementById('sosTorchBtn');
@@ -135,6 +163,8 @@
       await stopSOS();
       return;
     }
+
+    enterSOSTheme();
 
     try {
       if ('wakeLock' in navigator) sosWakeLock = await navigator.wakeLock.request('screen');
