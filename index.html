@@ -124,30 +124,6 @@
         <div id="localResults" class="local-results"></div>
       </form>
     </dialog>
-
-
-    <details class="settings-panel" aria-labelledby="settingsTitle">
-      <summary class="settings-summary">⚙️ OverblikDK indstillinger</summary>
-      <div class="quick-head">
-        <div>
-          <p class="section-kicker">Indstillinger</p>
-          <h2 id="settingsTitle">⚙️ OverblikDK indstillinger</h2>
-          <p>Styr hvordan OverblikDK bruger lokation. Det gemmes kun lokalt i appen.</p>
-        </div>
-      </div>
-      <label class="settings-check">
-        <input type="checkbox" id="regionalSortToggle">
-        <span>
-          <strong>Regional sortering</strong><br>
-          Brug lokation/DAWA til at vise mest relevante kort først.
-        </span>
-      </label>
-      <div class="emergency-actions">
-        <button class="emergency-call" type="button" id="refreshLocalContextBtn">Opdater kommune/region</button>
-        <button class="emergency-call" type="button" onclick="OverblikDKLocation.openLocationHelp()">Forbedr lokation</button>
-      </div>
-      <div id="regionalSortStatus" class="position-box">Regional sortering er slået fra.</div>
-    </details>
     <section class="favorites-panel" aria-labelledby="favoritesTitle">
       <div class="quick-head">
         <div>
@@ -287,11 +263,21 @@
         closeLocalDialog();
       });
 
-      document.getElementById('localLookupBtn')?.addEventListener('click', () => {
-        markSeen();
+      document.getElementById('localLookupBtn')?.addEventListener('click', async () => {
+        const localStatus = document.getElementById('localStatus');
         if (setupSortToggle) localStorage.setItem(SORT_KEY, setupSortToggle.checked ? 'true' : 'false');
-        window.OverblikDKApplyRegionalSort?.();
-        closeLocalDialog();
+        if (localStatus) {
+          localStatus.hidden = false;
+          localStatus.textContent = 'Finder kommune/region…';
+        }
+        const ctx = await window.OverblikDKUpdateLocalContext?.();
+        if (!ctx?.kommune) {
+          if (localStatus) localStatus.textContent = 'Kunne ikke finde kommune/region. Tjek lokationstilladelse og prøv igen.';
+          return;
+        }
+        if (localStatus) localStatus.textContent = `Fundet: ${ctx.kommune} · ${ctx.region}`;
+        markSeen();
+        setTimeout(closeLocalDialog, 500);
       });
       document.getElementById('localWatchBtn')?.addEventListener('click', markSeen);
 
