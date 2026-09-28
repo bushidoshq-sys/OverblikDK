@@ -2,6 +2,95 @@
   const posBox = document.getElementById('positionBox');
   const contactsBox = document.getElementById('emergencyContacts');
   const KEY = 'overblikdk_emergency_contacts';
+  let sosRunning = false;
+  let sosTrack = null;
+  let sosStream = null;
+  let sosWakeLock = null;
+  let sosRunToken = 0;
+
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  async function setTorch(on) {
+    if (!sosTrack) return;
+    await sosTrack.applyConstraints({ advanced: [{ torch: !!on }] });
+  }
+
+  async function stopSOS() {
+    sosRunning = false;
+    sosRunToken++;
+    try { await setTorch(false); } catch {}
+    try { sosTrack?.stop(); } catch {}
+    try { sosStream?.getTracks().forEach(track => track.stop()); } catch {}
+    sosTrack = null;
+    sosStream = null;
+    try { await sosWakeLock?.release(); } catch {}
+    sosWakeLock = null;
+    const btn = document.getElementById('sosTorchBtn');
+    if (btn) {
+      btn.textContent = '🔦 Start S.O.S.-blink';
+      btn.classList.remove('danger');
+      btn.setAttribute('aria-pressed', 'false');
+    }
+    const status = document.getElementById('sosTorchStatus');
+    if (status) status.textContent = 'S.O.S.-blink er stoppet.';
+  }
+
+  async function startSOS() {
+    const btn = document.getElementById('sosTorchBtn');
+    const status = document.getElementById('sosTorchStatus');
+    if (sosRunning) {
+      await stopSOS();
+      return;
+    }
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      if (status) status.textContent = 'Denne telefon giver ikke adgang til lommelygten.';
+      return;
+    }
+
+    try {
+      if (status) status.textContent = 'Starter telefonens lommelygte…';
+      sosStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: 'environment' } },
+        audio: false
+      });
+      sosTrack = sosStream.getVideoTracks()[0];
+      const caps = sosTrack?.getCapabilities?.() || {};
+      if (!caps.torch) throw new Error('Torch ikke understøttet');
+
+      try {
+        if ('wakeLock' in navigator) sosWakeLock = await navigator.wakeLock.request('screen');
+      } catch {}
+
+      sosRunning = true;
+      const token = ++sosRunToken;
+      if (btn) {
+        btn.textContent = '⏹ Stop S.O.S.-blink';
+        btn.classList.add('danger');
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      if (status) status.textContent = 'S.O.S. blinker kontinuerligt: ··· ——— ···';
+
+      const unit = 180;
+      const signal = [
+        1,1,1,1,1,3,
+        3,1,3,1,3,3,
+        1,1,1,1,1,7
+      ];
+
+      while (sosRunning && token === sosRunToken) {
+        for (let i = 0; i < signal.length && sosRunning && token === sosRunToken; i += 2) {
+          await setTorch(true);
+          await sleep(signal[i] * unit);
+          await setTorch(false);
+          await sleep(signal[i + 1] * unit);
+        }
+      }
+    } catch (err) {
+      await stopSOS();
+      if (status) status.textContent = 'Telefonens lommelygte kunne ikke styres fra OverblikDK.';
+    }
+  }
 
   function getContacts() {
     try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; }
@@ -73,6 +162,12 @@
       }
     }));
   }
+
+  document.getElementById('sosTorchBtn')?.addEventListener('click', startSOS);
+
+  window.addEventListener('pagehide', () => {
+    if (sosRunning) stopSOS();
+  });
 
   document.getElementById('call112Btn')?.addEventListener('click', () => {
     if (confirm('Er du sikker på, at du vil ringe 112? Misbrug kan medføre ansvar.')) {
