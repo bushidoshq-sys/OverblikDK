@@ -47,12 +47,15 @@
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
 
+<script src="assets/local-data.js"></script>
+<script src="assets/local-helper.js"></script>
+
 <script>
   function sortDa(arr, key){ return arr.slice().sort((a,b)=> a[key].localeCompare(b[key],'da',{sensitivity:'base'})); }
   function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return '' } }
   function render(listEl, data){
     listEl.innerHTML = '';
-    const sorted = sortDa(data,'name');
+    const sorted = window.OverblikDKLocalHelper?.sortLinks(data) || sortDa(data,'name');
     sorted.forEach(({name,url})=>{
       const li = document.createElement('li');
       li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
@@ -71,18 +74,18 @@
   }
 
   const LINKS = [
-    {name:'Aalborg Bibliotekerne', url:'https://www.aalborgbibliotekerne.dk'},
-    {name:'Aarhus Bibliotekerne', url:'https://www.aakb.dk'},
-    {name:'Bibliotek.dk', url:'https://bibliotek.dk'},
-    {name:'Det Kgl. Bibliotek', url:'https://www.kb.dk'},
-    {name:'eReolen', url:'https://ereolen.dk'},
-    {name:'Esbjerg Kommunes Biblioteker', url:'https://www.esbjergbibliotek.dk/'},
-    {name:'Gentofte Bibliotekerne', url:'https://genbib.dk/'},
-    {name:'Gladsaxe Bibliotekerne', url:'https://gladbib.dk/'},
-    {name:'Herning Bibliotekerne', url:'https://www.herningbib.dk'},
-    {name:'Københavns Biblioteker', url:'https://bibliotek.kk.dk'},
-    {name:'Odense Bibliotekerne', url:'https://www.odensebib.dk'},
-    {name:'Randers Bibliotek', url:'https://www.randersbib.dk'}
+    {name:'Aalborg Bibliotekerne', url:'https://www.aalborgbibliotekerne.dk', kommune:'Aalborg Kommune', region:'Region Nordjylland'},
+    {name:'Aarhus Bibliotekerne', url:'https://www.aakb.dk', kommune:'Aarhus Kommune', region:'Region Midtjylland'},
+    {name:'Bibliotek.dk', url:'https://bibliotek.dk', national:true},
+    {name:'Det Kgl. Bibliotek', url:'https://www.kb.dk', national:true},
+    {name:'eReolen', url:'https://ereolen.dk', national:true},
+    {name:'Esbjerg Kommunes Biblioteker', url:'https://www.esbjergbibliotek.dk/', kommune:'Esbjerg Kommune', region:'Region Syddanmark'},
+    {name:'Gentofte Bibliotekerne', url:'https://genbib.dk/', kommune:'Gentofte Kommune', region:'Region Hovedstaden'},
+    {name:'Gladsaxe Bibliotekerne', url:'https://gladbib.dk/', kommune:'Gladsaxe Kommune', region:'Region Hovedstaden'},
+    {name:'Herning Bibliotekerne', url:'https://www.herningbib.dk', kommune:'Herning Kommune', region:'Region Midtjylland'},
+    {name:'Københavns Biblioteker', url:'https://bibliotek.kk.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden'},
+    {name:'Odense Bibliotekerne', url:'https://www.odensebib.dk', kommune:'Odense Kommune', region:'Region Syddanmark'},
+    {name:'Randers Bibliotek', url:'https://www.randersbib.dk', kommune:'Randers Kommune', region:'Region Midtjylland'}
   ];
 
   const listEl = document.getElementById('links');
