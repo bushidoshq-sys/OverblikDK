@@ -70,20 +70,20 @@ window.OverblikDKLocation = (function () {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lat + ',' + lon)}`;
   }
 
-  async function reverseDawa(lat, lon) {
-    const qs = `x=${encodeURIComponent(lon)}&y=${encodeURIComponent(lat)}`;
-    const [kommuneRes, regionRes] = await Promise.all([
-      fetch(`https://api.dataforsyningen.dk/kommuner/reverse?${qs}`),
-      fetch(`https://api.dataforsyningen.dk/regioner/reverse?${qs}`)
-    ]);
-    if (!kommuneRes.ok || !regionRes.ok) throw new Error('DAWA-opslag fejlede.');
-    const [kommune, region] = await Promise.all([kommuneRes.json(), regionRes.json()]);
-    return { kommune, region };
+  async function reverseAdministrativeContext(lat, lon) {
+    const provider = window.OverblikDKAddressProvider;
+    if (!provider?.reverseAdministrativeContext) {
+      throw new Error('Adresse-/lokationsudbyder er ikke indlæst.');
+    }
+    return provider.reverseAdministrativeContext(lat, lon);
   }
+
+  // Midlertidigt alias, så eksisterende kode fortsat virker under migrationen.
+  const reverseDawa = reverseAdministrativeContext;
 
   function openLocationHelp() {
     alert('For bedst mulig lokation: slå præcis lokation til for browseren, slå Wi-Fi til, og gå om muligt tæt på et vindue eller udenfor. OverblikDK tager flere målinger og bruger den mest præcise.');
   }
 
-  return { getPosition, mapsUrl, reverseDawa, openLocationHelp };
+  return { getPosition, mapsUrl, reverseAdministrativeContext, reverseDawa, openLocationHelp };
 })();
