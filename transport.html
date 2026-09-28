@@ -57,6 +57,9 @@
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
 
+<script src="assets/local-data.js"></script>
+<script src="assets/local-helper.js"></script>
+
 <script>
   function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
   function sortDa(a){return a.slice().sort((x,y)=>x.name.localeCompare(y.name,'da',{sensitivity:'base'}))}
@@ -65,60 +68,61 @@
     {
       title: 'Busser og lokale ruter',
       links: [
-        {name:'BAT – regionale ruter på Bornholm', url:'https://www.bat.dk/koereplaner/regionale-ruter/'},
-        {name:'BAT – lokalruter på Bornholm', url:'https://bat.dk/koereplaner/lokalruter/'},
-        {name:'DOT – køreplaner for bus og havnebus', url:'https://dinoffentligetransport.dk/buskoereplan'},
-        {name:'FynBus – alle køreplaner', url:'https://fynbus.dk/koereplaner-trafikinfo/alle-koereplaner'},
-        {name:'FynBus – rute- og terminalkort', url:'https://fynbus.dk/koereplaner-trafikinfo/rute-og-terminalkort'},
-        {name:'Midttrafik – bybusser', url:'https://www.midttrafik.dk/rejsemuligheder/bybusser/'},
-        {name:'Midttrafik – regional-, lokal- og flexbusser', url:'https://www.midttrafik.dk/rejsemuligheder/regional-lokal-og-flexbusser/'},
-        {name:'NT – find din køreplan', url:'https://www.ntrejse.dk/din-rejse/find-din-koereplan'},
-        {name:'Sydtrafik – alle køreplaner', url:'https://sydtrafik.dk/alle-koereplaner'},
-        {name:'Sydtrafik – køreplaner i din kommune', url:'https://sydtrafik.dk/koereplaner-og-trafikinfo/koereplaner-i-din-kommune'}
+        {name:'BAT – regionale ruter på Bornholm', url:'https://www.bat.dk/koereplaner/regionale-ruter/', kommune:["Bornholms Regionskommune"], region:["Region Hovedstaden"]},
+        {name:'BAT – lokalruter på Bornholm', url:'https://bat.dk/koereplaner/lokalruter/', kommune:["Bornholms Regionskommune"], region:["Region Hovedstaden"]},
+        {name:'DOT – køreplaner for bus og havnebus', url:'https://dinoffentligetransport.dk/buskoereplan', region:["Region Hovedstaden", "Region Sjælland"]},
+        {name:'FynBus – alle køreplaner', url:'https://fynbus.dk/koereplaner-trafikinfo/alle-koereplaner', region:["Region Syddanmark"]},
+        {name:'FynBus – rute- og terminalkort', url:'https://fynbus.dk/koereplaner-trafikinfo/rute-og-terminalkort', region:["Region Syddanmark"]},
+        {name:'Midttrafik – bybusser', url:'https://www.midttrafik.dk/rejsemuligheder/bybusser/', region:["Region Midtjylland"]},
+        {name:'Midttrafik – regional-, lokal- og flexbusser', url:'https://www.midttrafik.dk/rejsemuligheder/regional-lokal-og-flexbusser/', region:["Region Midtjylland"]},
+        {name:'NT – find din køreplan', url:'https://www.ntrejse.dk/din-rejse/find-din-koereplan', region:["Region Nordjylland"]},
+        {name:'Sydtrafik – alle køreplaner', url:'https://sydtrafik.dk/alle-koereplaner', region:["Region Syddanmark"]},
+        {name:'Sydtrafik – køreplaner i din kommune', url:'https://sydtrafik.dk/koereplaner-og-trafikinfo/koereplaner-i-din-kommune', region:["Region Syddanmark"]}
       ]
     },
     {
       title: 'Tog, metro og letbane',
       links: [
-        {name:'DSB – egen køreplan', url:'https://www.dsb.dk/trafik-information/koereplaner/'},
-        {name:'DSB – strækningskøreplaner', url:'https://www.dsb.dk/trafik-information/koereplaner/koreplaner-strakningskoreplaner-pdf/'},
-        {name:'DOT – køreplaner for S-tog og regionaltog', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse/koereplaner-for-dsb-tog'},
-        {name:'DOT – køreplaner for metro', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse/koereplaner-for-metro'},
-        {name:'Metroen – linjer og køreplaner', url:'https://m.dk/da/linjer-og-koereplaner/'},
-        {name:'Midttrafik – Letbanen', url:'https://www.midttrafik.dk/rejsemuligheder/letbanen/'},
-        {name:'NT – tog og buskøreplaner', url:'https://www.ntrejse.dk/din-rejse/find-din-koereplan'}
+        {name:'DSB – egen køreplan', url:'https://www.dsb.dk/trafik-information/koereplaner/', national:true},
+        {name:'DSB – strækningskøreplaner', url:'https://www.dsb.dk/trafik-information/koereplaner/koreplaner-strakningskoreplaner-pdf/', national:true},
+        {name:'DOT – køreplaner for S-tog og regionaltog', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse/koereplaner-for-dsb-tog', region:["Region Hovedstaden", "Region Sjælland"]},
+        {name:'DOT – køreplaner for metro', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse/koereplaner-for-metro', region:["Region Hovedstaden"]},
+        {name:'Metroen – linjer og køreplaner', url:'https://m.dk/da/linjer-og-koereplaner/', region:["Region Hovedstaden"]},
+        {name:'Midttrafik – Letbanen', url:'https://www.midttrafik.dk/rejsemuligheder/letbanen/', region:["Region Midtjylland"]},
+        {name:'NT – tog og buskøreplaner', url:'https://www.ntrejse.dk/din-rejse/find-din-koereplan', region:["Region Nordjylland"]}
       ]
     },
     {
       title: 'Planlægning, trafikinfo og hovedsider',
       links: [
-        {name:'Rejseplanen', url:'https://www.rejseplanen.dk'},
-        {name:'DOT – planlæg din rejse', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse'},
-        {name:'Banedanmark', url:'https://banedanmark.dk'},
-        {name:'DSB', url:'https://www.dsb.dk'},
-        {name:'Movia', url:'https://www.moviatrafik.dk'},
-        {name:'FynBus', url:'https://fynbus.dk'},
-        {name:'Midttrafik', url:'https://www.midttrafik.dk'},
-        {name:'Sydtrafik', url:'https://sydtrafik.dk'},
-        {name:'Nordjyllands Trafikselskab', url:'https://www.ntrejse.dk'},
-        {name:'BAT – Bornholms Trafik', url:'https://www.bat.dk'}
+        {name:'Rejseplanen', url:'https://www.rejseplanen.dk', national:true},
+        {name:'DOT – planlæg din rejse', url:'https://dinoffentligetransport.dk/planlaeg-din-rejse', region:["Region Hovedstaden", "Region Sjælland"]},
+        {name:'Banedanmark', url:'https://banedanmark.dk', national:true},
+        {name:'DSB', url:'https://www.dsb.dk', national:true},
+        {name:'Movia', url:'https://www.moviatrafik.dk', region:["Region Hovedstaden", "Region Sjælland"]},
+        {name:'Buster – Movia', url:'https://moviatrafik.dk/buster', region:["Region Hovedstaden", "Region Sjælland"]},
+        {name:'FynBus', url:'https://fynbus.dk', region:["Region Syddanmark"]},
+        {name:'Midttrafik', url:'https://www.midttrafik.dk', region:["Region Midtjylland"]},
+        {name:'Sydtrafik', url:'https://sydtrafik.dk', region:["Region Syddanmark"]},
+        {name:'Nordjyllands Trafikselskab', url:'https://www.ntrejse.dk', region:["Region Nordjylland"]},
+        {name:'BAT – Bornholms Trafik', url:'https://www.bat.dk', kommune:["Bornholms Regionskommune"], region:["Region Hovedstaden"]}
       ]
     },
     {
       title: 'Færger, busrejser og fly',
       links: [
-        {name:'Bornholmslinjen', url:'https://www.bornholmslinjen.dk'},
-        {name:'ForSea / Øresundslinjen', url:'https://www.oresundslinjen.dk/'},
-        {name:'Molslinjen', url:'https://www.molslinjen.dk'},
-        {name:'Scandlines', url:'https://www.scandlines.dk'},
-        {name:'Kombardo Expressen', url:'https://www.kombardoexpressen.dk'},
-        {name:'FlixBus Danmark', url:'https://www.flixbus.dk'},
-        {name:'CPH Lufthavn', url:'https://www.cph.dk'},
-        {name:'Billund Lufthavn', url:'https://www.bll.dk'},
-        {name:'Aalborg Lufthavn', url:'https://www.aal.dk'},
-        {name:'DAT – Danish Air Transport', url:'https://dat.dk'},
-        {name:'Norwegian', url:'https://www.norwegian.com/dk'},
-        {name:'SAS', url:'https://www.flysas.com/dk-da'}
+        {name:'Bornholmslinjen', url:'https://www.bornholmslinjen.dk', kommune:["Bornholms Regionskommune"], region:["Region Hovedstaden"]},
+        {name:'ForSea / Øresundslinjen', url:'https://www.oresundslinjen.dk/', kommune:["Helsingør Kommune"], region:["Region Hovedstaden"]},
+        {name:'Molslinjen', url:'https://www.molslinjen.dk', region:["Region Midtjylland", "Region Sjælland"]},
+        {name:'Scandlines', url:'https://www.scandlines.dk', region:["Region Sjælland"]},
+        {name:'Kombardo Expressen', url:'https://www.kombardoexpressen.dk', national:true},
+        {name:'FlixBus Danmark', url:'https://www.flixbus.dk', national:true},
+        {name:'CPH Lufthavn', url:'https://www.cph.dk', region:["Region Hovedstaden"]},
+        {name:'Billund Lufthavn', url:'https://www.bll.dk', region:["Region Syddanmark"]},
+        {name:'Aalborg Lufthavn', url:'https://www.aal.dk', region:["Region Nordjylland"]},
+        {name:'DAT – Danish Air Transport', url:'https://dat.dk', national:true},
+        {name:'Norwegian', url:'https://www.norwegian.com/dk', national:true},
+        {name:'SAS', url:'https://www.flysas.com/dk-da', national:true}
       ]
     }
   ];
@@ -132,7 +136,7 @@
       section.className = 'transport-group';
       section.innerHTML = `<h2>${group.title}</h2><ul class="link-list"></ul>`;
       const ul = section.querySelector('ul');
-      sortDa(group.links).forEach(({name,url}) => {
+      (window.OverblikDKLocalHelper?.sortLinks(group.links) || sortDa(group.links)).forEach(({name,url}) => {
         total++;
         const li = document.createElement('li');
         li.dataset.search = `${group.title} ${name} ${host(url)}`.toLowerCase();
