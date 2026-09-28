@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-28-bookmarks-freezefix-v14';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-28-location-provider-v15';
 
 const FILES_TO_CACHE = [
   "./",
@@ -6,8 +6,9 @@ const FILES_TO_CACHE = [
   "./indstillinger.html",
   "./assets/styles.css?v=13",
   "./assets/theme.js?v=6",
-  "./assets/location-tools.js?v=6",
-  "./assets/regional-sort.js?v=6",
+  "./assets/address-provider.js?v=15",
+  "./assets/location-tools.js?v=15",
+  "./assets/regional-sort.js?v=15",
   "./assets/emergency.js?v=10",
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=7",
