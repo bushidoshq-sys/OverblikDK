@@ -47,11 +47,14 @@
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
 
+<script src="assets/local-data.js"></script>
+<script src="assets/local-helper.js"></script>
+
 <script>
   function sortDa(a,k){return a.slice().sort((x,y)=>x[k].localeCompare(y[k],'da',{sensitivity:'base'}))}
   function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
   function render(el,data){
-    el.innerHTML=''; const s=sortDa(data,'name');
+    el.innerHTML=''; const s=window.OverblikDKLocalHelper?.sortLinks(data) || sortDa(data,'name');
     s.forEach(({name,url})=>{
       const li=document.createElement('li');
       li.innerHTML=`<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;
@@ -62,15 +65,15 @@
   function wireFilter(inp,ul){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const li of ul.querySelectorAll('li')){li.style.display=li.textContent.toLowerCase().includes(q)?'':''}})}
 
   const LINKS = [
-    {name:'Arbejdermuseet', url:'https://arbejdermuseet.dk'},
-    {name:'Den Gamle By', url:'https://dengamleby.dk'},
-    {name:'Det Kgl. Teater', url:'https://kglteater.dk'},
-    {name:'Kulturministeriet', url:'https://kum.dk'},
-    {name:'Louisiana Museum of Modern Art', url:'https://louisiana.dk'},
-    {name:'Nationalmuseet', url:'https://natmus.dk'},
-    {name:'Statens Museum for Kunst', url:'https://www.smk.dk'},
-    {name:'Tivoli København', url:'https://www.tivoli.dk'},
-    {name:'VisitDenmark', url:'https://www.visitdenmark.dk'}
+    {name:'Arbejdermuseet', url:'https://arbejdermuseet.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden'},
+    {name:'Den Gamle By', url:'https://dengamleby.dk', kommune:'Aarhus Kommune', region:'Region Midtjylland'},
+    {name:'Det Kgl. Teater', url:'https://kglteater.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden', national:true},
+    {name:'Kulturministeriet', url:'https://kum.dk', national:true},
+    {name:'Louisiana Museum of Modern Art', url:'https://louisiana.dk', kommune:'Fredensborg Kommune', region:'Region Hovedstaden'},
+    {name:'Nationalmuseet', url:'https://natmus.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden', national:true},
+    {name:'Statens Museum for Kunst', url:'https://www.smk.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden', national:true},
+    {name:'Tivoli København', url:'https://www.tivoli.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden'},
+    {name:'VisitDenmark', url:'https://www.visitdenmark.dk', national:true}
   ];
 
   const list=document.getElementById('links'), input=document.getElementById('filter');
