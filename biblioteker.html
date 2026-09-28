@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>OverblikDK – Biblioteker</title>
-  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/styles.css?v=6" />
   <link rel="icon" type="image/png" href="icons/icon-192.png" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <script>
@@ -47,8 +47,8 @@
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
 
-<script src="assets/local-data.js"></script>
-<script src="assets/local-helper.js"></script>
+<script src="assets/local-data.js?v=6"></script>
+<script src="assets/local-helper.js?v=6"></script>
 
 <script>
   function sortDa(arr, key){ return arr.slice().sort((a,b)=> a[key].localeCompare(b[key],'da',{sensitivity:'base'})); }
@@ -95,7 +95,7 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
-  <script src="assets/theme.js"></script>
-  <script src="assets/pwa-update.js"></script>
+  <script src="assets/theme.js?v=6"></script>
+  <script src="assets/pwa-update.js?v=6"></script>
 </body>
 </html>
