@@ -59,8 +59,31 @@ a { color: inherit; }
 .brand small { display: block; color: var(--muted); margin-top: 2px; }
 .navline { height: 4px; background: linear-gradient(90deg, var(--brand), var(--brand-dark)); }
 
-.theme-toggle {
+.header-actions {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.header-icon-btn {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  font-size: 1.15rem;
+}
+.header-icon-btn:hover, .header-icon-btn[aria-current="page"] {
+  background: color-mix(in srgb, var(--brand) 10%, var(--panel));
+}
+
+.theme-toggle {
+  margin-left: 0;
   border: 1px solid var(--line);
   background: var(--panel);
   color: var(--text);
@@ -280,4 +303,38 @@ small.host { display: block; margin-top: 4px; }
   .toolbar { align-items: stretch; flex-direction: column; }
   .link-list li a { align-items: flex-start; flex-direction: column; }
   .quick-head, .nearby-panel__head, .departure-head, .emergency-head { flex-direction: column; }
+}
+
+
+.settings-page-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 18px;
+}
+.settings-back {
+  margin: .3rem 0 1rem;
+}
+.settings-page-panel h2 { margin: 0 0 6px; }
+.settings-page-panel > p { color: var(--muted); }
+
+@media (max-width: 650px) {
+  .header-actions { gap: 6px; }
+  .header-icon-btn, .theme-toggle {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 430px) {
+  .brand { gap: 9px; }
+  .brand > div:not(.header-actions) { min-width: 0; }
+  .brand small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+  .header-actions { gap: 4px; }
+  .header-icon-btn, .theme-toggle { width: 38px; height: 38px; min-width: 38px; }
 }
