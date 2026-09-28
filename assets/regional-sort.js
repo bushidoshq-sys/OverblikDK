@@ -23,14 +23,14 @@
     if (status) status.textContent = 'Henter kommune/region…';
     try {
       const pos = await window.OverblikDKLocation.getPosition();
-      const data = await window.OverblikDKLocation.reverseDawa(pos.coords.latitude, pos.coords.longitude);
+      const data = await window.OverblikDKLocation.reverseAdministrativeContext(pos.coords.latitude, pos.coords.longitude);
       const ctx = {
         kommune: data?.kommune?.navn || '',
         region: data?.region?.navn || '',
         accuracy: Number.isFinite(pos.coords.accuracy) ? Math.round(pos.coords.accuracy) : null,
         updated: new Date().toISOString()
       };
-      if (!ctx.kommune || !ctx.region) throw new Error('Kommune/region mangler i DAWA-svar.');
+      if (!ctx.kommune || !ctx.region) throw new Error('Kommune/region mangler i lokationssvaret.');
       localStorage.setItem(CONTEXT_KEY, JSON.stringify(ctx));
       setStatus();
       window.OverblikDKApplyRegionalSort?.();
