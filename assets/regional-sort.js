@@ -15,7 +15,7 @@
     const enabled = localStorage.getItem(SORT_KEY) === 'true';
     const ctx = readContext();
     if (!enabled) status.textContent = 'Regional sortering er slået fra.';
-    else if (ctx?.kommune) status.textContent = `Regional sortering er slået til. Kommune: ${ctx.kommune}${ctx.region ? ' · ' + ctx.region : ''}`;
+    else if (ctx?.kommune) status.textContent = `Regional sortering er slået til. Kommune: ${ctx.kommune}${ctx.region ? ' · ' + ctx.region : ''}${Number.isFinite(ctx.accuracy) ? ' · nøjagtighed ca. ' + ctx.accuracy + ' m' : ''}`;
     else status.textContent = 'Regional sortering er slået til. Kommune/region er ikke hentet endnu.';
   }
 
@@ -27,21 +27,26 @@
       const ctx = {
         kommune: data?.kommune?.navn || '',
         region: data?.region?.navn || '',
+        accuracy: Number.isFinite(pos.coords.accuracy) ? Math.round(pos.coords.accuracy) : null,
         updated: new Date().toISOString()
       };
+      if (!ctx.kommune || !ctx.region) throw new Error('Kommune/region mangler i DAWA-svar.');
       localStorage.setItem(CONTEXT_KEY, JSON.stringify(ctx));
       setStatus();
       window.OverblikDKApplyRegionalSort?.();
+      return ctx;
     } catch (err) {
       if (status) status.textContent = 'Kunne ikke hente kommune/region.';
+      return null;
     }
   }
+
+  window.OverblikDKUpdateLocalContext = updateContext;
 
   window.OverblikDKApplyRegionalSort = function () {
     const enabled = localStorage.getItem(SORT_KEY) === 'true';
     const grid = document.getElementById('categoryGrid');
     if (!grid || !enabled) return;
-    // Placeholder for future local boost rules.
   };
 
   [toggle, setupToggle].forEach(el => {
