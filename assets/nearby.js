@@ -6,7 +6,9 @@
 
   const labels = {
     atm: 'hæveautomat',
-    fuel: 'tankstation'
+    fuel: 'tankstation',
+    pharmacy: 'apotek',
+    police: 'politistation'
   };
 
   buttons.forEach(btn => {
