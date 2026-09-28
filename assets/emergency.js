@@ -7,12 +7,96 @@
   let sosStream = null;
   let sosWakeLock = null;
   let sosRunToken = 0;
+  let sosMode = null;
+  let sosOverlay = null;
+  let sosVideo = null;
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
   async function setTorch(on) {
-    if (!sosTrack) return;
+    if (!sosTrack) throw new Error('Ingen kameratrack.');
     await sosTrack.applyConstraints({ advanced: [{ torch: !!on }] });
+  }
+
+  function ensureSOSOverlay() {
+    if (sosOverlay) return sosOverlay;
+    const overlay = document.createElement('div');
+    overlay.id = 'sosScreenOverlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    Object.assign(overlay.style, {
+      position: 'fixed',
+      inset: '0',
+      zIndex: '2147483647',
+      background: '#fff',
+      opacity: '0',
+      pointerEvents: 'none',
+      transition: 'none'
+    });
+    document.body.appendChild(overlay);
+    sosOverlay = overlay;
+    return overlay;
+  }
+
+  function setScreenFlash(on) {
+    const overlay = ensureSOSOverlay();
+    overlay.style.opacity = on ? '1' : '0';
+  }
+
+  function vibrateFor(ms) {
+    try {
+      if (navigator.vibrate) navigator.vibrate(ms);
+    } catch {}
+  }
+
+  async function openRearCamera() {
+    const attempts = [
+      { video: { facingMode: { exact: 'environment' } }, audio: false },
+      { video: { facingMode: { ideal: 'environment' } }, audio: false },
+      { video: true, audio: false }
+    ];
+    let lastError = null;
+    for (const constraints of attempts) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        const track = stream.getVideoTracks()[0];
+        if (!track) {
+          stream.getTracks().forEach(t => t.stop());
+          continue;
+        }
+        return { stream, track };
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    throw lastError || new Error('Kunne ikke åbne kamera.');
+  }
+
+  async function prepareTorch() {
+    const camera = await openRearCamera();
+    sosStream = camera.stream;
+    sosTrack = camera.track;
+
+    sosVideo = document.createElement('video');
+    sosVideo.muted = true;
+    sosVideo.playsInline = true;
+    sosVideo.autoplay = true;
+    sosVideo.style.position = 'fixed';
+    sosVideo.style.width = '1px';
+    sosVideo.style.height = '1px';
+    sosVideo.style.opacity = '0';
+    sosVideo.style.pointerEvents = 'none';
+    sosVideo.srcObject = sosStream;
+    document.body.appendChild(sosVideo);
+    try { await sosVideo.play(); } catch {}
+
+    const caps = sosTrack.getCapabilities?.() || {};
+    if (caps.torch === false) throw new Error('Torch-capability mangler.');
+
+    // Nogle telefoner rapporterer ikke torch korrekt; prøv derfor faktisk at tænde kort.
+    await setTorch(true);
+    await sleep(80);
+    await setTorch(false);
+    return true;
   }
 
   async function stopSOS() {
@@ -23,6 +107,15 @@
     try { sosStream?.getTracks().forEach(track => track.stop()); } catch {}
     sosTrack = null;
     sosStream = null;
+    if (sosVideo) {
+      try { sosVideo.pause(); } catch {}
+      sosVideo.srcObject = null;
+      sosVideo.remove();
+      sosVideo = null;
+    }
+    setScreenFlash(false);
+    try { if (navigator.vibrate) navigator.vibrate(0); } catch {}
+    sosMode = null;
     try { await sosWakeLock?.release(); } catch {}
     sosWakeLock = null;
     const btn = document.getElementById('sosTorchBtn');
@@ -43,52 +136,79 @@
       return;
     }
 
-    if (!navigator.mediaDevices?.getUserMedia) {
-      if (status) status.textContent = 'Denne telefon giver ikke adgang til lommelygten.';
-      return;
-    }
-
     try {
-      if (status) status.textContent = 'Starter telefonens lommelygte…';
-      sosStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: 'environment' } },
-        audio: false
-      });
-      sosTrack = sosStream.getVideoTracks()[0];
-      const caps = sosTrack?.getCapabilities?.() || {};
-      if (!caps.torch) throw new Error('Torch ikke understøttet');
+      if ('wakeLock' in navigator) sosWakeLock = await navigator.wakeLock.request('screen');
+    } catch {}
 
+    let torchReady = false;
+    if (navigator.mediaDevices?.getUserMedia) {
       try {
-        if ('wakeLock' in navigator) sosWakeLock = await navigator.wakeLock.request('screen');
-      } catch {}
-
-      sosRunning = true;
-      const token = ++sosRunToken;
-      if (btn) {
-        btn.textContent = '⏹ Stop S.O.S.-blink';
-        btn.classList.add('danger');
-        btn.setAttribute('aria-pressed', 'true');
-      }
-      if (status) status.textContent = 'S.O.S. blinker kontinuerligt: ··· ——— ···';
-
-      const unit = 180;
-      const signal = [
-        1,1,1,1,1,3,
-        3,1,3,1,3,3,
-        1,1,1,1,1,7
-      ];
-
-      while (sosRunning && token === sosRunToken) {
-        for (let i = 0; i < signal.length && sosRunning && token === sosRunToken; i += 2) {
-          await setTorch(true);
-          await sleep(signal[i] * unit);
-          await setTorch(false);
-          await sleep(signal[i + 1] * unit);
+        if (status) status.textContent = 'Prøver telefonens kamerablitz…';
+        torchReady = await prepareTorch();
+      } catch {
+        try { sosTrack?.stop(); } catch {}
+        try { sosStream?.getTracks().forEach(track => track.stop()); } catch {}
+        sosTrack = null;
+        sosStream = null;
+        if (sosVideo) {
+          sosVideo.remove();
+          sosVideo = null;
         }
       }
-    } catch (err) {
-      await stopSOS();
-      if (status) status.textContent = 'Telefonens lommelygte kunne ikke styres fra OverblikDK.';
+    }
+
+    sosMode = torchReady ? 'torch' : 'screen';
+    sosRunning = true;
+    const token = ++sosRunToken;
+
+    if (btn) {
+      btn.textContent = '⏹ Stop S.O.S.-blink';
+      btn.classList.add('danger');
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    if (status) {
+      status.textContent = torchReady
+        ? 'S.O.S. blinker med telefonens lommelygte: ··· ——— ···'
+        : 'Lommelygten kan ikke styres på denne telefon. Bruger skærmblink + vibration: ··· ——— ···';
+    }
+
+    const unit = 180;
+    const signal = [
+      1,1,1,1,1,3,
+      3,1,3,1,3,3,
+      1,1,1,1,1,7
+    ];
+
+    while (sosRunning && token === sosRunToken) {
+      for (let i = 0; i < signal.length && sosRunning && token === sosRunToken; i += 2) {
+        const onMs = signal[i] * unit;
+        const offMs = signal[i + 1] * unit;
+
+        try {
+          if (sosMode === 'torch') await setTorch(true);
+          else {
+            setScreenFlash(true);
+            vibrateFor(onMs);
+          }
+        } catch {
+          sosMode = 'screen';
+          setScreenFlash(true);
+          vibrateFor(onMs);
+          if (status) status.textContent = 'Lommelygten mistede adgang. Bruger skærmblink + vibration: ··· ——— ···';
+        }
+
+        await sleep(onMs);
+
+        try {
+          if (sosMode === 'torch') await setTorch(false);
+          else setScreenFlash(false);
+        } catch {
+          sosMode = 'screen';
+          setScreenFlash(false);
+        }
+
+        await sleep(offMs);
+      }
     }
   }
 
