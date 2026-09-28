@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-28-hospital-sos-v8';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-28-sos-fallback-v9';
 
 const FILES_TO_CACHE = [
   "./",
@@ -8,7 +8,7 @@ const FILES_TO_CACHE = [
   "./assets/theme.js?v=6",
   "./assets/location-tools.js?v=6",
   "./assets/regional-sort.js?v=6",
-  "./assets/emergency.js?v=8",
+  "./assets/emergency.js?v=9",
   "./assets/favorites.js?v=6",
   "./assets/local-helper.js?v=7",
   "./assets/local-data.js?v=6",
