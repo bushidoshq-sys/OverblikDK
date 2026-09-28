@@ -15,7 +15,7 @@ window.OverblikDKLocation = (function () {
 
       function cleanup() {
         if (watchId !== null) navigator.geolocation.clearWatch(watchId);
-        if (overallTimer !== null) clearTimeout(overallTimer);
+        clearTimeout(overallTimer);
       }
 
       function finish(position) {
@@ -43,6 +43,9 @@ window.OverblikDKLocation = (function () {
           bestPosition = position;
         }
 
+        // En accuracy-værdi er radius i meter. Stop tidligt kun når browseren
+        // allerede har leveret en meget præcis måling; ellers samler vi videre
+        // og vælger den bedste måling inden for tidsvinduet.
         if (Number.isFinite(accuracy) && accuracy <= targetAccuracy) finish(position);
       }
 
