@@ -1,15 +1,15 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-28-nearby-v12';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-28-bookmarks-v13';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger.html",
-  "./assets/styles.css?v=6",
+  "./assets/styles.css?v=13",
   "./assets/theme.js?v=6",
   "./assets/location-tools.js?v=6",
   "./assets/regional-sort.js?v=6",
   "./assets/emergency.js?v=10",
-  "./assets/favorites.js?v=6",
+  "./assets/favorites.js?v=13",
   "./assets/local-helper.js?v=7",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=12",
