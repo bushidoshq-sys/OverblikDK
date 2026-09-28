@@ -1,8 +1,9 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-05-03-rebuild';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-28-settings-nav-v5';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
+  "./indstillinger.html",
   "./assets/styles.css",
   "./assets/theme.js",
   "./assets/location-tools.js",
@@ -35,7 +36,6 @@ const FILES_TO_CACHE = [
   "./reklamer.html",
   "./google2b71488ba44ee784.html"
 ];
-
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE)));
