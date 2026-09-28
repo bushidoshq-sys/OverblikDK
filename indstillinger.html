@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OverblikDK – Indstillinger</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('overblikdk-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+<header class="header">
+  <div class="brand container">
+    <img class="logo" src="icons/logo.png" alt="">
+    <div>
+      <h1>OverblikDK</h1>
+      <small>Indstillinger</small>
+    </div>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+      <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+      <span class="theme-toggle__text">Mørk</span>
+    </button>
+  </div>
+  <div class="navline"></div>
+</header>
+
+<main class="container">
+  <button id="settingsBackBtn" class="emergency-call settings-back" type="button">← Tilbage</button>
+
+  <section class="settings-page-panel" aria-labelledby="settingsTitle">
+    <p class="section-kicker">Indstillinger</p>
+    <h2 id="settingsTitle">⚙️ OverblikDK indstillinger</h2>
+    <p>Styr hvordan OverblikDK bruger lokation. Det gemmes kun lokalt i appen.</p>
+
+    <label class="settings-check">
+      <input type="checkbox" id="regionalSortToggle">
+      <span>
+        <strong>Regional sortering</strong><br>
+        Brug lokation/DAWA til at vise de mest relevante links først inden for deres eksisterende kategorier.
+      </span>
+    </label>
+
+    <div class="emergency-actions">
+      <button class="emergency-call" type="button" id="refreshLocalContextBtn">Opdater kommune/region</button>
+      <button class="emergency-call" type="button" onclick="OverblikDKLocation.openLocationHelp()">Forbedr lokation</button>
+    </div>
+    <div id="regionalSortStatus" class="position-box">Regional sortering er slået fra.</div>
+  </section>
+</main>
+
+<footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('settingsBackBtn')?.addEventListener('click', () => {
+    const target = sessionStorage.getItem('overblikdk_settings_return');
+    if (target && !/^https?:/i.test(target) && !target.includes('indstillinger.html')) {
+      sessionStorage.removeItem('overblikdk_settings_return');
+      location.href = target;
+      return;
+    }
+    location.href = 'index.html';
+  });
+</script>
+<script src="assets/theme.js"></script>
+<script src="assets/location-tools.js"></script>
+<script src="assets/regional-sort.js"></script>
+<script src="assets/pwa-update.js"></script>
+</body>
+</html>
