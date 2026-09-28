@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-28-header-cachefix-v6';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-28-regional-sort-fix-v7';
 
 const FILES_TO_CACHE = [
   "./",
@@ -10,7 +10,7 @@ const FILES_TO_CACHE = [
   "./assets/regional-sort.js?v=6",
   "./assets/emergency.js?v=6",
   "./assets/favorites.js?v=6",
-  "./assets/local-helper.js?v=6",
+  "./assets/local-helper.js?v=7",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=6",
   "./assets/pwa-update.js?v=6",
