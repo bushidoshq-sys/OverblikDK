@@ -54,9 +54,11 @@
         <button class="emergency-call" type="button" id="sharePositionBtn">Del min position</button>
         <button class="emergency-call" type="button" id="addEmergencyContactBtn">Tilføj nødkontakt</button>
         <button class="emergency-call" type="button" id="sendOkayBtn">👍 Jeg er okay</button>
+        <button class="emergency-call" type="button" id="sosTorchBtn" aria-pressed="false">🔦 Start S.O.S.-blink</button>
       </div>
 
       <div id="positionBox" class="position-box" hidden></div>
+      <div id="sosTorchStatus" class="position-box">S.O.S.-blink bruger telefonens kamerablitz og fortsætter, indtil du stopper det.</div>
 
       <div class="emergency-note">
         <strong>Vigtigt:</strong> Ved akut fare skal du ringe 112. Position via browser kan være upræcis, især indendørs. Appen venter på bedre data, før den bruger positionen.
@@ -83,7 +85,7 @@
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="assets/theme.js?v=6"></script>
   <script src="assets/location-tools.js?v=6"></script>
-  <script src="assets/emergency.js?v=6"></script>
+  <script src="assets/emergency.js?v=8"></script>
   <script src="assets/pwa-update.js?v=6"></script>
 </body>
 </html>
