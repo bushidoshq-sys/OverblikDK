@@ -82,12 +82,16 @@
     li.appendChild(btn);
   }
 
-  function decorateLinks() {
+  function decorateLinks(root = document) {
     const selectors = [
       '.link-list li > a[href]',
       '.nearby-results li > a[href]'
     ];
-    document.querySelectorAll(selectors.join(',')).forEach(anchor => {
+    const anchors = [];
+    if (root.matches?.(selectors.join(','))) anchors.push(root);
+    root.querySelectorAll?.(selectors.join(',')).forEach(anchor => anchors.push(anchor));
+
+    anchors.forEach(anchor => {
       if (!/^https?:/i.test(anchor.href)) return;
       makeButton(anchor);
     });
@@ -98,11 +102,15 @@
     const favs = getFavs();
     document.querySelectorAll('.favorite-toggle').forEach(btn => {
       const active = favoriteIndex(btn.dataset.favoriteUrl, favs) >= 0;
-      btn.textContent = active ? '★' : '☆';
-      btn.classList.toggle('is-active', active);
-      btn.setAttribute('aria-pressed', String(active));
-      btn.setAttribute('aria-label', active ? 'Fjern fra Favoritter' : 'Gem i Favoritter');
-      btn.title = active ? 'Fjern fra Favoritter' : 'Gem i Favoritter';
+      const symbol = active ? '★' : '☆';
+      const pressed = String(active);
+      const label = active ? 'Fjern fra Favoritter' : 'Gem i Favoritter';
+
+      if (btn.textContent !== symbol) btn.textContent = symbol;
+      if (btn.classList.contains('is-active') !== active) btn.classList.toggle('is-active', active);
+      if (btn.getAttribute('aria-pressed') !== pressed) btn.setAttribute('aria-pressed', pressed);
+      if (btn.getAttribute('aria-label') !== label) btn.setAttribute('aria-label', label);
+      if (btn.title !== label) btn.title = label;
     });
   }
 
@@ -137,6 +145,17 @@
   renderHomeFavorites();
   decorateLinks();
 
-  const observer = new MutationObserver(() => decorateLinks());
+  const observer = new MutationObserver((mutations) => {
+    observer.disconnect();
+    try {
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === Node.ELEMENT_NODE) decorateLinks(node);
+        });
+      });
+    } finally {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
