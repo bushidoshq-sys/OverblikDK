@@ -47,6 +47,9 @@
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
 
+<script src="assets/local-data.js"></script>
+<script src="assets/local-helper.js"></script>
+
 <script>
   function sortDa(arr, key){
     return arr.slice().sort((a,b)=> a[key].localeCompare(b[key], 'da', {sensitivity:'base'}));
@@ -498,7 +501,7 @@
     root.innerHTML = '';
     let total = 0;
 
-    REGIONS.forEach(group => {
+    (window.OverblikDKLocalHelper?.sortRegionGroups(REGIONS) || REGIONS).forEach(group => {
       const section = document.createElement('section');
       section.className = 'region-section';
       section.dataset.region = group.region.toLowerCase();
@@ -511,7 +514,12 @@
       ul.className = 'link-list';
       ul.setAttribute('aria-label', group.region);
 
-      const sorted = sortDa(group.links, 'name');
+      let sorted = sortDa(group.links, 'name');
+      if (window.OverblikDKLocalHelper?.enabled() && group.region !== 'Officielle oversigter') {
+        const ctx = window.OverblikDKLocalHelper.context();
+        sorted = sorted.map(link => ({...link, kommune: link.name, region: group.region}));
+        sorted = window.OverblikDKLocalHelper.sortLinks(sorted);
+      }
       sorted.forEach(({name, url}) => {
         const li = document.createElement('li');
         li.innerHTML = `<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;
