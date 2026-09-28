@@ -35,6 +35,16 @@
 <main class="container">
   <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
 
+  <section id="hospitalPriority" class="departure-panel" hidden aria-labelledby="hospitalPriorityTitle">
+    <div class="departure-head">
+      <div>
+        <p class="kicker">Dit område</p>
+        <h2 id="hospitalPriorityTitle">🏥 Dit primære hospital</h2>
+        <ul id="hospitalPriorityLinks" class="link-list"></ul>
+      </div>
+    </div>
+  </section>
+
   <div class="toolbar">
     <div class="input" role="search">
       🔎 <input id="filter" type="search" placeholder="Søg i hospitaler…" aria-label="Søg i links">
@@ -76,10 +86,23 @@
     );
   }
 
+  function renderHospitalPriority(data) {
+    const panel = document.getElementById('hospitalPriority');
+    const list = document.getElementById('hospitalPriorityLinks');
+    if (!panel || !list || !window.OverblikDKLocalHelper?.enabled()) return null;
+    const primary = data.find(item => hospitalRank(item) === 0);
+    if (!primary) return null;
+    panel.hidden = false;
+    list.innerHTML = `<li><a href="${primary.url}" target="_blank" rel="noopener"><span>${primary.name}</span><span class="host">${host(primary.url)}</span></a></li>`;
+    return primary.url;
+  }
+
   function render(listEl, data){
     listEl.innerHTML = '';
+    const priorityUrl = renderHospitalPriority(data);
     const sorted = sortHospitals(data);
     sorted.forEach(({name,url})=>{
+      if (priorityUrl && url.replace(/\/$/,'') === priorityUrl.replace(/\/$/,'')) return;
       const li = document.createElement('li');
       li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
         <span>${name}</span><span class="host">${host(url)}</span></a>`;
