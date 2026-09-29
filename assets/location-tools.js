@@ -233,7 +233,7 @@ window.OverblikDKLocation = (function () {
     overlay.id = 'overblikdkGpsProgress';
     overlay.setAttribute('role', 'status');
     overlay.setAttribute('aria-live', 'polite');
-    overlay.innerHTML = '<div style="width:min(88vw,420px);background:var(--card,#fff);color:var(--text,#111);border-radius:18px;padding:22px;box-shadow:0 16px 50px rgba(0,0,0,.35);text-align:center"><div style="font-size:1.2rem;font-weight:700;margin-bottom:14px">📍 Finder din position…</div><div style="height:10px;background:rgba(128,128,128,.25);border-radius:999px;overflow:hidden"><div data-gps-bar style="height:100%;width:2%;background:currentColor;border-radius:999px;transition:width .25s linear"></div></div><div data-gps-message style="margin-top:14px;min-height:2.6em"></div></div>';
+    overlay.innerHTML = '<div style="width:min(88vw,420px);background:#171a20;color:#f7f7f8;border:1px solid #343943;border-radius:18px;padding:22px;box-shadow:0 16px 50px rgba(0,0,0,.55);text-align:center"><div style="font-size:1.2rem;font-weight:700;margin-bottom:14px;color:#fff">📍 Finder din position…</div><div style="height:10px;background:#3a3f48;border-radius:999px;overflow:hidden"><div data-gps-bar style="height:100%;width:2%;background:#f7f7f8;border-radius:999px;transition:width .25s linear"></div></div><div data-gps-message style="margin-top:14px;min-height:2.6em;color:#e5e7eb;line-height:1.45"></div></div>';
     Object.assign(overlay.style,{position:'fixed',inset:'0',zIndex:'2147483000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px',background:'rgba(0,0,0,.48)'});
     document.body.appendChild(overlay);
     gpsOverlay = overlay;
