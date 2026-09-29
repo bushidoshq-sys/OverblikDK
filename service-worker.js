@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-native-sos-v30';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-settings-dedupe-v31';
 
 const FILES_TO_CACHE = [
   "./",
