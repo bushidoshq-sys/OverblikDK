@@ -71,6 +71,16 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Museum Thy',url:'https://museumthy.dk',kommune:'Thisted Kommune'},
+    {name:'Thisted Museum',url:'https://museumthy.dk',kommune:'Thisted Kommune'},
+    {name:'MusikTeatret Thisted',url:'https://musik-teatret.dk',kommune:'Thisted Kommune'},
+    {name:'Vesthimmerlands Museum',url:'https://vesthimmerlandsmuseum.dk',kommune:'Vesthimmerlands Kommune'},
+    {name:'Himmerlands Teater',url:'https://himmerlandsteater.dk',kommune:'Vesthimmerlands Kommune'},
+    {name:'Johannes V. Jensen og Thit Jensen Museet',url:'https://vesthimmerlandsmuseum.dk',kommune:'Vesthimmerlands Kommune'},
+    {name:'Kunsten Museum of Modern Art Aalborg',url:'https://kunsten.dk',kommune:'Aalborg Kommune'},
+    {name:'Utzon Center',url:'https://utzoncenter.dk',kommune:'Aalborg Kommune'},
+    {name:'Aalborg Historiske Museum',url:'https://nordjyskemuseer.dk',kommune:'Aalborg Kommune'},
+    {name:'Musikkens Hus',url:'https://musikkenshus.dk',kommune:'Aalborg Kommune'},
     {name:'Læsø Museum',url:'https://laesoemuseum.dk',kommune:'Læsø Kommune'},
     {name:'Læsø Saltsyderi',url:'https://saltsyderiet.dk',kommune:'Læsø Kommune'},
     {name:'Museumsgården',url:'https://laesoemuseum.dk',kommune:'Læsø Kommune'},
@@ -387,7 +397,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=49"></script>
+<script src="assets/pwa-update.js?v=50"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
