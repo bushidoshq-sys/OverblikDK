@@ -12,30 +12,59 @@ window.OverblikDKLocation = (function () {
     const geo = getNativeGeolocation();
     if (!geo) return null;
 
-    const permission = await geo.checkPermissions();
-    const alreadyGranted =
-      permission.location === 'granted' ||
-      permission.coarseLocation === 'granted';
+    let permission = await geo.checkPermissions();
+    let fineGranted = permission.location === 'granted';
+    let coarseGranted = permission.coarseLocation === 'granted';
 
-    if (!alreadyGranted) {
-      const requested = await geo.requestPermissions({ permissions: ['location', 'coarseLocation'] });
-      const granted =
-        requested.location === 'granted' ||
-        requested.coarseLocation === 'granted';
+    if (!fineGranted && !coarseGranted) {
+      permission = await geo.requestPermissions({ permissions: ['location', 'coarseLocation'] });
+      fineGranted = permission.location === 'granted';
+      coarseGranted = permission.coarseLocation === 'granted';
 
-      if (!granted) {
+      if (!fineGranted && !coarseGranted) {
         const err = new Error('Lokationstilladelse blev afvist.');
         err.code = 1;
         throw err;
       }
     }
 
-    return geo.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: options.timeout || 15000,
-      maximumAge: 0,
-      enableLocationFallback: true
-    });
+    const timeout = options.timeout || 25000;
+
+    // Android may grant approximate/coarse location without fine location.
+    // Do not demand high accuracy when only coarse permission exists.
+    if (!fineGranted && coarseGranted) {
+      return geo.getCurrentPosition({
+        enableHighAccuracy: false,
+        timeout,
+        maximumAge: 5000,
+        enableLocationFallback: true
+      });
+    }
+
+    try {
+      return await geo.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout,
+        maximumAge: 0,
+        enableLocationFallback: true
+      });
+    } catch (error) {
+      // A valid fine permission can still produce a transient high-accuracy
+      // failure indoors. Retry natively at normal accuracy before falling back
+      // to WebView geolocation.
+      const denied =
+        error?.code === 1 ||
+        error?.code === 'OS-PLUG-GLOC-0003' ||
+        /permission|denied|afvist/i.test(String(error?.message || ''));
+      if (denied) throw error;
+
+      return geo.getCurrentPosition({
+        enableHighAccuracy: false,
+        timeout,
+        maximumAge: 5000,
+        enableLocationFallback: true
+      });
+    }
   }
 
   function getWebPosition(options = {}) {
@@ -45,7 +74,7 @@ window.OverblikDKLocation = (function () {
         return;
       }
 
-      const overallTimeout = options.timeout || 15000;
+      const overallTimeout = options.timeout || 25000;
       const targetAccuracy = options.targetAccuracy || 20;
       let bestPosition = null;
       let watchId = null;
