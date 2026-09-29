@@ -36,7 +36,10 @@
       window.OverblikDKApplyRegionalSort?.();
       return ctx;
     } catch (err) {
-      if (status) status.textContent = 'Kunne ikke hente kommune/region.';
+      const detail = String(err?.message || '').trim();
+      if (status) status.textContent = detail
+        ? `Kunne ikke hente kommune/region: ${detail}`
+        : 'Kunne ikke hente kommune/region.';
       return null;
     }
   }
