@@ -71,6 +71,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Glud Museum',url:'https://gludmuseum.dk',kommune:'Hedensted Kommune'},
+    {name:'Uldum Mølle',url:'https://uldummolle.dk',kommune:'Hedensted Kommune'},
+    {name:'Kulturhuset Tofteskov',url:'https://hedensted.dk',kommune:'Hedensted Kommune'},
+    {name:'Kunstpakhuset',url:'https://kunstpakhuset.dk',kommune:'Ikast-Brande Kommune'},
+    {name:'RemisenBrande',url:'https://remisenbrande.dk',kommune:'Ikast-Brande Kommune'},
+    {name:'Kulturhuset Bakkehuset',url:'https://ikast-brande.dk',kommune:'Ikast-Brande Kommune'},
+    {name:'Lemvig Museum',url:'https://lemvigmuseum.dk',kommune:'Lemvig Kommune'},
+    {name:'Jens Søndergaards Museum',url:'https://lemvigmuseum.dk',kommune:'Lemvig Kommune'},
+    {name:'Lemvig Musikforening',url:'https://lemvigmusikforening.dk',kommune:'Lemvig Kommune'},
     {name:'HEART',url:'https://heartmus.dk',kommune:'Herning Kommune'},
     {name:'Carl-Henning Pedersen & Else Alfelts Museum',url:'https://chpeamuseum.dk',kommune:'Herning Kommune'},
     {name:'MCH Herning Kongrescenter',url:'https://mch.dk',kommune:'Herning Kommune'},
