@@ -49,9 +49,18 @@ window.OverblikDKLocation = (function () {
         if (Number.isFinite(accuracy) && accuracy <= targetAccuracy) finish(position);
       }
 
+      function onWatchError(error) {
+        // PERMISSION_DENIED er endelig. POSITION_UNAVAILABLE og TIMEOUT kan være
+        // midlertidige under en high-accuracy watch, så vent på næste måling
+        // eller det samlede timeout-vindue.
+        if (error?.code === 1) {
+          fail(error);
+        }
+      }
+
       watchId = navigator.geolocation.watchPosition(
         consider,
-        fail,
+        onWatchError,
         {
           enableHighAccuracy: true,
           timeout: overallTimeout,
