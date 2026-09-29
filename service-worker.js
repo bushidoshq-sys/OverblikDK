@@ -4,7 +4,7 @@ const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger.html",
-  "./assets/styles.css?v=16",
+  "./assets/styles.css?v=17",
   "./assets/theme.js?v=6",
   "./assets/address-provider.js?v=16",
   "./assets/address-settings.js?v=16",
