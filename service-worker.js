@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-native-home-v36';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-sos-torch-v37';
 
 const FILES_TO_CACHE = [
   "./",
@@ -12,7 +12,7 @@ const FILES_TO_CACHE = [
   "./assets/address-settings.js?v=16",
   "./assets/location-tools.js?v=34",
   "./assets/regional-sort.js?v=34",
-  "./assets/emergency.js?v=33",
+  "./assets/emergency.js?v=37",
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
@@ -61,6 +61,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (
     url.pathname.endsWith('/assets/pwa-update.js') ||
+    url.pathname.endsWith('/assets/emergency.js') ||
     url.pathname.endsWith('/assets/theme.js') ||
     url.pathname.endsWith('/assets/native-navigation.js') ||
     url.pathname.endsWith('/assets/location-tools.js') ||
