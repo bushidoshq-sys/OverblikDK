@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-location-permission-v23';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-native-back-v24';
 
 const FILES_TO_CACHE = [
   "./",
@@ -16,6 +16,7 @@ const FILES_TO_CACHE = [
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=17",
   "./assets/pwa-update.js?v=20",
+  "./assets/native-navigation.js?v=24",
   "./manifest.json",
   "./icons/logo.png",
   "./icons/icon-192.png",
