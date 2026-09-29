@@ -144,6 +144,17 @@ window.OverblikDKLocation = (function () {
   }
 
   async function getPosition(options = {}) {
+    const manual = window.OverblikDKManualLocation?.asPosition?.();
+    if (manual) {
+      window.OverblikDKLocationDiagnostics = {
+        nativePlatform: Boolean(window.Capacitor?.isNativePlatform?.()),
+        pluginAvailable: Boolean(window.Capacitor?.isPluginAvailable?.('Geolocation')),
+        source: 'manual-address',
+        accuracy: null
+      };
+      return manual;
+    }
+
     window.OverblikDKLocationDiagnostics = {
       nativePlatform: Boolean(window.Capacitor?.isNativePlatform?.()),
       nativeMarker: navigator.userAgent.includes('OverblikDKNative'),
