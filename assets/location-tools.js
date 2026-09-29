@@ -144,17 +144,30 @@ window.OverblikDKLocation = (function () {
   }
 
   async function getPosition(options = {}) {
+    window.OverblikDKLocationDiagnostics = {
+      nativePlatform: Boolean(window.Capacitor?.isNativePlatform?.()),
+      nativeMarker: navigator.userAgent.includes('OverblikDKNative'),
+      pluginAvailable: Boolean(window.Capacitor?.isPluginAvailable?.('Geolocation')),
+      source: 'starting'
+    };
+
     const native = getNativeGeolocation();
     if (native) {
       try {
-        return await getNativePosition(options);
+        const position = await getNativePosition(options);
+        window.OverblikDKLocationDiagnostics.source = 'native';
+        window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
+        return position;
       } catch (error) {
         const denied = error?.code === 1 || /permission|denied/i.test(error?.message || '');
         if (denied) throw error;
         console.warn('Native lokation fejlede; prøver web-lokation som fallback.', error);
       }
     }
-    return getWebPosition(options);
+    const position = await getWebPosition(options);
+    window.OverblikDKLocationDiagnostics.source = 'web';
+    window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
+    return position;
   }
 
   function mapsUrl(lat, lon) {
