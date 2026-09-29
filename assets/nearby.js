@@ -20,7 +20,7 @@
       try {
         let pos = window.OverblikDKLocation.readSessionPosition?.();
         try {
-          if (!pos) pos = await window.OverblikDKLocation.getPosition();
+          if (!pos) pos = await window.OverblikDKLocation.getPosition({ fresh: true, timeout: 15000, targetAccuracy: 12, progressTimeout: 15000 });
         } catch (error) {
           pos = window.OverblikDKManualLocation?.asPosition?.();
           if (!pos) throw error;
