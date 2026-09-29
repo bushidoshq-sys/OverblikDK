@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-28-home-address-v16';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-nearby-location-v17';
 
 const FILES_TO_CACHE = [
   "./",
@@ -8,13 +8,13 @@ const FILES_TO_CACHE = [
   "./assets/theme.js?v=6",
   "./assets/address-provider.js?v=16",
   "./assets/address-settings.js?v=16",
-  "./assets/location-tools.js?v=15",
+  "./assets/location-tools.js?v=17",
   "./assets/regional-sort.js?v=15",
   "./assets/emergency.js?v=10",
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=7",
   "./assets/local-data.js?v=6",
-  "./assets/nearby.js?v=12",
+  "./assets/nearby.js?v=17",
   "./assets/pwa-update.js?v=6",
   "./manifest.json",
   "./icons/logo.png",
