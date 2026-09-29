@@ -363,7 +363,10 @@
     posBox.textContent = 'Henter position…';
     try {
       const p = await getPositionText();
-      posBox.innerHTML = `${p.text.replace(/\n/g, '<br>')}<br>Nøjagtighed ca. ${p.accuracy} meter.`;
+      const coords = p.text.match(/-?\\d+\\.\\d+/g) || [];
+      const lat = coords[0] || '';
+      const lon = coords[1] || '';
+      posBox.innerHTML = `<div><strong>📍 Min position</strong></div><div class="position-map-placeholder" data-lat="${lat}" data-lon="${lon}"></div><div>Nøjagtighed ca. ${p.accuracy} meter<br><small>${lat}, ${lon}</small></div><a class="emergency-call" href="${p.url}" target="_blank" rel="noopener">Åbn i Google Maps</a>`;
     } catch {
       posBox.textContent = 'Kunne ikke hente position.';
     }
