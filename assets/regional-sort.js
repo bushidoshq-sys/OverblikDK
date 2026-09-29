@@ -21,8 +21,11 @@
 
   async function updateContext() {
     if (status) status.textContent = 'Henter kommune/region…';
+    window.OverblikDKLastLocationError = '';
+    window.OverblikDKLocationStage = 'position';
     try {
       const pos = await window.OverblikDKLocation.getPosition();
+      window.OverblikDKLocationStage = 'kommune/region-opslag';
       const data = await window.OverblikDKLocation.reverseAdministrativeContext(pos.coords.latitude, pos.coords.longitude);
       const ctx = {
         kommune: data?.kommune?.navn || '',
@@ -32,11 +35,14 @@
       };
       if (!ctx.kommune || !ctx.region) throw new Error('Kommune/region mangler i lokationssvaret.');
       localStorage.setItem(CONTEXT_KEY, JSON.stringify(ctx));
+      window.OverblikDKLocationStage = 'færdig';
       setStatus();
       window.OverblikDKApplyRegionalSort?.();
       return ctx;
     } catch (err) {
       const detail = String(err?.message || '').trim();
+      const stage = window.OverblikDKLocationStage || 'lokation';
+      window.OverblikDKLastLocationError = detail ? `${stage}: ${detail}` : stage;
       if (status) status.textContent = detail
         ? `Kunne ikke hente kommune/region: ${detail}`
         : 'Kunne ikke hente kommune/region.';
