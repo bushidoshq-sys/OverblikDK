@@ -1,10 +1,11 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-native-back-v25';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-native-back-minimize-v25';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger.html",
   "./assets/styles.css?v=22",
+  "./assets/theme.js?v=24",
   "./assets/address-provider.js?v=16",
   "./assets/address-settings.js?v=16",
   "./assets/location-tools.js?v=23",
@@ -56,7 +57,7 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
-  if (url.pathname.endsWith('/assets/theme.js')) {
+  if (url.pathname.endsWith('/assets/theme.js') || url.pathname.endsWith('/assets/native-navigation.js')) {
     event.respondWith(
       fetch(event.request).catch(() => caches.match(event.request))
     );
