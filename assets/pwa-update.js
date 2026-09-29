@@ -10,6 +10,11 @@
         if (!worker) return;
         worker.addEventListener('statechange', () => {
           if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+            const isNativeShell = Boolean(window.Capacitor?.isNativePlatform?.());
+            if (isNativeShell) {
+              worker.postMessage({ type: 'SKIP_WAITING' });
+              return;
+            }
             const shouldReload = confirm('Der findes en ny version af OverblikDK. Opdater nu?');
             if (shouldReload) worker.postMessage({ type: 'SKIP_WAITING' });
           }
