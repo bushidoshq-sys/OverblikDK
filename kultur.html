@@ -22,7 +22,7 @@
     <img class="logo" src="icons/logo.png" alt="">
     <div>
       <h1>OverblikDK</h1>
-      <small>Kultur</small>
+      <small>Kunst &amp; kultur</small>
     </div>
   
       <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
@@ -37,12 +37,12 @@
 
   <div class="toolbar">
     <div class="input" role="search">🔎
-      <input id="filter" type="search" placeholder="Søg i kultur…" aria-label="Søg i links">
+      <input id="filter" type="search" placeholder="Søg i kommune eller kultursted…" aria-label="Søg i links">
     </div>
     <span class="badge"><strong id="count">0</strong> links</span>
   </div>
 
-  <ul id="links" class="link-list" aria-label="Kultur"></ul>
+  <div id="links" aria-label="Kunst og kultur efter kommune"></div>
 </main>
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
@@ -54,36 +54,41 @@
   function sortDa(a,k){return a.slice().sort((x,y)=>x[k].localeCompare(y[k],'da',{sensitivity:'base'}))}
   function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
   function render(el,data){
-    el.innerHTML=''; const s=window.OverblikDKLocalHelper?.sortLinks(data) || sortDa(data,'name');
-    s.forEach(({name,url})=>{
-      const li=document.createElement('li');
-      li.innerHTML=`<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;
-      el.appendChild(li);
+    el.innerHTML='';
+    const municipalities=window.OverblikDKLocalData?.municipalityToRegion || {};
+    const groups=new Map(Object.keys(municipalities).map(k=>[k,[]]));
+    data.forEach(item=>{if(item.kommune && groups.has(item.kommune)) groups.get(item.kommune).push(item)});
+    [...groups.keys()].sort((a,b)=>a.localeCompare(b,'da',{sensitivity:'base'})).forEach(kommune=>{
+      const section=document.createElement('section'); section.className='culture-municipality';
+      const h=document.createElement('h2'); h.textContent=kommune.replace('Bornholms Regionskommune','Bornholm').replace(/ Kommune$/,''); section.appendChild(h);
+      const items=groups.get(kommune);
+      if(items.length){const ul=document.createElement('ul');ul.className='link-list';sortDa(items,'name').forEach(item=>{const li=document.createElement('li');const link=document.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener';const n=document.createElement('span');n.textContent=item.name;const hs=document.createElement('span');hs.className='host';hs.textContent=host(item.url);link.append(n,hs);li.appendChild(link);ul.appendChild(li)});section.appendChild(ul)}
+      else {const p=document.createElement('p');p.className='culture-pending';p.textContent='Kultursteder tilføjes…';section.appendChild(p)}
+      el.appendChild(section);
     });
-    document.getElementById('count').textContent=s.length;
+    document.getElementById('count').textContent=data.length;
   }
-  function wireFilter(inp,ul){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const li of ul.querySelectorAll('li')){li.style.display=li.textContent.toLowerCase().includes(q)?'':''}})}
+  function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
-    {name:'Arbejdermuseet', url:'https://arbejdermuseet.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden'},
-    {name:'Den Gamle By', url:'https://dengamleby.dk', kommune:'Aarhus Kommune', region:'Region Midtjylland'},
-    {name:'Det Kgl. Teater', url:'https://kglteater.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden', national:true},
-    {name:'Kulturministeriet', url:'https://kum.dk', national:true},
-    {name:'Louisiana Museum of Modern Art', url:'https://louisiana.dk', kommune:'Fredensborg Kommune', region:'Region Hovedstaden'},
-    {name:'Nationalmuseet', url:'https://natmus.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden', national:true},
-    {name:'Statens Museum for Kunst', url:'https://www.smk.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden', national:true},
-    {name:'Tivoli København', url:'https://www.tivoli.dk', kommune:'Københavns Kommune', region:'Region Hovedstaden'},
-    {name:'VisitDenmark', url:'https://www.visitdenmark.dk', national:true}
+    {name:'Arbejdermuseet',url:'https://arbejdermuseet.dk',kommune:'Københavns Kommune'},
+    {name:'Den Gamle By',url:'https://dengamleby.dk',kommune:'Aarhus Kommune'},
+    {name:'Det Kgl. Teater',url:'https://kglteater.dk',kommune:'Københavns Kommune'},
+    {name:'Krigsmuseet',url:'https://krigsmuseet.dk',kommune:'Københavns Kommune'},
+    {name:'Louisiana Museum of Modern Art',url:'https://louisiana.dk',kommune:'Fredensborg Kommune'},
+    {name:'Nationalmuseet',url:'https://natmus.dk',kommune:'Københavns Kommune'},
+    {name:'Statens Museum for Kunst',url:'https://www.smk.dk',kommune:'Københavns Kommune'},
+    {name:'Tivoli København',url:'https://www.tivoli.dk',kommune:'Københavns Kommune'}
   ];
 
   const list=document.getElementById('links'), input=document.getElementById('filter');
-  render(list, LINKS); wireFilter(input, list);
+  render(list,LINKS); wireFilter(input,list);
   document.getElementById('year').textContent=new Date().getFullYear();
 </script>
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=20"></script>
+<script src="assets/pwa-update.js?v=41"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
