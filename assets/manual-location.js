@@ -7,6 +7,7 @@ window.OverblikDKManualLocation = (function () {
 
   function clear() {
     sessionStorage.removeItem(KEY);
+    sessionStorage.removeItem('overblikdk_local_context');
   }
 
   function write(value) {
