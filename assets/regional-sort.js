@@ -28,7 +28,7 @@
     window.OverblikDKLastLocationError = '';
     window.OverblikDKLocationStage = 'position';
     try {
-      const pos = await window.OverblikDKLocation.getPosition();
+      const pos = await window.OverblikDKLocation.getPosition({ fresh: true, timeout: 15000, targetAccuracy: 12, progressTimeout: 15000 });
       window.OverblikDKLocationStage = 'kommune/region-opslag';
       const manual = pos?.manual && pos?.address ? pos.address : null;
       const data = manual
