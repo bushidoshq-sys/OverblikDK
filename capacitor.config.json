@@ -3,7 +3,7 @@
   "appName": "OverblikDK",
   "webDir": "www",
   "server": {
-    "url": "https://bushidoshq-sys.github.io/OverblikDK/",
+    "url": "https://overblikdk.pages.dev/",
     "androidScheme": "https"
   },
   "appendUserAgent": " OverblikDKNative"
