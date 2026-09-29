@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-update-check-v32';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-emergency-fresh-gps-v33';
 
 const FILES_TO_CACHE = [
   "./",
@@ -10,9 +10,9 @@ const FILES_TO_CACHE = [
   "./assets/manual-location.js?v=28",
   "./assets/manual-location.js?v=27",
   "./assets/address-settings.js?v=16",
-  "./assets/location-tools.js?v=29",
+  "./assets/location-tools.js?v=33",
   "./assets/regional-sort.js?v=29",
-  "./assets/emergency.js?v=11",
+  "./assets/emergency.js?v=33",
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
