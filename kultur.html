@@ -71,6 +71,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Museum Østjylland Grenaa',url:'https://museumoj.dk',kommune:'Norddjurs Kommune'},
+    {name:'Dansk Motor- og Maskinsamling',url:'https://motorsamlingen.dk',kommune:'Norddjurs Kommune'},
+    {name:'Pavillonen',url:'https://pavillonen.dk',kommune:'Norddjurs Kommune'},
+    {name:'Odder Museum',url:'https://oddermuseum.dk',kommune:'Odder Kommune'},
+    {name:'Biffen Odder',url:'https://biffenodder.dk',kommune:'Odder Kommune'},
+    {name:'Kulturkøkkenet',url:'https://odder.dk',kommune:'Odder Kommune'},
+    {name:'Museum Østjylland Randers',url:'https://museumoj.dk',kommune:'Randers Kommune'},
+    {name:'Randers Kunstmuseum',url:'https://randerskunstmuseum.dk',kommune:'Randers Kommune'},
+    {name:'Værket',url:'https://vaerket.dk',kommune:'Randers Kommune'},
     {name:'Glud Museum',url:'https://gludmuseum.dk',kommune:'Hedensted Kommune'},
     {name:'Uldum Mølle',url:'https://uldummolle.dk',kommune:'Hedensted Kommune'},
     {name:'Kulturhuset Tofteskov',url:'https://hedensted.dk',kommune:'Hedensted Kommune'},
