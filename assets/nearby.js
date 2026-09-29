@@ -32,10 +32,9 @@
         if (status) status.textContent = reused
           ? `Bruger din senest fundne position og åbner Google Maps for ${label}.`
           : `Åbner Google Maps for ${label}.`;
-        window.open(url, '_blank', 'noopener');
-        if (results) {
-          results.innerHTML = `<li><a class="store-action" href="${url}" target="_blank" rel="noopener">Åbn ${label} i Google Maps</a></li>`;
-        }
+        // Brug samme almindelige navigation som den tidligere røde Maps-knap.
+        // På Android overdrages Google Maps-linket dermed mere pålideligt til Maps-appen.
+        location.href = url;
       } catch (err) {
         if (status) status.textContent = 'Kunne ikke hente position. Brug feltet “Adresse i nærheden” nedenfor.';
         document.getElementById('nearbyAddressFallback')?.removeAttribute('hidden');
