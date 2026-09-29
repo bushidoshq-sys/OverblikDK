@@ -18,7 +18,13 @@
       if (status) status.textContent = 'Finder din position…';
       if (results) results.innerHTML = '';
       try {
-        const pos = await window.OverblikDKLocation.getPosition();
+        let pos;
+        try {
+          pos = await window.OverblikDKLocation.getPosition();
+        } catch (error) {
+          pos = window.OverblikDKManualLocation?.asPosition?.();
+          if (!pos) throw error;
+        }
         const { latitude, longitude } = pos.coords;
         const query = `${label} near ${latitude},${longitude}`;
         const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
@@ -28,7 +34,8 @@
           results.innerHTML = `<li><a class="store-action" href="${url}" target="_blank" rel="noopener">Åbn ${label} i Google Maps</a></li>`;
         }
       } catch (err) {
-        if (status) status.textContent = 'Kunne ikke hente position. Tjek lokationstilladelse og prøv igen.';
+        if (status) status.textContent = 'Kunne ikke hente position. Brug feltet “Adresse i nærheden” nedenfor.';
+        document.getElementById('nearbyAddressFallback')?.removeAttribute('hidden');
       }
     });
   });
