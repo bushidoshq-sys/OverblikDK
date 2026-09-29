@@ -36,6 +36,32 @@ window.OverblikDKAddressProvider = (function () {
     return { kommune, region };
   }
 
+  function addressCoordinates(address) {
+    const access = address?.adgangsadresse || {};
+    const candidates = [
+      access?.adgangspunkt?.koordinater,
+      access?.vejpunkt?.koordinater,
+      address?.adgangspunkt?.koordinater,
+      address?.vejpunkt?.koordinater,
+      access?.koordinater,
+      address?.koordinater
+    ];
+
+    for (const coords of candidates) {
+      if (Array.isArray(coords) && coords.length >= 2) {
+        const lon = Number(coords[0]);
+        const lat = Number(coords[1]);
+        if (Number.isFinite(lat) && Number.isFinite(lon)) return { latitude: lat, longitude: lon };
+      }
+    }
+
+    const x = Number(access?.x ?? address?.x);
+    const y = Number(access?.y ?? address?.y);
+    if (Number.isFinite(x) && Number.isFinite(y)) return { latitude: y, longitude: x };
+
+    return null;
+  }
+
   async function reverseAdministrativeContext(lat, lon) {
     const qs = `x=${encodeURIComponent(lon)}&y=${encodeURIComponent(lat)}`;
     const [kommuneRes, regionRes] = await Promise.all([
@@ -61,6 +87,7 @@ window.OverblikDKAddressProvider = (function () {
     reverseAdministrativeContext,
     autocompleteAddress,
     getAddress,
-    addressContext
+    addressContext,
+    addressCoordinates
   };
 })();
