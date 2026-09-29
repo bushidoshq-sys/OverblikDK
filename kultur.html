@@ -71,6 +71,17 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Bellevue Teatret',url:'https://bellevueteatret.dk',kommune:'Gentofte Kommune'},
+    {name:'Experimentarium',url:'https://experimentarium.dk',kommune:'Gentofte Kommune'},
+    {name:'Garderhøjfortet',url:'https://garderhojfort.dk',kommune:'Gentofte Kommune'},
+    {name:'Ordrupgaard',url:'https://ordrupgaard.dk',kommune:'Gentofte Kommune'},
+    {name:'Øregaard Museum',url:'https://oregaard.dk',kommune:'Gentofte Kommune'},
+    {name:'Telefonfabrikken',url:'https://gladsaxe.dk/borger/fritid-og-oplevelser/kultur',kommune:'Gladsaxe Kommune'},
+    {name:'Spillestedet Richter',url:'https://richter-gladsaxe.dk',kommune:'Gladsaxe Kommune'},
+    {name:'Mørkhøj Park Kultur',url:'https://gladbib.dk/morkhoj-park-kultur',kommune:'Gladsaxe Kommune'},
+    {name:'Herlev Teater',url:'https://www.herlevteater.dk',kommune:'Herlev Kommune'},
+    {name:'Herlev Medborgerhus',url:'https://herlev.dk/borger/kultur-idraet-og-fritid/kultur/kulturens-steder-i-herlev',kommune:'Herlev Kommune'},
+    {name:'Gammelgaard Kunst og Kulturcenter',url:'https://herlev.dk/borger/kultur-idraet-og-fritid/kultur/kulturens-steder-i-herlev',kommune:'Herlev Kommune'},
     {name:'Brøndby Kulturhuse',url:'https://brondby.dk/kultur-og-fritid',kommune:'Brøndby Kommune'},
     {name:'Brøndbyøster Mølle',url:'https://forstadsmuseet.dk',kommune:'Brøndby Kommune'},
     {name:'Forstadsmuseet',url:'https://forstadsmuseet.dk',kommune:'Brøndby Kommune'},
@@ -120,7 +131,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=43"></script>
+<script src="assets/pwa-update.js?v=44"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
