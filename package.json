@@ -8,6 +8,7 @@
     "cap:sync": "npm run prepare:web && npx cap sync android",
     "android:init": "npm run prepare:web && npx cap add android",
     "android:debug": "npm run prepare:web && (test -d android || npx cap add android) && npx cap sync android && npm run patch:android && cd android && ./gradlew assembleDebug",
+    "android:release": "npm run prepare:web && (test -d android || npx cap add android) && npx cap sync android && npm run patch:android && cd android && ./gradlew assembleRelease",
     "patch:android": "node scripts/patch-android.mjs"
   },
   "dependencies": {
