@@ -13,9 +13,17 @@ window.OverblikDKLocation = (function () {
     if (!geo) return null;
 
     const permission = await geo.checkPermissions();
-    if (permission.location !== 'granted') {
-      const requested = await geo.requestPermissions({ permissions: ['location'] });
-      if (requested.location !== 'granted') {
+    const alreadyGranted =
+      permission.location === 'granted' ||
+      permission.coarseLocation === 'granted';
+
+    if (!alreadyGranted) {
+      const requested = await geo.requestPermissions({ permissions: ['location', 'coarseLocation'] });
+      const granted =
+        requested.location === 'granted' ||
+        requested.coarseLocation === 'granted';
+
+      if (!granted) {
         const err = new Error('Lokationstilladelse blev afvist.');
         err.code = 1;
         throw err;
@@ -136,7 +144,7 @@ window.OverblikDKLocation = (function () {
   const reverseDawa = reverseAdministrativeContext;
 
   function openLocationHelp() {
-    alert('For bedst mulig lokation: slå præcis lokation til for browseren, slå Wi-Fi til, og gå om muligt tæt på et vindue eller udenfor. OverblikDK tager flere målinger og bruger den mest præcise.');
+    alert('OverblikDK kan bruge både omtrentlig og præcis lokation. Præcis lokation giver bedre nærmeste-resultater, men kommune/region bør også virke med omtrentlig lokation. Wi-Fi og fri udsigt kan forbedre nøjagtigheden.');
   }
 
   return { getPosition, mapsUrl, reverseAdministrativeContext, reverseDawa, openLocationHelp };
