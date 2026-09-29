@@ -71,6 +71,18 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Forbrændingen',url:'https://forbraendingen.dk',kommune:'Albertslund Kommune'},
+    {name:'MusikTeatret Albertslund',url:'https://www.musikteatret.dk',kommune:'Albertslund Kommune'},
+    {name:'Thomas på Bjerget',url:'https://albertslund.dk/kultur-og-fritid',kommune:'Albertslund Kommune'},
+    {name:'Allerød Bio',url:'https://alleroedbio.dk',kommune:'Allerød Kommune'},
+    {name:'Mungo Park',url:'https://www.mungopark.dk',kommune:'Allerød Kommune'},
+    {name:'Lokalhistorisk Arkiv for Allerød Kommune',url:'https://lafak.dk',kommune:'Allerød Kommune'},
+    {name:'Ballerup Museum',url:'https://ballerupmuseum.dk',kommune:'Ballerup Kommune'},
+    {name:'Baltoppen LIVE',url:'https://baltoppenlive.dk',kommune:'Ballerup Kommune'},
+    {name:'Spillestedet Baghuset',url:'https://baghusetballerup.dk',kommune:'Ballerup Kommune'},
+    {name:'Bornholms Museum',url:'https://bornholmsmuseum.dk',kommune:'Bornholms Regionskommune'},
+    {name:'Bornholms Kunstmuseum',url:'https://bornholms-kunstmuseum.dk',kommune:'Bornholms Regionskommune'},
+    {name:'Hjorths Fabrik',url:'https://bornholmsmuseum.dk',kommune:'Bornholms Regionskommune'},
     {name:'Arbejdermuseet',url:'https://arbejdermuseet.dk',kommune:'Københavns Kommune'},
     {name:'Den Gamle By',url:'https://dengamleby.dk',kommune:'Aarhus Kommune'},
     {name:'Det Kgl. Teater',url:'https://kglteater.dk',kommune:'Københavns Kommune'},
