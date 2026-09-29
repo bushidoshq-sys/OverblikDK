@@ -71,6 +71,18 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Vildmosemuseet',url:'https://museummoss.dk',kommune:'Brønderslev Kommune'},
+    {name:'Kulturhuset Brønden',url:'https://broenderslev.dk',kommune:'Brønderslev Kommune'},
+    {name:'Dronninglund Kunstcenter',url:'https://dronninglund-kunstcenter.dk',kommune:'Brønderslev Kommune'},
+    {name:'Kystmuseet Bangsbo',url:'https://kystmuseet.dk',kommune:'Frederikshavn Kommune'},
+    {name:'Skagens Museum',url:'https://skagenskunstmuseer.dk',kommune:'Frederikshavn Kommune'},
+    {name:'Maskinhallen',url:'https://maskinhallen.dk',kommune:'Frederikshavn Kommune'},
+    {name:'Vendsyssel Historiske Museum',url:'https://vhm.dk',kommune:'Hjørring Kommune'},
+    {name:'Vendsyssel Kunstmuseum',url:'https://vkm.dk',kommune:'Hjørring Kommune'},
+    {name:'Vendsyssel Teater',url:'https://vendsysselteater.dk',kommune:'Hjørring Kommune'},
+    {name:'Museum for Papirkunst',url:'https://museumforpapirkunst.dk',kommune:'Jammerbugt Kommune'},
+    {name:'Fjerritslev Bryggeri- og Egnsmuseum',url:'https://jammerbugt.dk',kommune:'Jammerbugt Kommune'},
+    {name:'Kultur- og Erhvervscenter Jammerbugt',url:'https://kecj.dk',kommune:'Jammerbugt Kommune'},
     {name:'Struer Museum',url:'https://struermuseum.dk',kommune:'Struer Kommune'},
     {name:'Gimsinghoved Kunst- og Kulturcenter',url:'https://gimsinghoved.dk',kommune:'Struer Kommune'},
     {name:'Folkets Hus',url:'https://struer.dk',kommune:'Struer Kommune'},
