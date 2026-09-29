@@ -5,15 +5,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "**.html"
-      - "assets/**"
-      - "icons/**"
-      - "manifest.json"
-      - "service-worker.js"
       - "package.json"
       - "package-lock.json"
       - "capacitor.config.json"
       - "scripts/**"
+      - "native/**"
       - ".github/workflows/android-debug.yml"
 
 jobs:
