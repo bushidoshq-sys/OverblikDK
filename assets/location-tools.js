@@ -1,5 +1,86 @@
 window.OverblikDKLocation = (function () {
-  function getPosition(options = {}) {
+  let nativeGeolocation = null;
+
+  function getNativeGeolocation() {
+    const cap = window.Capacitor;
+    if (!cap?.isNativePlatform?.() || !cap?.isPluginAvailable?.('Geolocation') || !cap?.registerPlugin) return null;
+    if (!nativeGeolocation) nativeGeolocation = cap.registerPlugin('Geolocation');
+    return nativeGeolocation;
+  }
+
+  async function getNativePosition(options = {}) {
+    const geo = getNativeGeolocation();
+    if (!geo) return null;
+
+    const permission = await geo.checkPermissions();
+    if (permission.location !== 'granted') {
+      const requested = await geo.requestPermissions({ permissions: ['location'] });
+      if (requested.location !== 'granted') {
+        const err = new Error('Lokationstilladelse blev afvist.');
+        err.code = 1;
+        throw err;
+      }
+    }
+
+    const overallTimeout = options.timeout || 15000;
+    const targetAccuracy = options.targetAccuracy || 20;
+    let bestPosition = null;
+    let watchId = null;
+    let finished = false;
+    let timer = null;
+
+    return new Promise(async (resolve, reject) => {
+      const finish = async (position, error) => {
+        if (finished) return;
+        finished = true;
+        if (timer) clearTimeout(timer);
+        if (watchId) {
+          try { await geo.clearWatch({ id: watchId }); } catch {}
+        }
+        if (position) resolve(position);
+        else reject(error || new Error('Kunne ikke hente lokation.'));
+      };
+
+      try {
+        watchId = await geo.watchPosition(
+          {
+            enableHighAccuracy: true,
+            timeout: overallTimeout,
+            maximumAge: 0,
+            interval: 1000,
+            minimumUpdateInterval: 750,
+            enableLocationFallback: true
+          },
+          (position, error) => {
+            if (error) {
+              if (/permission|denied/i.test(error.message || '') || error.code === 'OS-PLUG-GLOC-0003') finish(null, error);
+              return;
+            }
+            if (!position) return;
+
+            const accuracy = Number(position.coords?.accuracy);
+            const bestAccuracy = Number(bestPosition?.coords?.accuracy);
+            if (!bestPosition || (Number.isFinite(accuracy) && (!Number.isFinite(bestAccuracy) || accuracy < bestAccuracy))) {
+              bestPosition = position;
+            }
+            if (Number.isFinite(accuracy) && accuracy <= targetAccuracy) finish(position);
+          }
+        );
+
+        timer = setTimeout(() => {
+          if (bestPosition) finish(bestPosition);
+          else finish(null, new Error('Lokation tog for lang tid.'));
+        }, overallTimeout);
+      } catch (error) {
+        finish(bestPosition, error);
+      }
+    });
+  }
+
+  async function getPosition(options = {}) {
+    const native = getNativeGeolocation();
+    if (native) return getNativePosition(options);
+
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
         reject(new Error('Geolocation understøttes ikke på denne enhed.'));
