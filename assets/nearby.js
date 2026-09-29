@@ -20,7 +20,8 @@
       try {
         const pos = await window.OverblikDKLocation.getPosition();
         const { latitude, longitude } = pos.coords;
-        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(label + ' nær mig')}`;
+        const query = `${label} near ${latitude},${longitude}`;
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
         if (status) status.textContent = `Åbner Google Maps for ${label}.`;
         window.open(url, '_blank', 'noopener');
         if (results) {
