@@ -1,11 +1,11 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-nearby-location-v17';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-mobile-first-v18';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger.html",
   "./assets/styles.css?v=17",
-  "./assets/theme.js?v=6",
+  "./assets/theme.js?v=18",
   "./assets/address-provider.js?v=16",
   "./assets/address-settings.js?v=16",
   "./assets/location-tools.js?v=17",
