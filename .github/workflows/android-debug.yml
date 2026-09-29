@@ -1,4 +1,4 @@
-name: Build Android APK # signed-v3-diagnostic
+name: Build Android APK # signed-v3-pkcs12
 
 on:
   workflow_dispatch:
@@ -53,17 +53,17 @@ jobs:
           STORE_STATUS=$?
           keytool -importkeystore -srckeystore "$OVERBLIKDK_RELEASE_KEYSTORE" -srcstorepass "$OVERBLIKDK_KEYSTORE_PASSWORD" -srcalias "$OVERBLIKDK_KEY_ALIAS" -srckeypass "$OVERBLIKDK_KEY_PASSWORD" -destkeystore "$RUNNER_TEMP/signing-test.p12" -deststoretype PKCS12 -deststorepass "temporary-test-only" -destkeypass "temporary-test-only" -noprompt >/dev/null 2>&1
           KEY_STATUS=$?
-          rm -f "$RUNNER_TEMP/signing-test.p12"
           if [ "$STORE_STATUS" -eq 0 ]; then echo "Keystore password: OK"; else echo "Keystore password: FAIL"; fi
           if [ "$KEY_STATUS" -eq 0 ]; then echo "Alias/key password: OK"; else echo "Alias/key password: FAIL"; fi
-          if [ "$STORE_STATUS" -ne 0 ] || [ "$KEY_STATUS" -ne 0 ]; then exit 1; fi
+          if [ "$STORE_STATUS" -ne 0 ] || [ "$KEY_STATUS" -ne 0 ]; then rm -f "$RUNNER_TEMP/signing-test.p12"; exit 1; fi
+          mv "$RUNNER_TEMP/signing-test.p12" "$RUNNER_TEMP/overblikdk-release.p12"
 
       - name: Build signed release APK
         env:
-          OVERBLIKDK_RELEASE_KEYSTORE: ${{ runner.temp }}/overblikdk-release.jks
-          OVERBLIKDK_KEYSTORE_PASSWORD: ${{ secrets.OVERBLIKDK_KEYSTORE_PASSWORD }}
+          OVERBLIKDK_RELEASE_KEYSTORE: ${{ runner.temp }}/overblikdk-release.p12
+          OVERBLIKDK_KEYSTORE_PASSWORD: temporary-test-only
           OVERBLIKDK_KEY_ALIAS: ${{ secrets.OVERBLIKDK_KEY_ALIAS }}
-          OVERBLIKDK_KEY_PASSWORD: ${{ secrets.OVERBLIKDK_KEY_PASSWORD }}
+          OVERBLIKDK_KEY_PASSWORD: temporary-test-only
           OVERBLIKDK_VERSION_CODE: ${{ github.run_number }}
           OVERBLIKDK_VERSION_NAME: 1.0.${{ github.run_number }}
         run: npm run android:release
