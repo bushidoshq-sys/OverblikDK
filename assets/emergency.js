@@ -43,7 +43,9 @@
 
   function getNativeTorch() {
     const cap = window.Capacitor;
-    if (!cap?.isNativePlatform?.() || !cap?.isPluginAvailable?.('Torch') || !cap?.registerPlugin) return null;
+    if (!cap?.isNativePlatform?.() || !cap?.registerPlugin) return null;
+    // registerPlugin() is the reliable Capacitor bridge path; isPluginAvailable()
+    // can report false before/while the web layer resolves a community plugin.
     if (!nativeTorch) nativeTorch = cap.registerPlugin('Torch');
     return nativeTorch;
   }
@@ -114,8 +116,12 @@
   async function prepareTorch() {
     const native = getNativeTorch();
     if (native) {
-      const availability = await native.isAvailable();
-      if (!availability?.available) throw new Error('Native torch er ikke tilgængelig.');
+      let available = true;
+      try {
+        const availability = await native.isAvailable();
+        if (typeof availability?.available === 'boolean') available = availability.available;
+      } catch {}
+      if (!available) throw new Error('Native torch er ikke tilgængelig.');
       nativeTorch = native;
       await setTorch(true);
       await sleep(80);
