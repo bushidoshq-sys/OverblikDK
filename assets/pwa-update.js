@@ -60,17 +60,23 @@
   function enablePullToRefresh() {
     let startY = 0;
     let pulling = false;
-    const threshold = 90;
+    let indicator = null;
+    const threshold = 60;
 
     document.addEventListener('touchstart', (event) => {
       if (window.scrollY !== 0 || event.touches.length !== 1) return;
       startY = event.touches[0].clientY;
       pulling = true;
+      indicator = document.createElement('div');
+      indicator.className = 'pull-refresh-indicator';
+      indicator.textContent = '⟳';
+      document.body.appendChild(indicator);
     }, { passive: true });
 
     document.addEventListener('touchmove', (event) => {
       if (!pulling || window.scrollY !== 0) return;
       if (event.touches[0].clientY < startY) pulling = false;
+      if (indicator) indicator.classList.toggle('ready', event.touches[0].clientY - startY >= threshold);
     }, { passive: true });
 
     document.addEventListener('touchend', (event) => {
@@ -78,8 +84,12 @@
       pulling = false;
       const endY = event.changedTouches[0]?.clientY ?? startY;
       if (endY - startY >= threshold) {
+        if (indicator) indicator.classList.add('refreshing');
         location.reload();
+      } else {
+        indicator?.remove();
       }
+      indicator = null;
     }, { passive: true });
   }
 
