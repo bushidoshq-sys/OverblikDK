@@ -1,0 +1,8 @@
+{
+  "appId": "dk.overblikdk.app",
+  "appName": "OverblikDK",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
