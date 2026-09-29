@@ -32,8 +32,8 @@ window.OverblikDKManualLocation = (function () {
     };
     write(value);
 
-    // Use the address as current local context for regional sorting too.
-    localStorage.setItem('overblikdk_local_context', JSON.stringify({
+    // Use the address as current context for this app session only.
+    sessionStorage.setItem('overblikdk_local_context', JSON.stringify({
       kommune: value.kommune,
       region: value.region,
       accuracy: null,
