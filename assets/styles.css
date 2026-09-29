@@ -427,3 +427,8 @@ small.host { display: block; margin-top: 4px; }
   background: color-mix(in srgb, var(--brand) 10%, var(--panel));
   outline: none;
 }
+
+
+.nearby-results:empty {
+  display: none;
+}
