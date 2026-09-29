@@ -71,6 +71,18 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Læsø Museum',url:'https://laesoemuseum.dk',kommune:'Læsø Kommune'},
+    {name:'Læsø Saltsyderi',url:'https://saltsyderiet.dk',kommune:'Læsø Kommune'},
+    {name:'Museumsgården',url:'https://laesoemuseum.dk',kommune:'Læsø Kommune'},
+    {name:'Lystfartøjsmuseet',url:'https://nordmus.dk',kommune:'Mariagerfjord Kommune'},
+    {name:'Hobro Museum',url:'https://nordmus.dk',kommune:'Mariagerfjord Kommune'},
+    {name:'Kunstetagerne Hobro',url:'https://mariagerfjord.dk',kommune:'Mariagerfjord Kommune'},
+    {name:'Museum Mors',url:'https://museummors.dk',kommune:'Morsø Kommune'},
+    {name:'Dueholm Kloster',url:'https://museummors.dk',kommune:'Morsø Kommune'},
+    {name:'Morsø Teater',url:'https://morsoeteater.dk',kommune:'Morsø Kommune'},
+    {name:'Rebildcentret med Thingbæk Kalkminer',url:'https://rebildcentret.dk',kommune:'Rebild Kommune'},
+    {name:'Museum Rebild',url:'https://museumrebild.dk',kommune:'Rebild Kommune'},
+    {name:'KulturStationen Skørping',url:'https://kulturstationen.net',kommune:'Rebild Kommune'},
     {name:'Vildmosemuseet',url:'https://museummoss.dk',kommune:'Brønderslev Kommune'},
     {name:'Kulturhuset Brønden',url:'https://broenderslev.dk',kommune:'Brønderslev Kommune'},
     {name:'Dronninglund Kunstcenter',url:'https://dronninglund-kunstcenter.dk',kommune:'Brønderslev Kommune'},
