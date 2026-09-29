@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-android-live-v20';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-native-location-v21';
 
 const FILES_TO_CACHE = [
   "./",
@@ -8,7 +8,7 @@ const FILES_TO_CACHE = [
   "./assets/theme.js?v=18",
   "./assets/address-provider.js?v=16",
   "./assets/address-settings.js?v=16",
-  "./assets/location-tools.js?v=17",
+  "./assets/location-tools.js?v=21",
   "./assets/regional-sort.js?v=15",
   "./assets/emergency.js?v=10",
   "./assets/favorites.js?v=14",
