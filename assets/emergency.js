@@ -363,10 +363,8 @@
     posBox.textContent = 'Henter position…';
     try {
       const p = await getPositionText();
-      const coords = p.text.match(/-?\\d+\\.\\d+/g) || [];
-      const lat = coords[0] || '';
-      const lon = coords[1] || '';
-      posBox.innerHTML = `<div><strong>📍 Min position</strong></div><div class="position-map-placeholder"><img class="position-map-image" alt="Kort over min position" src="https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lon}&zoom=16&size=600x320&markers=${lat},${lon},red-pushpin"></div><div>Nøjagtighed ca. ${p.accuracy} meter<br><small>${lat}, ${lon}</small></div><a class="emergency-call" href="${p.url}" target="_blank" rel="noopener">Åbn i Google Maps</a>`;
+      // Samme direkte Maps-adfærd som "Find nærmeste": hent position og åbn den med det samme.
+      location.href = p.url;
     } catch {
       posBox.textContent = 'Kunne ikke hente position.';
     }
