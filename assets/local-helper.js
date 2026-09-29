@@ -21,8 +21,11 @@ window.OverblikDKLocalHelper = (function () {
   }
 
   function context() {
-    try { return JSON.parse(localStorage.getItem(CONTEXT_KEY)) || {}; }
-    catch { return {}; }
+    try {
+      const session = sessionStorage.getItem(CONTEXT_KEY);
+      if (session) return JSON.parse(session) || {};
+      return JSON.parse(localStorage.getItem(CONTEXT_KEY)) || {};
+    } catch { return {}; }
   }
 
   function canonicalRegionFromContext(ctx) {
