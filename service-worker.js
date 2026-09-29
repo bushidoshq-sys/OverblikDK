@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-manual-location-v28';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-manual-location-v27';
 
 const FILES_TO_CACHE = [
   "./",
@@ -6,17 +6,17 @@ const FILES_TO_CACHE = [
   "./indstillinger.html",
   "./assets/styles.css?v=22",
   "./assets/theme.js?v=24",
-  "./assets/address-provider.js?v=28",
+  "./assets/address-provider.js?v=27",
   "./assets/manual-location.js?v=28",
   "./assets/manual-location.js?v=27",
   "./assets/address-settings.js?v=16",
   "./assets/location-tools.js?v=28",
-  "./assets/regional-sort.js?v=28",
+  "./assets/regional-sort.js?v=27",
   "./assets/emergency.js?v=10",
   "./assets/favorites.js?v=14",
-  "./assets/local-helper.js?v=7",
+  "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
-  "./assets/nearby.js?v=28",
+  "./assets/nearby.js?v=27",
   "./assets/pwa-update.js?v=26",
   "./assets/native-navigation.js?v=25",
   "./manifest.json",
