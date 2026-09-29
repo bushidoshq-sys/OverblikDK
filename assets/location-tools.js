@@ -217,7 +217,7 @@ window.OverblikDKLocation = (function () {
     'Hold telefonen roligt. Satellitterne bliver let forskrækkede.',
     'Forsøg at se geografisk ud.',
     'GPS-nisserne triangulerer dig. Undgå pludselige bevægelser.',
-    'Peg telefonen mod Herning. Det hjælper sikkert.',
+    'Peg telefonen mod Herning, det hjælper sikkert til, det plejer at hjælpe.',
     'Stå på ét ben. Det gør absolut ingen forskel.',
     'Sig “breddegrad” tre gange uden at lyde mistænkelig.',
     'Vent venligst. Vi spørger en satellit, hvor du er.',
@@ -244,7 +244,7 @@ window.OverblikDKLocation = (function () {
     gpsMessageTimer = setInterval(() => {
       messageIndex = (messageIndex + 1) % gpsMessages.length;
       msg.textContent = gpsMessages[messageIndex];
-    }, 2500);
+    }, 5000);
     const started = Date.now();
     gpsProgressTimer = setInterval(() => {
       const pct = Math.min(96, Math.max(2, ((Date.now() - started) / timeout) * 100));
