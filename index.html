@@ -21,47 +21,6 @@
   <meta name="application-name" content="OverblikDK" />
   <meta name="robots" content="index, follow" />
 
-  <style>
-    .install-bar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      padding-top: 0.75rem;
-      padding-bottom: 0.4rem;
-      background: var(--bg, Canvas);
-    }
-
-    .install-bar[hidden] {
-      display: none !important;
-    }
-
-    .install-btn {
-      display: block;
-      width: 100%;
-      padding: 1.3rem;
-      margin: 0;
-
-      font-size: 1.25rem;
-      font-weight: 700;
-      text-align: center;
-
-      border: none;
-      border-radius: 18px;
-
-      background: linear-gradient(135deg, #ed1c24, #9f1239);
-      color: #fff;
-
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-      cursor: pointer;
-
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
-    }
-
-    .install-btn:active {
-      transform: scale(0.97);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-  </style>
 </head>
 <body>
   <header class="header">
@@ -78,9 +37,6 @@
     </div>
     <div class="navline"></div>
   </header>
-  <div class="install-bar container" id="installBar">
-    <button id="installAppBtn" class="install-btn" type="button">📱 Føj OverblikDK til hjemmeskærm</button>
-  </div>
 
   <main class="container">
     <section class="quick-panel" aria-labelledby="quickTitle">
@@ -193,61 +149,6 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    const installBar = document.getElementById('installBar');
-    const installBtn = document.getElementById('installAppBtn');
-    let deferredInstallPrompt = null;
-
-    function isRunningAsInstalledApp() {
-      return (
-        window.matchMedia('(display-mode: standalone)').matches ||
-        window.matchMedia('(display-mode: fullscreen)').matches ||
-        window.navigator.standalone === true
-      );
-    }
-
-    function hideInstallButton() {
-      if (installBar) installBar.hidden = true;
-      if (installBtn) installBtn.hidden = true;
-    }
-
-    if (isRunningAsInstalledApp()) {
-      hideInstallButton();
-    }
-
-    window.addEventListener('appinstalled', hideInstallButton);
-
-    // Android/Chromium install-klar
-    window.addEventListener('beforeinstallprompt', (event) => {
-      event.preventDefault();
-      deferredInstallPrompt = event;
-    });
-
-    if (installBtn) {
-      installBtn.addEventListener('click', async () => {
-        if (isRunningAsInstalledApp()) {
-          hideInstallButton();
-          return;
-        }
-
-        if (deferredInstallPrompt) {
-          deferredInstallPrompt.prompt();
-          await deferredInstallPrompt.userChoice;
-          deferredInstallPrompt = null;
-          return;
-        }
-
-        alert(
-          "Sådan føjer du OverblikDK til hjemmeskærmen:\n\n" +
-          "iPhone/iPad:\n" +
-          "1. Åbn siden i Safari\n" +
-          "2. Tryk på Del-ikonet\n" +
-          "3. Vælg 'Føj til hjemmeskærm'\n\n" +
-          "Android:\n" +
-          "1. Tryk på menu (⋮)\n" +
-          "2. Vælg 'Føj til startskærm' eller 'Installer app'"
-        );
-      });
-    }
   </script>
 
 
@@ -315,12 +216,12 @@
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/address-provider.js?v=28"></script>
   <script src="assets/manual-location.js?v=28"></script>
-<script src="assets/location-tools.js?v=29"></script>
-  <script src="assets/nearby.js?v=29"></script>
-  <script src="assets/regional-sort.js?v=29"></script>
+<script src="assets/location-tools.js?v=35"></script>
+  <script src="assets/nearby.js?v=35"></script>
+  <script src="assets/regional-sort.js?v=35"></script>
 
   
-  <script src="assets/pwa-update.js?v=26"></script>
+  <script src="assets/pwa-update.js?v=35"></script>
   <script src="assets/local-data.js?v=6"></script>
   <script src="assets/local-helper.js?v=27"></script>
   <script src="assets/favorites.js?v=14"></script>
