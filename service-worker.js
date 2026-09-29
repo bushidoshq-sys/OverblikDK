@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-culture-municipal-v41';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-culture-data-v42';
 
 const FILES_TO_CACHE = [
   "./",
@@ -17,7 +17,7 @@ const FILES_TO_CACHE = [
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=40",
-  "./assets/pwa-update.js?v=41",
+  "./assets/pwa-update.js?v=42",
   "./assets/native-navigation.js?v=25",
   "./manifest.json",
   "./icons/logo.png",
