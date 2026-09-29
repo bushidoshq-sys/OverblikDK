@@ -24,7 +24,7 @@
   App.addListener('backButton', ({ canGoBack }) => {
     if (closeOpenDialog()) return;
 
-    if (currentFile() === 'indstillinger.html' && window.OverblikDKCloseSettings) {
+    if (currentFile() === 'indstillinger' && window.OverblikDKCloseSettings) {
       window.OverblikDKCloseSettings();
       return;
     }
