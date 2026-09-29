@@ -125,7 +125,7 @@ window.OverblikDKLocation = (function () {
         if (Number.isFinite(accuracy) && accuracy <= targetAccuracy) break;
       } catch (error) {
         const denied = error?.code === 1 || /permission|denied|afvist/i.test(String(error?.message || ''));
-        if (denied) throw error;
+        if (denied) { hideGpsProgress(); throw error; }
       }
       if (Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 500));
     }
@@ -210,6 +210,57 @@ window.OverblikDKLocation = (function () {
     });
   }
 
+  const gpsMessages = [
+    'Stå helt stille og sig som en trådløs banjo.',
+    'Drej langsomt mod uret og sig som en aborre.',
+    'Kig mod nord og tænk meget præcist på en kartoffel.',
+    'Hold telefonen roligt. Satellitterne bliver let forskrækkede.',
+    'Forsøg at se geografisk ud.',
+    'GPS-nisserne triangulerer dig. Undgå pludselige bevægelser.',
+    'Peg telefonen mod nærmeste Sverige. Det hjælper sikkert.',
+    'Stå på ét ben. Det gør absolut ingen forskel.',
+    'Sig “breddegrad” tre gange uden at lyde mistænkelig.',
+    'Vent venligst. Vi spørger en satellit, hvor du er.',
+    'Tæl langsomt tilbage fra sommerfugl uden at blinke med venstre øre.'
+  ];
+  let gpsOverlay = null;
+  let gpsMessageTimer = null;
+  let gpsProgressTimer = null;
+
+  function showGpsProgress(timeout = 15000) {
+    if (gpsOverlay) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'overblikdkGpsProgress';
+    overlay.setAttribute('role', 'status');
+    overlay.setAttribute('aria-live', 'polite');
+    overlay.innerHTML = '<div style="width:min(88vw,420px);background:var(--card,#fff);color:var(--text,#111);border-radius:18px;padding:22px;box-shadow:0 16px 50px rgba(0,0,0,.35);text-align:center"><div style="font-size:1.2rem;font-weight:700;margin-bottom:14px">📍 Finder din position…</div><div style="height:10px;background:rgba(128,128,128,.25);border-radius:999px;overflow:hidden"><div data-gps-bar style="height:100%;width:2%;background:currentColor;border-radius:999px;transition:width .25s linear"></div></div><div data-gps-message style="margin-top:14px;min-height:2.6em"></div></div>';
+    Object.assign(overlay.style,{position:'fixed',inset:'0',zIndex:'2147483000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px',background:'rgba(0,0,0,.48)'});
+    document.body.appendChild(overlay);
+    gpsOverlay = overlay;
+    const msg = overlay.querySelector('[data-gps-message]');
+    const bar = overlay.querySelector('[data-gps-bar]');
+    let messageIndex = Math.floor(Math.random() * gpsMessages.length);
+    msg.textContent = gpsMessages[messageIndex];
+    gpsMessageTimer = setInterval(() => {
+      messageIndex = (messageIndex + 1) % gpsMessages.length;
+      msg.textContent = gpsMessages[messageIndex];
+    }, 2500);
+    const started = Date.now();
+    gpsProgressTimer = setInterval(() => {
+      const pct = Math.min(96, Math.max(2, ((Date.now() - started) / timeout) * 100));
+      bar.style.width = pct + '%';
+    }, 250);
+  }
+
+  function hideGpsProgress() {
+    clearInterval(gpsMessageTimer);
+    clearInterval(gpsProgressTimer);
+    gpsMessageTimer = null;
+    gpsProgressTimer = null;
+    gpsOverlay?.remove();
+    gpsOverlay = null;
+  }
+
   async function getPosition(options = {}) {
     const manual = window.OverblikDKManualLocation?.asPosition?.();
     if (manual) {
@@ -221,6 +272,8 @@ window.OverblikDKLocation = (function () {
       };
       return manual;
     }
+
+    if (options.fresh === true) showGpsProgress(options.progressTimeout || 15000);
 
     window.OverblikDKLocationDiagnostics = {
       nativePlatform: Boolean(window.Capacitor?.isNativePlatform?.()),
@@ -236,6 +289,7 @@ window.OverblikDKLocation = (function () {
         window.OverblikDKLocationDiagnostics.source = 'native';
         window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
         rememberSessionPosition(position, 'native');
+        hideGpsProgress();
         return position;
       } catch (error) {
         const denied = error?.code === 1 || /permission|denied/i.test(error?.message || '');
@@ -247,6 +301,7 @@ window.OverblikDKLocation = (function () {
     window.OverblikDKLocationDiagnostics.source = 'web';
     window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
     rememberSessionPosition(position, 'web');
+    hideGpsProgress();
     return position;
   }
 
@@ -277,6 +332,8 @@ window.OverblikDKLocation = (function () {
     mapsUrl,
     reverseAdministrativeContext,
     reverseDawa,
-    openLocationHelp
+    openLocationHelp,
+    showGpsProgress,
+    hideGpsProgress
   };
 })();
