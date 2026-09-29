@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-native-back-minimize-v25';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-location-v26';
 
 const FILES_TO_CACHE = [
   "./",
@@ -8,8 +8,8 @@ const FILES_TO_CACHE = [
   "./assets/theme.js?v=24",
   "./assets/address-provider.js?v=16",
   "./assets/address-settings.js?v=16",
-  "./assets/location-tools.js?v=23",
-  "./assets/regional-sort.js?v=23",
+  "./assets/location-tools.js?v=26",
+  "./assets/regional-sort.js?v=26",
   "./assets/emergency.js?v=10",
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=7",
@@ -57,7 +57,12 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
-  if (url.pathname.endsWith('/assets/theme.js') || url.pathname.endsWith('/assets/native-navigation.js')) {
+  if (
+    url.pathname.endsWith('/assets/theme.js') ||
+    url.pathname.endsWith('/assets/native-navigation.js') ||
+    url.pathname.endsWith('/assets/location-tools.js') ||
+    url.pathname.endsWith('/assets/regional-sort.js')
+  ) {
     event.respondWith(
       fetch(event.request).catch(() => caches.match(event.request))
     );
