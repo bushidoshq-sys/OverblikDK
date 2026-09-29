@@ -123,7 +123,47 @@
     });
   }
 
+  async function installNativeBackHandling() {
+    const cap = window.Capacitor;
+    if (!cap?.isNativePlatform?.() || !cap?.isPluginAvailable?.('App') || !cap?.registerPlugin) return;
+
+    const App = cap.registerPlugin('App');
+
+    await App.addListener('backButton', async ({ canGoBack }) => {
+      const openDialog = document.querySelector('dialog[open]');
+      if (openDialog) {
+        if (typeof openDialog.close === 'function') openDialog.close();
+        else openDialog.removeAttribute('open');
+        return;
+      }
+
+      const file = location.pathname.split('/').pop() || 'index.html';
+
+      if (file === 'indstillinger.html' && window.OverblikDKCloseSettings) {
+        window.OverblikDKCloseSettings();
+        return;
+      }
+
+      if (file === 'index.html' || file === '') {
+        try {
+          await App.minimizeApp();
+        } catch (error) {
+          console.warn('Kunne ikke minimere OverblikDK.', error);
+        }
+        return;
+      }
+
+      if (canGoBack) {
+        history.back();
+        return;
+      }
+
+      location.href = new URL('index.html', location.href).href;
+    });
+  }
+
   buildHeaderActions();
+  installNativeBackHandling().catch(error => console.warn('Native navigation kunne ikke initialiseres.', error));
   setupNativeBackNavigation();
 
   const current = document.documentElement.getAttribute('data-theme') || 'light';
