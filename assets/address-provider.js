@@ -89,6 +89,26 @@ window.OverblikDKAddressProvider = (function () {
     };
   }
 
+  function addressCoordinates(address) {
+    const candidates = [
+      address?.adgangsadresse?.adgangspunkt?.koordinater,
+      address?.adgangspunkt?.koordinater,
+      address?.adgangsadresse?.position?.coordinates,
+      address?.position?.coordinates,
+      address?.koordinater
+    ];
+
+    for (const value of candidates) {
+      if (!Array.isArray(value) || value.length < 2) continue;
+      const longitude = Number(value[0]);
+      const latitude = Number(value[1]);
+      if (Number.isFinite(latitude) && Number.isFinite(longitude)) {
+        return { latitude, longitude };
+      }
+    }
+    return null;
+  }
+
   async function reverseAdministrativeContext(lat, lon) {
     const qs = `x=${encodeURIComponent(lon)}&y=${encodeURIComponent(lat)}`;
     const [kommuneRes, regionRes] = await Promise.all([
