@@ -53,6 +53,15 @@
       <button class="emergency-call" type="button" onclick="OverblikDKLocation.openLocationHelp()">Forbedr lokation</button>
     </div>
     <div id="regionalSortStatus" class="position-box">Regional sortering er slået fra.</div>
+
+    <div id="settingsAddressFallback" class="manual-location-fallback">
+      <p><strong>Hvis telefonen ikke kan finde din position:</strong><br>Skriv den nærmeste adresse, du kan se. Den bruges som midlertidig aktuel lokation i denne app-session.</p>
+      <div class="address-field-wrap">
+        <input id="settingsFallbackAddressInput" class="address-field" type="text" autocomplete="street-address" placeholder="Adresse i nærheden…" aria-controls="settingsFallbackAddressSuggestions">
+        <ul id="settingsFallbackAddressSuggestions" class="address-suggestions" role="listbox" hidden></ul>
+      </div>
+      <div id="settingsFallbackAddressStatus" class="position-box"></div>
+    </div>
   </section>
 
   <section class="settings-page-panel" aria-labelledby="homeAddressTitle">
@@ -94,12 +103,26 @@
   });
 </script>
 <script src="assets/theme.js?v=24"></script>
-<script src="assets/address-provider.js?v=16"></script>
+<script src="assets/address-provider.js?v=27"></script>
+<script src="assets/manual-location.js?v=27"></script>
 <script src="assets/location-tools.js?v=26"></script>
-<script src="assets/regional-sort.js?v=26"></script>
+<script src="assets/regional-sort.js?v=27"></script>
 <script src="assets/address-settings.js?v=16"></script>
 <script src="assets/favorites.js?v=14"></script>
 <script src="assets/pwa-update.js?v=26"></script>
   <script src="assets/native-navigation.js?v=24"></script>
+  <script>
+    OverblikDKManualLocation?.mount?.({
+      inputId: 'settingsFallbackAddressInput',
+      suggestionsId: 'settingsFallbackAddressSuggestions',
+      statusId: 'settingsFallbackAddressStatus',
+      containerId: 'settingsAddressFallback',
+      onSelected: async (value) => {
+        const status = document.getElementById('regionalSortStatus');
+        if (status) status.textContent = `Midlertidig lokation: ${value.tekst} · ${value.kommune} · ${value.region}`;
+        window.OverblikDKApplyRegionalSort?.();
+      }
+    });
+  </script>
 </body>
 </html>
