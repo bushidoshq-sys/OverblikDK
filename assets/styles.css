@@ -432,3 +432,15 @@ small.host { display: block; margin-top: 4px; }
 .nearby-results:empty {
   display: none;
 }
+
+
+/* Empty UI containers must never render as blank boxes */
+.position-box:empty,
+.nearby-status:empty,
+.emergency-note:empty,
+.local-results:empty,
+.favorites-list:empty,
+.nearby-results:empty,
+.address-suggestions:empty {
+  display: none !important;
+}
