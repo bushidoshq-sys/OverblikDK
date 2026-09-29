@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-session-location-v29';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-native-sos-v30';
 
 const FILES_TO_CACHE = [
   "./",
@@ -12,7 +12,7 @@ const FILES_TO_CACHE = [
   "./assets/address-settings.js?v=16",
   "./assets/location-tools.js?v=29",
   "./assets/regional-sort.js?v=29",
-  "./assets/emergency.js?v=10",
+  "./assets/emergency.js?v=11",
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
