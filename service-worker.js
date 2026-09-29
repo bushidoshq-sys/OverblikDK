@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-nearby-maps-v39';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-nearby-extra-v40';
 
 const FILES_TO_CACHE = [
   "./",
@@ -16,8 +16,8 @@ const FILES_TO_CACHE = [
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
-  "./assets/nearby.js?v=39",
-  "./assets/pwa-update.js?v=39",
+  "./assets/nearby.js?v=40",
+  "./assets/pwa-update.js?v=40",
   "./assets/native-navigation.js?v=25",
   "./manifest.json",
   "./icons/logo.png",
