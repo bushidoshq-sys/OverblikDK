@@ -71,6 +71,13 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Stenløse Kulturhus',url:'https://egedalkommune.dk/mit-liv/kultur-fritid-og-idraet/kulturhuse-og-moedesteder',kommune:'Egedal Kommune'},
+    {name:'Smørum Kulturhus',url:'https://egedalkommune.dk/mit-liv/kultur-fritid-og-idraet/kulturhuse-og-moedesteder',kommune:'Egedal Kommune'},
+    {name:'Smørum Gl. Skole',url:'https://egedalkommune.dk/mit-liv/kultur-fritid-og-idraet/kulturhuse-og-moedesteder',kommune:'Egedal Kommune'},
+    {name:'Farum Kulturhus',url:'https://www.furesoe.dk/oplevelser/kulturhuse/farum-kulturhus',kommune:'Furesø Kommune'},
+    {name:'Kulturhuset Galaksen',url:'https://galaksen.dk',kommune:'Furesø Kommune'},
+    {name:'Furesø Museer',url:'https://museer.furesoe.dk',kommune:'Furesø Kommune'},
+    {name:'Furesø Teater',url:'https://furesoeteater.dk',kommune:'Furesø Kommune'},
     {name:'Byhistorisk Hus',url:'https://www.glostrup.dk/borger/kultur-fritid-og-frivillighed/kulturoplevelser',kommune:'Glostrup Kommune'},
     {name:'Glostrup Amatør Scene',url:'https://www.glostrup.dk/borger/kultur-fritid-og-frivillighed/kulturoplevelser',kommune:'Glostrup Kommune'},
     {name:'Glostrup Bio',url:'https://www.glostrup.dk/borger/kultur-fritid-og-frivillighed/kulturoplevelser',kommune:'Glostrup Kommune'},
@@ -154,7 +161,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=46"></script>
+<script src="assets/pwa-update.js?v=47"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
