@@ -62,6 +62,33 @@ window.OverblikDKAddressProvider = (function () {
     return null;
   }
 
+  function addressLocation(address) {
+    const access = address?.adgangsadresse || {};
+    const candidates = [
+      access?.adgangspunkt?.koordinater,
+      address?.adgangspunkt?.koordinater,
+      access?.vejpunkt?.koordinater,
+      address?.vejpunkt?.koordinater,
+      access?.position?.koordinater,
+      address?.position?.koordinater
+    ];
+    const coords = candidates.find(v =>
+      Array.isArray(v) &&
+      v.length >= 2 &&
+      Number.isFinite(Number(v[0])) &&
+      Number.isFinite(Number(v[1]))
+    );
+    if (!coords) return null;
+
+    const context = addressContext(address);
+    return {
+      longitude: Number(coords[0]),
+      latitude: Number(coords[1]),
+      kommune: context.kommune,
+      region: context.region
+    };
+  }
+
   async function reverseAdministrativeContext(lat, lon) {
     const qs = `x=${encodeURIComponent(lon)}&y=${encodeURIComponent(lat)}`;
     const [kommuneRes, regionRes] = await Promise.all([
