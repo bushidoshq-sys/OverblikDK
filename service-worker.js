@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-sos-torch-v37';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-gps-contrast-v38';
 
 const FILES_TO_CACHE = [
   "./",
@@ -10,14 +10,14 @@ const FILES_TO_CACHE = [
   "./assets/manual-location.js?v=28",
   "./assets/manual-location.js?v=27",
   "./assets/address-settings.js?v=16",
-  "./assets/location-tools.js?v=34",
+  "./assets/location-tools.js?v=38",
   "./assets/regional-sort.js?v=34",
   "./assets/emergency.js?v=37",
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=34",
-  "./assets/pwa-update.js?v=35",
+  "./assets/pwa-update.js?v=38",
   "./assets/native-navigation.js?v=25",
   "./manifest.json",
   "./icons/logo.png",
