@@ -57,9 +57,36 @@
     }
   }
 
+  function enablePullToRefresh() {
+    let startY = 0;
+    let pulling = false;
+    const threshold = 90;
+
+    document.addEventListener('touchstart', (event) => {
+      if (window.scrollY !== 0 || event.touches.length !== 1) return;
+      startY = event.touches[0].clientY;
+      pulling = true;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (event) => {
+      if (!pulling || window.scrollY !== 0) return;
+      if (event.touches[0].clientY < startY) pulling = false;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (event) => {
+      if (!pulling) return;
+      pulling = false;
+      const endY = event.changedTouches[0]?.clientY ?? startY;
+      if (endY - startY >= threshold) {
+        location.reload();
+      }
+    }, { passive: true });
+  }
+
   window.OverblikDKCheckForUpdates = checkForUpdates;
   document.addEventListener('DOMContentLoaded', () => {
     setVersionText();
+    enablePullToRefresh();
     document.getElementById('checkForUpdatesBtn')?.addEventListener('click', checkForUpdates);
   });
 
