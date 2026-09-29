@@ -9,6 +9,20 @@
     return file + location.search + location.hash;
   }
 
+  function closeSettings() {
+    const target = sessionStorage.getItem(RETURN_KEY);
+    sessionStorage.removeItem(RETURN_KEY);
+
+    if (target && !/^https?:/i.test(target) && !target.includes('indstillinger.html')) {
+      location.href = new URL(target, location.href).href;
+      return;
+    }
+
+    location.replace(new URL('index.html', location.href).href);
+  }
+
+  window.OverblikDKCloseSettings = closeSettings;
+
   function buildHeaderActions() {
     if (!brand || !btn) return;
     let actions = brand.querySelector('.header-actions');
@@ -21,18 +35,19 @@
     if (!actions.querySelector('[data-header-settings]')) {
       const settings = document.createElement('a');
       settings.className = 'header-icon-btn';
-      settings.href = 'indstillinger.html';
+      const onSettingsPage = (location.pathname.split('/').pop() || '') === 'indstillinger.html';
+      settings.href = onSettingsPage ? 'index.html' : 'indstillinger.html';
       settings.setAttribute('data-header-settings', '');
-      settings.setAttribute('aria-label', 'Åbn indstillinger');
-      settings.title = 'Indstillinger';
-      if ((location.pathname.split('/').pop() || '') === 'indstillinger.html') {
-        settings.setAttribute('aria-current', 'page');
-      }
-      settings.textContent = '⚙️';
-      settings.addEventListener('click', () => {
-        if ((location.pathname.split('/').pop() || '') !== 'indstillinger.html') {
-          sessionStorage.setItem(RETURN_KEY, currentInternalPath());
+      settings.setAttribute('aria-label', onSettingsPage ? 'Luk indstillinger' : 'Åbn indstillinger');
+      settings.title = onSettingsPage ? 'Luk indstillinger' : 'Indstillinger';
+      settings.textContent = onSettingsPage ? '✕' : '⚙️';
+      settings.addEventListener('click', (event) => {
+        if (onSettingsPage) {
+          event.preventDefault();
+          closeSettings();
+          return;
         }
+        sessionStorage.setItem(RETURN_KEY, currentInternalPath());
       });
       actions.appendChild(settings);
     }
