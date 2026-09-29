@@ -22,65 +22,15 @@ window.OverblikDKLocation = (function () {
       }
     }
 
-    const overallTimeout = options.timeout || 15000;
-    const targetAccuracy = options.targetAccuracy || 20;
-    let bestPosition = null;
-    let watchId = null;
-    let finished = false;
-    let timer = null;
-
-    return new Promise(async (resolve, reject) => {
-      const finish = async (position, error) => {
-        if (finished) return;
-        finished = true;
-        if (timer) clearTimeout(timer);
-        if (watchId) {
-          try { await geo.clearWatch({ id: watchId }); } catch {}
-        }
-        if (position) resolve(position);
-        else reject(error || new Error('Kunne ikke hente lokation.'));
-      };
-
-      try {
-        watchId = await geo.watchPosition(
-          {
-            enableHighAccuracy: true,
-            timeout: overallTimeout,
-            maximumAge: 0,
-            interval: 1000,
-            minimumUpdateInterval: 750,
-            enableLocationFallback: true
-          },
-          (position, error) => {
-            if (error) {
-              if (/permission|denied/i.test(error.message || '') || error.code === 'OS-PLUG-GLOC-0003') finish(null, error);
-              return;
-            }
-            if (!position) return;
-
-            const accuracy = Number(position.coords?.accuracy);
-            const bestAccuracy = Number(bestPosition?.coords?.accuracy);
-            if (!bestPosition || (Number.isFinite(accuracy) && (!Number.isFinite(bestAccuracy) || accuracy < bestAccuracy))) {
-              bestPosition = position;
-            }
-            if (Number.isFinite(accuracy) && accuracy <= targetAccuracy) finish(position);
-          }
-        );
-
-        timer = setTimeout(() => {
-          if (bestPosition) finish(bestPosition);
-          else finish(null, new Error('Lokation tog for lang tid.'));
-        }, overallTimeout);
-      } catch (error) {
-        finish(bestPosition, error);
-      }
+    return geo.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: options.timeout || 15000,
+      maximumAge: 0,
+      enableLocationFallback: true
     });
   }
 
-  async function getPosition(options = {}) {
-    const native = getNativeGeolocation();
-    if (native) return getNativePosition(options);
-
+  function getWebPosition(options = {}) {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
         reject(new Error('Geolocation understøttes ikke på denne enhed.'));
@@ -154,6 +104,20 @@ window.OverblikDKLocation = (function () {
         else fail(new Error('Lokation tog for lang tid.'));
       }, overallTimeout);
     });
+  }
+
+  async function getPosition(options = {}) {
+    const native = getNativeGeolocation();
+    if (native) {
+      try {
+        return await getNativePosition(options);
+      } catch (error) {
+        const denied = error?.code === 1 || /permission|denied/i.test(error?.message || '');
+        if (denied) throw error;
+        console.warn('Native lokation fejlede; prøver web-lokation som fallback.', error);
+      }
+    }
+    return getWebPosition(options);
   }
 
   function mapsUrl(lat, lon) {
