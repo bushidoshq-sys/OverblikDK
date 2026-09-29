@@ -278,7 +278,7 @@
     return String(phone || '').replace(/[^\d+]/g, '');
   }
   async function getPositionText() {
-    const pos = await window.OverblikDKLocation.getPosition();
+    const pos = await window.OverblikDKLocation.getPosition({ fresh: true, timeout: 30000, targetAccuracy: 12 });
     const lat = pos.coords.latitude.toFixed(6);
     const lon = pos.coords.longitude.toFixed(6);
     return {
