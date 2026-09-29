@@ -38,7 +38,9 @@
       return;
     }
 
-    App.exitApp();
+    App.minimizeApp().catch((error) => {
+      console.warn('Kunne ikke lægge OverblikDK i baggrunden.', error);
+    });
   }).catch((error) => {
     console.warn('Android tilbage-navigation kunne ikke aktiveres.', error);
   });
