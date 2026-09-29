@@ -5,7 +5,6 @@ const FILES_TO_CACHE = [
   "./index.html",
   "./indstillinger.html",
   "./assets/styles.css?v=22",
-  "./assets/theme.js?v=22",
   "./assets/address-provider.js?v=16",
   "./assets/address-settings.js?v=16",
   "./assets/location-tools.js?v=23",
@@ -55,6 +54,15 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+
+  const url = new URL(event.request.url);
+  if (url.pathname.endsWith('/assets/theme.js')) {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
   event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
 });
 
