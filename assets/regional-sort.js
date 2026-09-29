@@ -30,7 +30,13 @@
     try {
       const pos = await window.OverblikDKLocation.getPosition();
       window.OverblikDKLocationStage = 'kommune/region-opslag';
-      const data = await window.OverblikDKLocation.reverseAdministrativeContext(pos.coords.latitude, pos.coords.longitude);
+      const manual = pos?.manual && pos?.address ? pos.address : null;
+      const data = manual
+        ? {
+            kommune: { navn: manual.kommune || '' },
+            region: { navn: manual.region || '' }
+          }
+        : await window.OverblikDKLocation.reverseAdministrativeContext(pos.coords.latitude, pos.coords.longitude);
       const ctx = {
         kommune: data?.kommune?.navn || '',
         region: data?.region?.navn || '',
