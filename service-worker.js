@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-settings-dedupe-v31';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-update-check-v32';
 
 const FILES_TO_CACHE = [
   "./",
@@ -17,7 +17,7 @@ const FILES_TO_CACHE = [
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=29",
-  "./assets/pwa-update.js?v=26",
+  "./assets/pwa-update.js?v=32",
   "./assets/native-navigation.js?v=25",
   "./manifest.json",
   "./icons/logo.png",
