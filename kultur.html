@@ -71,6 +71,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Ringkøbing-Skjern Museum',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune'},
+    {name:'Naturkraft',url:'https://naturkraft.dk',kommune:'Ringkøbing-Skjern Kommune'},
+    {name:'Kulturcenter Ringkøbing',url:'https://kulturcenter-ringkobing.dk',kommune:'Ringkøbing-Skjern Kommune'},
+    {name:'Samsø Museum',url:'https://samsoemuseum.dk',kommune:'Samsø Kommune'},
+    {name:'Samsø Labyrinten',url:'https://samsoelabyrinten.com',kommune:'Samsø Kommune'},
+    {name:'Kulturhuset Samsø',url:'https://samsoe.dk',kommune:'Samsø Kommune'},
+    {name:'Museum Skanderborg',url:'https://museumskanderborg.dk',kommune:'Skanderborg Kommune'},
+    {name:'Kulturhuset Skanderborg',url:'https://kulturhuset-skanderborg.dk',kommune:'Skanderborg Kommune'},
+    {name:'Skanderborg Slotskirke',url:'https://museumskanderborg.dk',kommune:'Skanderborg Kommune'},
     {name:'Museum Østjylland Grenaa',url:'https://museumoj.dk',kommune:'Norddjurs Kommune'},
     {name:'Dansk Motor- og Maskinsamling',url:'https://motorsamlingen.dk',kommune:'Norddjurs Kommune'},
     {name:'Pavillonen',url:'https://pavillonen.dk',kommune:'Norddjurs Kommune'},
