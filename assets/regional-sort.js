@@ -45,7 +45,7 @@
       };
       if (!ctx.kommune || !ctx.region) throw new Error('Kommune/region mangler i lokationssvaret.');
       sessionStorage.removeItem(CONTEXT_KEY);
-      sessionStorage.removeItem('overblikdk_manual_current_location');
+      if (!manual) sessionStorage.removeItem('overblikdk_manual_current_location');
       localStorage.setItem(CONTEXT_KEY, JSON.stringify(ctx));
       window.OverblikDKLocationStage = 'færdig';
       setStatus();
