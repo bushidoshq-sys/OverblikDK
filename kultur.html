@@ -58,7 +58,15 @@
     const municipalities=window.OverblikDKLocalData?.municipalityToRegion || {};
     const groups=new Map(Object.keys(municipalities).map(k=>[k,[]]));
     data.forEach(item=>{if(item.kommune && groups.has(item.kommune)) groups.get(item.kommune).push(item)});
-    [...groups.keys()].sort((a,b)=>a.localeCompare(b,'da',{sensitivity:'base'})).forEach(kommune=>{
+    [...groups.keys()].sort((a,b)=>{
+      const helper=window.OverblikDKLocalHelper;
+      if(helper?.enabled()){
+        const ra=helper.rank({kommune:a,region:municipalities[a]});
+        const rb=helper.rank({kommune:b,region:municipalities[b]});
+        if(ra!==rb)return ra-rb;
+      }
+      return a.localeCompare(b,'da',{sensitivity:'base'});
+    }).forEach(kommune=>{
       const section=document.createElement('section'); section.className='culture-municipality';
       const h=document.createElement('h2'); h.textContent=kommune.replace('Bornholms Regionskommune','Bornholm').replace(/ Kommune$/,''); section.appendChild(h);
       const items=groups.get(kommune);
