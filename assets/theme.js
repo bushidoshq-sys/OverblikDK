@@ -67,7 +67,64 @@
     if (text) text.textContent = dark ? 'Lys' : 'Mørk';
   }
 
+  function isHomePage() {
+    const file = location.pathname.split('/').pop() || 'index.html';
+    return file === 'index.html' || file === '';
+  }
+
+  function closeTopDialog() {
+    const dialogs = Array.from(document.querySelectorAll('dialog[open]'));
+    const top = dialogs[dialogs.length - 1];
+    if (!top) return false;
+    if (typeof top.close === 'function') top.close();
+    else top.removeAttribute('open');
+    return true;
+  }
+
+  function setupNativeBackNavigation() {
+    const cap = window.Capacitor;
+    if (!cap?.isNativePlatform?.() || !cap?.registerPlugin) return;
+
+    const App = cap.registerPlugin('App');
+    App.addListener('backButton', async ({ canGoBack }) => {
+      // Android-back dismisses an open modal before navigating away.
+      if (closeTopDialog()) return;
+
+      const file = location.pathname.split('/').pop() || 'index.html';
+
+      // Home behaves like a native Android app: background it instead of
+      // walking back into browser/WebView history or hard-exiting.
+      if (isHomePage()) {
+        try {
+          await App.minimizeApp();
+          return;
+        } catch (error) {
+          console.warn('Kunne ikke lægge appen i baggrunden.', error);
+          return;
+        }
+      }
+
+      // Settings has its own controlled return target.
+      if (file === 'indstillinger.html' && window.OverblikDKCloseSettings) {
+        window.OverblikDKCloseSettings();
+        return;
+      }
+
+      // Normal internal pages follow Android/WebView history when possible.
+      if (canGoBack) {
+        history.back();
+        return;
+      }
+
+      // A deep-linked page with no history returns safely to OverblikDK home.
+      location.replace(new URL('index.html', location.href).href);
+    }).catch((error) => {
+      console.warn('Android tilbage-navigation kunne ikke registreres.', error);
+    });
+  }
+
   buildHeaderActions();
+  setupNativeBackNavigation();
 
   const current = document.documentElement.getAttribute('data-theme') || 'light';
   setTheme(current);
