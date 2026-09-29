@@ -18,17 +18,6 @@
       brand.insertBefore(actions, btn);
     }
 
-    if (!actions.querySelector('[data-header-home]')) {
-      const home = document.createElement('a');
-      home.className = 'header-icon-btn';
-      home.href = 'index.html';
-      home.setAttribute('data-header-home', '');
-      home.setAttribute('aria-label', 'Gå til forsiden');
-      home.title = 'Forside';
-      home.textContent = '🏛️';
-      actions.appendChild(home);
-    }
-
     if (!actions.querySelector('[data-header-settings]')) {
       const settings = document.createElement('a');
       settings.className = 'header-icon-btn';
