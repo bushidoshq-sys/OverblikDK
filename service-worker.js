@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-gps-progress-v34';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-update-check-v35';
 
 const FILES_TO_CACHE = [
   "./",
@@ -17,7 +17,7 @@ const FILES_TO_CACHE = [
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=34",
-  "./assets/pwa-update.js?v=32",
+  "./assets/pwa-update.js?v=35",
   "./assets/native-navigation.js?v=25",
   "./manifest.json",
   "./icons/logo.png",
@@ -60,6 +60,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
   if (
+    url.pathname.endsWith('/assets/pwa-update.js') ||
     url.pathname.endsWith('/assets/theme.js') ||
     url.pathname.endsWith('/assets/native-navigation.js') ||
     url.pathname.endsWith('/assets/location-tools.js') ||
