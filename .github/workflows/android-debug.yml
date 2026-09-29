@@ -35,12 +35,25 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build debug APK
-        run: npm run android:debug
+      - name: Restore permanent signing key
+        env:
+          OVERBLIKDK_KEYSTORE_BASE64: ${{ secrets.OVERBLIKDK_KEYSTORE_BASE64 }}
+        run: |
+          printf '%s' "$OVERBLIKDK_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/overblikdk-release.jks"
 
-      - name: Upload APK
+      - name: Build signed release APK
+        env:
+          OVERBLIKDK_RELEASE_KEYSTORE: ${{ runner.temp }}/overblikdk-release.jks
+          OVERBLIKDK_KEYSTORE_PASSWORD: ${{ secrets.OVERBLIKDK_KEYSTORE_PASSWORD }}
+          OVERBLIKDK_KEY_ALIAS: ${{ secrets.OVERBLIKDK_KEY_ALIAS }}
+          OVERBLIKDK_KEY_PASSWORD: ${{ secrets.OVERBLIKDK_KEY_PASSWORD }}
+          OVERBLIKDK_VERSION_CODE: ${{ github.run_number }}
+          OVERBLIKDK_VERSION_NAME: 1.0.${{ github.run_number }}
+        run: npm run android:release
+
+      - name: Upload signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: OverblikDK-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: OverblikDK-release
+          path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
