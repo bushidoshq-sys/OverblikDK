@@ -71,6 +71,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Struer Museum',url:'https://struermuseum.dk',kommune:'Struer Kommune'},
+    {name:'Gimsinghoved Kunst- og Kulturcenter',url:'https://gimsinghoved.dk',kommune:'Struer Kommune'},
+    {name:'Folkets Hus',url:'https://struer.dk',kommune:'Struer Kommune'},
+    {name:'Museum Østjylland Ebeltoft',url:'https://museumoj.dk',kommune:'Syddjurs Kommune'},
+    {name:'Glasmuseet Ebeltoft',url:'https://glasmuseet.dk',kommune:'Syddjurs Kommune'},
+    {name:'Fregatten Jylland',url:'https://fregatten-jylland.dk',kommune:'Syddjurs Kommune'},
+    {name:'Sløjfen',url:'https://slojfen.dk',kommune:'Favrskov Kommune'},
+    {name:'Hinnerup Bibliotek & Kulturhus',url:'https://favrskovbib.dk',kommune:'Favrskov Kommune'},
+    {name:'Favrskov Lokalarkiver',url:'https://favrskov.dk',kommune:'Favrskov Kommune'},
     {name:'Ringkøbing-Skjern Museum',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune'},
     {name:'Naturkraft',url:'https://naturkraft.dk',kommune:'Ringkøbing-Skjern Kommune'},
     {name:'Kulturcenter Ringkøbing',url:'https://kulturcenter-ringkobing.dk',kommune:'Ringkøbing-Skjern Kommune'},
