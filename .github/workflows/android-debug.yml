@@ -1,4 +1,4 @@
-name: Build Android APK # signed-v3-retry
+name: Build Android APK # signed-v3-diagnostic
 
 on:
   workflow_dispatch:
@@ -40,6 +40,23 @@ jobs:
           OVERBLIKDK_KEYSTORE_BASE64: ${{ secrets.OVERBLIKDK_KEYSTORE_BASE64 }}
         run: |
           printf '%s' "$OVERBLIKDK_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/overblikdk-release.jks"
+
+      - name: Verify signing credentials
+        env:
+          OVERBLIKDK_RELEASE_KEYSTORE: ${{ runner.temp }}/overblikdk-release.jks
+          OVERBLIKDK_KEYSTORE_PASSWORD: ${{ secrets.OVERBLIKDK_KEYSTORE_PASSWORD }}
+          OVERBLIKDK_KEY_ALIAS: ${{ secrets.OVERBLIKDK_KEY_ALIAS }}
+          OVERBLIKDK_KEY_PASSWORD: ${{ secrets.OVERBLIKDK_KEY_PASSWORD }}
+        run: |
+          set +e
+          keytool -list -keystore "$OVERBLIKDK_RELEASE_KEYSTORE" -storepass "$OVERBLIKDK_KEYSTORE_PASSWORD" >/dev/null 2>&1
+          STORE_STATUS=$?
+          keytool -importkeystore -srckeystore "$OVERBLIKDK_RELEASE_KEYSTORE" -srcstorepass "$OVERBLIKDK_KEYSTORE_PASSWORD" -srcalias "$OVERBLIKDK_KEY_ALIAS" -srckeypass "$OVERBLIKDK_KEY_PASSWORD" -destkeystore "$RUNNER_TEMP/signing-test.p12" -deststoretype PKCS12 -deststorepass "temporary-test-only" -destkeypass "temporary-test-only" -noprompt >/dev/null 2>&1
+          KEY_STATUS=$?
+          rm -f "$RUNNER_TEMP/signing-test.p12"
+          if [ "$STORE_STATUS" -eq 0 ]; then echo "Keystore password: OK"; else echo "Keystore password: FAIL"; fi
+          if [ "$KEY_STATUS" -eq 0 ]; then echo "Alias/key password: OK"; else echo "Alias/key password: FAIL"; fi
+          if [ "$STORE_STATUS" -ne 0 ] || [ "$KEY_STATUS" -ne 0 ]; then exit 1; fi
 
       - name: Build signed release APK
         env:
