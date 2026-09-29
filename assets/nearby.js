@@ -8,7 +8,9 @@
     atm: 'hæveautomat',
     fuel: 'tankstation',
     pharmacy: 'apotek',
-    police: 'politistation'
+    police: 'politistation',
+    toilet: 'offentligt toilet',
+    charging: 'ladestander'
   };
 
   buttons.forEach(btn => {
