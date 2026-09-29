@@ -24,10 +24,10 @@
         const text = await response.text();
         const match = text.match(/assets\/pwa-update\.js\?v=(\d+)/);
         const remote = match ? Number(match[1]) : null;
-        const local = 32;
+        const local = Number(RELEASE_VERSION.split('.').pop());
         if (remote && remote > local) {
           if (status) status.textContent = 'Der er en nyere webversion. OverblikDK genindlæses nu…';
-          location.reload();
+          location.replace('./indstillinger.html?updated=' + Date.now());
         } else {
           if (status) status.textContent = 'OverblikDK er opdateret.';
         }
