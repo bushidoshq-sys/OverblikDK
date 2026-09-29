@@ -1,5 +1,43 @@
 window.OverblikDKLocation = (function () {
   let nativeGeolocation = null;
+  const SESSION_POSITION_KEY = 'overblikdk_session_position';
+  const SESSION_POSITION_MAX_AGE = 30 * 60 * 1000;
+
+  function rememberSessionPosition(position, source = 'device') {
+    const lat = Number(position?.coords?.latitude);
+    const lon = Number(position?.coords?.longitude);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+    sessionStorage.setItem(SESSION_POSITION_KEY, JSON.stringify({
+      latitude: lat,
+      longitude: lon,
+      accuracy: Number.isFinite(Number(position?.coords?.accuracy)) ? Number(position.coords.accuracy) : null,
+      source,
+      updated: Date.now()
+    }));
+  }
+
+  function readSessionPosition(maxAge = SESSION_POSITION_MAX_AGE) {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(SESSION_POSITION_KEY));
+      if (!saved) return null;
+      if (!Number.isFinite(Number(saved.latitude)) || !Number.isFinite(Number(saved.longitude))) return null;
+      if (!Number.isFinite(Number(saved.updated)) || Date.now() - Number(saved.updated) > maxAge) return null;
+      return {
+        coords: {
+          latitude: Number(saved.latitude),
+          longitude: Number(saved.longitude),
+          accuracy: Number.isFinite(Number(saved.accuracy)) ? Number(saved.accuracy) : null
+        },
+        source: saved.source || 'session'
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  function clearSessionPosition() {
+    sessionStorage.removeItem(SESSION_POSITION_KEY);
+  }
 
   function getNativeGeolocation() {
     const cap = window.Capacitor;
@@ -168,6 +206,7 @@ window.OverblikDKLocation = (function () {
         const position = await getNativePosition(options);
         window.OverblikDKLocationDiagnostics.source = 'native';
         window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
+        rememberSessionPosition(position, 'native');
         return position;
       } catch (error) {
         const denied = error?.code === 1 || /permission|denied/i.test(error?.message || '');
@@ -178,6 +217,7 @@ window.OverblikDKLocation = (function () {
     const position = await getWebPosition(options);
     window.OverblikDKLocationDiagnostics.source = 'web';
     window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
+    rememberSessionPosition(position, 'web');
     return position;
   }
 
@@ -200,5 +240,14 @@ window.OverblikDKLocation = (function () {
     alert('OverblikDK kan bruge både omtrentlig og præcis lokation. Præcis lokation giver bedre nærmeste-resultater, men kommune/region bør også virke med omtrentlig lokation. Wi-Fi og fri udsigt kan forbedre nøjagtigheden.');
   }
 
-  return { getPosition, mapsUrl, reverseAdministrativeContext, reverseDawa, openLocationHelp };
+  return {
+    getPosition,
+    rememberSessionPosition,
+    readSessionPosition,
+    clearSessionPosition,
+    mapsUrl,
+    reverseAdministrativeContext,
+    reverseDawa,
+    openLocationHelp
+  };
 })();
