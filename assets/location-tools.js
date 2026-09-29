@@ -217,7 +217,7 @@ window.OverblikDKLocation = (function () {
     'Hold telefonen roligt. Satellitterne bliver let forskrækkede.',
     'Forsøg at se geografisk ud.',
     'GPS-nisserne triangulerer dig. Undgå pludselige bevægelser.',
-    'Peg telefonen mod Sverige. Det hjælper sikkert.',
+    'Peg telefonen mod Herning. Det hjælper sikkert.',
     'Stå på ét ben. Det gør absolut ingen forskel.',
     'Sig “breddegrad” tre gange uden at lyde mistænkelig.',
     'Vent venligst. Vi spørger en satellit, hvor du er.',
