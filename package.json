@@ -7,11 +7,13 @@
     "prepare:web": "node scripts/prepare-web.mjs",
     "cap:sync": "npm run prepare:web && npx cap sync android",
     "android:init": "npm run prepare:web && npx cap add android",
-    "android:debug": "npm run prepare:web && (test -d android || npx cap add android) && npx cap sync android && cd android && ./gradlew assembleDebug"
+    "android:debug": "npm run prepare:web && (test -d android || npx cap add android) && npx cap sync android && npm run patch:android && cd android && ./gradlew assembleDebug",
+    "patch:android": "node scripts/patch-android.mjs"
   },
   "dependencies": {
     "@capacitor/core": "8.5.2",
-    "@capacitor/android": "8.5.2"
+    "@capacitor/android": "8.5.2",
+    "@capacitor/geolocation": "8.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "8.5.2"
