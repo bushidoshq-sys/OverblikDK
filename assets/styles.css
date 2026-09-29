@@ -444,3 +444,6 @@ small.host { display: block; margin-top: 4px; }
 .address-suggestions:empty {
   display: none !important;
 }
+
+
+.position-map-placeholder{margin:14px 0;overflow:hidden;border-radius:16px;background:#0f1217}.position-map-image{display:block;width:100%;height:auto;min-height:180px;object-fit:cover}.position-map-open{display:inline-flex;margin-top:12px;text-decoration:none}
