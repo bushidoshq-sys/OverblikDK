@@ -97,6 +97,16 @@
     </div>
     <div id="homeAddressStatus" class="position-box">Ingen hjemmeadresse gemt.</div>
   </section>
+
+  <section class="settings-page-panel" aria-labelledby="updateTitle">
+    <p class="section-kicker">Om</p>
+    <h2 id="updateTitle">📲 OverblikDK</h2>
+    <p><strong>Seneste version:</strong> <span id="latestVersion">Kontrollerer…</span></p>
+    <div class="emergency-actions">
+      <button class="emergency-call" type="button" id="checkForUpdatesBtn">Søg efter opdatering</button>
+    </div>
+    <div id="updateStatus" class="position-box" aria-live="polite">Tryk på knappen for at kontrollere, om der er en nyere version.</div>
+  </section>
 </main>
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
@@ -118,7 +128,7 @@
 <script src="assets/regional-sort.js?v=29"></script>
 <script src="assets/address-settings.js?v=16"></script>
 <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=26"></script>
+<script src="assets/pwa-update.js?v=32"></script>
   <script src="assets/native-navigation.js?v=24"></script>
   <script>
     OverblikDKManualLocation?.mount?.({
