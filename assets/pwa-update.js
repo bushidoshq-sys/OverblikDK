@@ -19,7 +19,7 @@
       // The native shell loads the live GitHub Pages web layer. A cache-busted
       // request verifies that the current published Settings page is reachable.
       if (isNativeShell) {
-        const response = await fetch('./indstillinger.html?update-check=' + Date.now(), { cache: 'no-store' });
+        const response = await fetch('./indstillinger?update-check=' + Date.now(), { cache: 'no-store' });
         if (!response.ok) throw new Error('Update check failed');
         const text = await response.text();
         const match = text.match(/assets\/pwa-update\.js\?v=(\d+)/);
@@ -27,7 +27,7 @@
         const local = Number(RELEASE_VERSION.split('.').pop());
         if (remote && remote > local) {
           if (status) status.textContent = 'Der er en nyere webversion. OverblikDK genindlæses nu…';
-          location.replace('./indstillinger.html?updated=' + Date.now());
+          location.replace('./indstillinger?updated=' + Date.now());
         } else {
           if (status) status.textContent = 'OverblikDK er opdateret.';
         }
