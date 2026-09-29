@@ -11,6 +11,7 @@
   let sosOverlay = null;
   let sosVideo = null;
   let sosPreviousTheme = null;
+  let nativeTorch = null;
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -40,7 +41,19 @@
     syncThemeButton(theme);
   }
 
+  function getNativeTorch() {
+    const cap = window.Capacitor;
+    if (!cap?.isNativePlatform?.() || !cap?.isPluginAvailable?.('Torch') || !cap?.registerPlugin) return null;
+    if (!nativeTorch) nativeTorch = cap.registerPlugin('Torch');
+    return nativeTorch;
+  }
+
   async function setTorch(on) {
+    if (nativeTorch) {
+      if (on) await nativeTorch.enable();
+      else await nativeTorch.disable();
+      return;
+    }
     if (!sosTrack) throw new Error('Ingen kameratrack.');
     await sosTrack.applyConstraints({ advanced: [{ torch: !!on }] });
   }
@@ -99,6 +112,17 @@
   }
 
   async function prepareTorch() {
+    const native = getNativeTorch();
+    if (native) {
+      const availability = await native.isAvailable();
+      if (!availability?.available) throw new Error('Native torch er ikke tilgængelig.');
+      nativeTorch = native;
+      await setTorch(true);
+      await sleep(80);
+      await setTorch(false);
+      return true;
+    }
+
     const camera = await openRearCamera();
     sosStream = camera.stream;
     sosTrack = camera.track;
@@ -143,6 +167,7 @@
     setScreenFlash(false);
     try { if (navigator.vibrate) navigator.vibrate(0); } catch {}
     sosMode = null;
+    nativeTorch = null;
     restoreSOSTheme();
     try { await sosWakeLock?.release(); } catch {}
     sosWakeLock = null;
@@ -171,9 +196,9 @@
     } catch {}
 
     let torchReady = false;
-    if (navigator.mediaDevices?.getUserMedia) {
+    if (getNativeTorch() || navigator.mediaDevices?.getUserMedia) {
       try {
-        if (status) status.textContent = 'Prøver telefonens kamerablitz…';
+        if (status) status.textContent = getNativeTorch() ? 'Forbinder til telefonens lommelygte…' : 'Prøver telefonens kamerablitz…';
         torchReady = await prepareTorch();
       } catch {
         try { sosTrack?.stop(); } catch {}
@@ -198,7 +223,7 @@
     }
     if (status) {
       status.textContent = torchReady
-        ? 'S.O.S. blinker med telefonens lommelygte: ··· ——— ···'
+        ? 'S.O.S.: lommelygte + skærm + vibration: ··· ——— ···'
         : 'Lommelygten kan ikke styres på denne telefon. Bruger skærmblink + vibration: ··· ——— ···';
     }
 
@@ -214,27 +239,28 @@
         const onMs = signal[i] * unit;
         const offMs = signal[i + 1] * unit;
 
-        try {
-          if (sosMode === 'torch') await setTorch(true);
-          else {
-            setScreenFlash(true);
-            vibrateFor(onMs);
+        setScreenFlash(true);
+        vibrateFor(onMs);
+        if (sosMode === 'torch') {
+          try {
+            await setTorch(true);
+          } catch {
+            sosMode = 'screen';
+            nativeTorch = null;
+            if (status) status.textContent = 'Lommelygten mistede adgang. Skærmblink + vibration fortsætter: ··· ——— ···';
           }
-        } catch {
-          sosMode = 'screen';
-          setScreenFlash(true);
-          vibrateFor(onMs);
-          if (status) status.textContent = 'Lommelygten mistede adgang. Bruger skærmblink + vibration: ··· ——— ···';
         }
 
         await sleep(onMs);
 
-        try {
-          if (sosMode === 'torch') await setTorch(false);
-          else setScreenFlash(false);
-        } catch {
-          sosMode = 'screen';
-          setScreenFlash(false);
+        setScreenFlash(false);
+        if (sosMode === 'torch') {
+          try {
+            await setTorch(false);
+          } catch {
+            sosMode = 'screen';
+            nativeTorch = null;
+          }
         }
 
         await sleep(offMs);
