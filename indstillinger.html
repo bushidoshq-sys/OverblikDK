@@ -86,13 +86,11 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
   document.getElementById('settingsBackBtn')?.addEventListener('click', () => {
-    const target = sessionStorage.getItem('overblikdk_settings_return');
-    if (target && !/^https?:/i.test(target) && !target.includes('indstillinger.html')) {
-      sessionStorage.removeItem('overblikdk_settings_return');
-      location.href = target;
+    if (window.OverblikDKCloseSettings) {
+      window.OverblikDKCloseSettings();
       return;
     }
-    location.href = 'index.html';
+    location.replace(new URL('index.html', location.href).href);
   });
 </script>
 <script src="assets/theme.js?v=6"></script>
