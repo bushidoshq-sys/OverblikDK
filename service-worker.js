@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-mobile-first-v18';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-29-android-live-v20';
 
 const FILES_TO_CACHE = [
   "./",
@@ -15,7 +15,7 @@ const FILES_TO_CACHE = [
   "./assets/local-helper.js?v=7",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=17",
-  "./assets/pwa-update.js?v=6",
+  "./assets/pwa-update.js?v=20",
   "./manifest.json",
   "./icons/logo.png",
   "./icons/icon-192.png",
