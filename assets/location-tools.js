@@ -105,6 +105,35 @@ window.OverblikDKLocation = (function () {
     }
   }
 
+  async function getBestNativePosition(options = {}) {
+    const fresh = options.fresh === true;
+    if (!fresh) return getNativePosition(options);
+
+    const deadline = Date.now() + (options.timeout || 30000);
+    const targetAccuracy = options.targetAccuracy || 12;
+    let best = null;
+
+    while (Date.now() < deadline) {
+      try {
+        const remaining = Math.max(3000, deadline - Date.now());
+        const position = await getNativePosition({ ...options, timeout: Math.min(8000, remaining) });
+        const accuracy = Number(position?.coords?.accuracy);
+        const bestAccuracy = Number(best?.coords?.accuracy);
+        if (!best || (Number.isFinite(accuracy) && (!Number.isFinite(bestAccuracy) || accuracy < bestAccuracy))) {
+          best = position;
+        }
+        if (Number.isFinite(accuracy) && accuracy <= targetAccuracy) break;
+      } catch (error) {
+        const denied = error?.code === 1 || /permission|denied|afvist/i.test(String(error?.message || ''));
+        if (denied) throw error;
+      }
+      if (Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 500));
+    }
+
+    if (best) return best;
+    return getNativePosition(options);
+  }
+
   function getWebPosition(options = {}) {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
@@ -203,7 +232,7 @@ window.OverblikDKLocation = (function () {
     const native = getNativeGeolocation();
     if (native) {
       try {
-        const position = await getNativePosition(options);
+        const position = await getBestNativePosition(options);
         window.OverblikDKLocationDiagnostics.source = 'native';
         window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
         rememberSessionPosition(position, 'native');
