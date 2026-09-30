@@ -102,6 +102,17 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Kunsthal 44Møen',url:'https://44moen.dk',kommune:'Vordingborg Kommune',category:'Kunst & gallerier'},
+    {name:'Kunsthal Kongegaarden',url:'https://kongegaarden.dk',kommune:'Slagelse Kommune',category:'Kunst & gallerier'},
+    {name:'Kunstforeningen Køge Bugt',url:'https://kunstforeningen-koegebugt.dk',kommune:'Køge Kommune',category:'Kunst & gallerier'},
+    {name:'Kunsthuset Palæfløjen',url:'https://roskildekunst.dk',kommune:'Roskilde Kommune',category:'Kunst & gallerier'},
+    {name:'Kunstbygningen Filosoffen',url:'https://filosoffen.dk',kommune:'Roskilde Kommune',category:'Kunst & gallerier'},
+    {name:'Kunsthal NORD',url:'https://kunsthalnord.dk',kommune:'Københavns Kommune',category:'Kunst & gallerier'},
+    {name:'Kunsthal Brænderigården',url:'https://braenderigaarden.dk',kommune:'Holbæk Kommune',category:'Kunst & gallerier'},
+    {name:'Kunsthal Spritten',url:'https://spritten.dk',kommune:'Slagelse Kommune',category:'Kunst & gallerier'},
+    {name:'Galleri Emmaus',url:'https://galleri-emmaus.dk',kommune:'Slagelse Kommune',category:'Kunst & gallerier'},
+    {name:'Kunsthal for Maritim Æstetik',url:'https://maritimkunst.dk',kommune:'Helsingør Kommune',category:'Kunst & gallerier'},
+    {name:'Kunstforeningen Det Ny Kastet',url:'https://detnykastet.dk',kommune:'Thisted Kommune',category:'Kunst & gallerier'},
     {name:'Overgaden',url:'https://overgaden.org',kommune:'Københavns Kommune',category:'Kunst & gallerier'},
     {name:'Møstings',url:'https://frederiksbergmuseerne.dk/mostings',kommune:'Frederiksberg Kommune',category:'Kunst & gallerier'},
     {name:'Musikhuzet Bornholm',url:'https://musikhuzet.dk',kommune:'Bornholms Regionskommune',category:'Musik & spillesteder'},
