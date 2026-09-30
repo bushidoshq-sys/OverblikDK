@@ -43,7 +43,7 @@
     </div></div>
     <div class="nearby-actions" id="cultureCategories">
       <a class="nearby-btn" href="biblioteker">📚 Biblioteker</a>
-      <button class="nearby-btn" type="button" data-culture-category="Museer & historie">🏛️ Museer & historie</button>
+      <button class="nearby-btn" type="button" data-culture-category="Museer">🏛️ Museer</button>
       <button class="nearby-btn" type="button" data-culture-category="Biografer">🎬 Biografer</button>
       <button class="nearby-btn" type="button" data-culture-category="Teatre">🎭 Teatre</button>
       <button class="nearby-btn" type="button" data-culture-category="Musik & spillesteder">🎵 Musik & spillesteder</button>
@@ -71,8 +71,8 @@
 <script>
   function sortDa(a,k){return a.slice().sort((x,y)=>x[k].localeCompare(y[k],'da',{sensitivity:'base'}))}
   function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
-  let activeCategory='Museer & historie';
-  function categoryOf(name){const s=name.toLowerCase();if(/biograf|cinema/.test(s))return 'Biografer';if(/bibliotek/.test(s))return 'Biblioteker';if(/museum|museet|museer|museums|samling|arkiv|kloster|gården|gaard|fregatten|saltsyderi|kalkminer|slot|slotskirke|historisk/.test(s))return 'Museer & historie';if(/teater|opera|scene|skuespil/.test(s))return 'Teatre';if(/musik|koncert|spillested|maskinhallen/.test(s))return 'Musik & spillesteder';if(/kunst|galleri|glasmuse/.test(s))return 'Kunst & gallerier';if(/kultur|folkets hus|sløjfen|medborger/.test(s))return 'Kulturhuse';return 'Andre kultursteder'}
+  let activeCategory='Museer';
+  function categoryOf(name,explicit=''){if(explicit)return explicit;const s=name.toLowerCase();if(/biograf|cinema/.test(s))return 'Biografer';if(/bibliotek/.test(s))return 'Biblioteker';if(/museum|museet|museer|museums|samling|arkiv|kloster|gården|gaard|fregatten|saltsyderi|kalkminer|slot|slotskirke|historisk/.test(s))return 'Museer';if(/teater|opera|scene|skuespil/.test(s))return 'Teatre';if(/musik|koncert|spillested|maskinhallen/.test(s))return 'Musik & spillesteder';if(/kunst|galleri|glasmuse/.test(s))return 'Kunst & gallerier';if(/kultur|folkets hus|sløjfen|medborger/.test(s))return 'Kulturhuse';return 'Andre kultursteder'}
   function render(el,data){
     el.innerHTML='';
     const municipalities=window.OverblikDKLocalData?.municipalityToRegion || {};
@@ -99,6 +99,17 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Designmuseum Danmark',url:'https://designmuseum.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Københavns Museum',url:'https://cphmuseum.kk.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Thorvaldsens Museum',url:'https://www.thorvaldsensmuseum.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Davids Samling',url:'https://www.davidmus.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Medicinsk Museion',url:'https://www.museion.ku.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Frederiksborg',url:'https://dnm.dk',kommune:'Hillerød Kommune',category:'Museer'},
+    {name:'Danmarks Tekniske Museum',url:'https://tekniskmuseum.dk',kommune:'Helsingør Kommune',category:'Museer'},
+    {name:'ARoS Aarhus Kunstmuseum',url:'https://www.aros.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'KØN – Gender Museum Denmark',url:'https://konmuseum.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'MOMU Moesgaard Museum',url:'https://www.moesgaardmuseum.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'Møntergården',url:'https://museumodense.dk',kommune:'Odense Kommune',category:'Museer'},
     {name:'Museum Thy',url:'https://museumthy.dk',kommune:'Thisted Kommune'},
     {name:'Thisted Museum',url:'https://museumthy.dk',kommune:'Thisted Kommune'},
     {name:'MusikTeatret Thisted',url:'https://musik-teatret.dk',kommune:'Thisted Kommune'},
@@ -418,7 +429,7 @@
   ];
 
   const list=document.getElementById('links'), input=document.getElementById('filter');
-  function showCategory(category){activeCategory=category;const data=category?LINKS.filter(x=>categoryOf(x.name)===category):LINKS;render(list,data);input.value='';document.querySelectorAll('[data-culture-category]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cultureCategory===category?'true':'false'))}
+  function showCategory(category){activeCategory=category;const data=category?LINKS.filter(x=>categoryOf(x.name,x.category)===category):LINKS;render(list,data);input.value='';document.querySelectorAll('[data-culture-category]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cultureCategory===category?'true':'false'))}
   document.querySelectorAll('[data-culture-category]').forEach(btn=>btn.addEventListener('click',()=>showCategory(btn.dataset.cultureCategory)));
   showCategory(activeCategory); wireFilter(input,list);
   document.getElementById('year').textContent=new Date().getFullYear();
@@ -426,7 +437,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=71"></script>
+<script src="assets/pwa-update.js?v=72"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
