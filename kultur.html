@@ -99,6 +99,9 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Albertslund Lokalhistoriske Samling',url:'https://albertslund.dk/kultur-og-fritid/fritids-og-kulturoplevelser/lokalhistorie',kommune:'Albertslund Kommune',category:'Museer'},
+    {name:'Skenkelsø Mølle Museum',url:'https://egedalkommune.dk',kommune:'Egedal Kommune',category:'Museer'},
+    {name:'Vikingelandsbyen',url:'https://vikingelandsbyen.albertslund.dk',kommune:'Albertslund Kommune',category:'Museer'},
     {name:'Museum Sønderjylland – Kulturhistorie Aabenraa',url:'https://msj.dk',kommune:'Aabenraa Kommune',category:'Museer'},
     {name:'Oldemorstoft',url:'https://msj.dk',kommune:'Aabenraa Kommune',category:'Museer'},
     {name:'Drøhses Hus',url:'https://msj.dk',kommune:'Tønder Kommune',category:'Museer'},
@@ -577,7 +580,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=77"></script>
+<script src="assets/pwa-update.js?v=78"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
