@@ -102,6 +102,13 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'INSP!',url:'https://insp.dk',kommune:'Roskilde Kommune',category:'Musik & spillesteder'},
+    {name:'Elværket',url:'https://elvaerket.com',kommune:'Frederikssund Kommune',category:'Musik & spillesteder'},
+    {name:'Klaverfabrikken',url:'https://klaverfabrikken.dk',kommune:'Hillerød Kommune',category:'Musik & spillesteder'},
+    {name:'Kulturhuset Elværket',url:'https://elvaerket.net',kommune:'Furesø Kommune',category:'Musik & spillesteder'},
+    {name:'Bygningen Køge',url:'https://bygningenkoge.dk',kommune:'Køge Kommune',category:'Musik & spillesteder'},
+    {name:'Tapperiet',url:'https://tapperiet.nu',kommune:'Køge Kommune',category:'Musik & spillesteder'},
+    {name:'Vershuset',url:'https://vershuset.dk',kommune:'Næstved Kommune',category:'Musik & spillesteder'},
     {name:'VEGA',url:'https://vega.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
     {name:'Pumpehuset',url:'https://pumpehuset.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
     {name:'Loppen',url:'https://loppen.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
