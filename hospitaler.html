@@ -91,7 +91,11 @@
     const panel = document.getElementById('hospitalPriority');
     const list = document.getElementById('hospitalPriorityLinks');
     if (!panel || !list || !window.OverblikDKLocalHelper?.enabled()) return null;
-    const primary = data.find(item => hospitalRank(item) === 0);
+    const helper = window.OverblikDKLocalHelper;
+    const ctx = helper.context();
+    const ownMunicipality = helper.normalizeMunicipality(ctx.kommune);
+    const explicitPrimary = data.find(item => (item.primaryKommuner || []).some(name => helper.normalizeMunicipality(name) === ownMunicipality));
+    const primary = explicitPrimary || data.find(item => hospitalRank(item) === 1);
     if (!primary) return null;
     panel.hidden = false;
     list.innerHTML = `<li><a href="${primary.url}" target="_blank" rel="noopener"><span>${primary.name}</span><span class="host">${host(primary.url)}</span></a></li>`;
