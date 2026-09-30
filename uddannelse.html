@@ -43,6 +43,17 @@
     <span class="badge"><strong id="count">0</strong> links</span>
   </div>
 
+  <div class="category-filter" id="categoryFilter" aria-label="Filtrér uddannelseslinks">
+    <button class="category-btn active" data-category="Alle">Alle</button>
+    <button class="category-btn" data-category="Vejledning & optagelse">Vejledning & optagelse</button>
+    <button class="category-btn" data-category="Universiteter">Universiteter</button>
+    <button class="category-btn" data-category="Professionshøjskoler">Professionshøjskoler</button>
+    <button class="category-btn" data-category="Erhvervsakademier">Erhvervsakademier</button>
+    <button class="category-btn" data-category="Ungdomsuddannelser">Ungdomsuddannelser</button>
+    <button class="category-btn" data-category="Voksen & efteruddannelse">Voksen & efteruddannelse</button>
+    <button class="category-btn" data-category="Myndigheder & støtte">Myndigheder & støtte</button>
+  </div>
+
   <ul id="links" class="link-list" aria-label="Uddannelse"></ul>
 </main>
 
@@ -53,37 +64,47 @@
   function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
   function render(el,data){
     el.innerHTML=''; const s=sortDa(data,'name');
-    s.forEach(({name,url})=>{const li=document.createElement('li');li.innerHTML=`<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)}</span></a>`;el.appendChild(li)});
+    s.forEach(({name,url,category})=>{const li=document.createElement('li');li.innerHTML=`<a href="${url}" target="_blank" rel="noopener"><span>${name}</span><span class="host">${host(url)} · ${category}</span></a>`;el.appendChild(li)});
     document.getElementById('count').textContent=String(s.length);
   }
   function wireFilter(inp,ul){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const li of ul.querySelectorAll('li')){li.style.display=li.textContent.toLowerCase().includes(q)?'':''}})}
 
   const LINKS = [
-    {name:'AAU – Aalborg Universitet', url:'https://www.aau.dk'},
-    {name:'Absalon – Professionshøjskolen', url:'https://phabsalon.dk'},
-    {name:'AU – Aarhus Universitet', url:'https://www.au.dk'},
-    {name:'CBS – Copenhagen Business School', url:'https://www.cbs.dk'},
-    {name:'DTU – Danmarks Tekniske Universitet', url:'https://www.dtu.dk'},
-    {name:'eVejledning', url:'https://www.evejledning.dk'},
-    {name:'ITU – IT-Universitetet i København', url:'https://www.itu.dk'},
-    {name:'KEA – Københavns Erhvervsakademi', url:'https://kea.dk'},
-    {name:'KU – Københavns Universitet', url:'https://www.ku.dk'},
-    {name:'Optagelse.dk', url:'https://www.optagelse.dk'},
-    {name:'RUC – Roskilde Universitet', url:'https://ruc.dk'},
-    {name:'SDU – Syddansk Universitet', url:'https://www.sdu.dk'},
-    {name:'SU – Statens Uddannelsesstøtte', url:'https://www.su.dk'},
-    {name:'UCL Erhvervsakademi og Professionshøjskole', url:'https://www.ucl.dk'},
-    {name:'UG – Uddannelsesguiden', url:'https://www.ug.dk'},
-    {name:'UFM – Uddannelses- og Forskningsministeriet', url:'https://ufm.dk'},
-    {name:'UVM – Børne- og Undervisningsministeriet', url:'https://uvm.dk'},
-    {name:'VIA University College', url:'https://www.via.dk'},
-    {name:'VUC (Voksenuddannelse)', url:'https://vuc.dk'},
-    {name:'Zealand – Sjællands Erhvervsakademi', url:'https://www.zealand.dk'},
-    {name:'Erhvervsakademi Aarhus', url:'https://www.eaaa.dk'}
+    {name:'AAU – Aalborg Universitet', url:'https://www.aau.dk', category:'Universiteter'},
+    {name:'Absalon – Professionshøjskolen', url:'https://phabsalon.dk', category:'Professionshøjskoler'},
+    {name:'AU – Aarhus Universitet', url:'https://www.au.dk', category:'Universiteter'},
+    {name:'CBS – Copenhagen Business School', url:'https://www.cbs.dk', category:'Universiteter'},
+    {name:'DTU – Danmarks Tekniske Universitet', url:'https://www.dtu.dk', category:'Universiteter'},
+    {name:'eVejledning', url:'https://www.evejledning.dk', category:'Vejledning & optagelse'},
+    {name:'ITU – IT-Universitetet i København', url:'https://www.itu.dk', category:'Universiteter'},
+    {name:'KEA – Københavns Erhvervsakademi', url:'https://kea.dk', category:'Erhvervsakademier'},
+    {name:'KU – Københavns Universitet', url:'https://www.ku.dk', category:'Universiteter'},
+    {name:'Optagelse.dk', url:'https://www.optagelse.dk', category:'Vejledning & optagelse'},
+    {name:'RUC – Roskilde Universitet', url:'https://ruc.dk', category:'Universiteter'},
+    {name:'SDU – Syddansk Universitet', url:'https://www.sdu.dk', category:'Universiteter'},
+    {name:'SU – Statens Uddannelsesstøtte', url:'https://www.su.dk', category:'Myndigheder & støtte'},
+    {name:'UCL Erhvervsakademi og Professionshøjskole', url:'https://www.ucl.dk', category:'Professionshøjskoler'},
+    {name:'UG – Uddannelsesguiden', url:'https://www.ug.dk', category:'Vejledning & optagelse'},
+    {name:'UFM – Uddannelses- og Forskningsministeriet', url:'https://ufm.dk', category:'Myndigheder & støtte'},
+    {name:'UVM – Børne- og Undervisningsministeriet', url:'https://uvm.dk', category:'Myndigheder & støtte'},
+    {name:'VIA University College', url:'https://www.via.dk', category:'Professionshøjskoler'},
+    {name:'VUC (Voksenuddannelse)', url:'https://vuc.dk', category:'Voksen & efteruddannelse'},
+    {name:'Zealand – Sjællands Erhvervsakademi', url:'https://www.zealand.dk', category:'Erhvervsakademier'},
+    {name:'Erhvervsakademi Aarhus', url:'https://www.eaaa.dk', category:'Erhvervsakademier'}
   ];
 
   const list=document.getElementById('links'); const input=document.getElementById('filter');
-  render(list, LINKS); wireFilter(input, list);
+  let activeCategory='Alle';
+  function applyFilters(){
+    const q=input.value.toLowerCase().trim();
+    render(list,LINKS.filter(x=>(activeCategory==='Alle'||x.category===activeCategory)&&(x.name+' '+x.category+' '+host(x.url)).toLowerCase().includes(q)));
+  }
+  input.addEventListener('input',applyFilters);
+  document.querySelectorAll('.category-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); activeCategory=btn.dataset.category; applyFilters();
+  }));
+  applyFilters();
   document.getElementById('year').textContent=new Date().getFullYear();
 </script>
 
