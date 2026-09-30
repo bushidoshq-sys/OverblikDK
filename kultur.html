@@ -99,6 +99,13 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Museum Fredericia',url:'https://museumfredericia.dk',kommune:'Fredericia Kommune',category:'Museer'},
+    {name:'Museum for Forsyning og Bæredygtighed MOSS',url:'https://museummoss.dk',kommune:'Hillerød Kommune',category:'Museer'},
+    {name:'Museet for Samtidskunst',url:'https://samtidskunst.dk',kommune:'Roskilde Kommune',category:'Museer'},
+    {name:'Kunstmuseum Brandts',url:'https://brandts.dk',kommune:'Odense Kommune',category:'Museer'},
+    {name:'MAPS - Museum of Art in Public Spaces',url:'https://koes.dk',kommune:'Køge Kommune',category:'Museer'},
+    {name:'Ny Carlsberg Glyptotek',url:'https://glyptoteket.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Statens Naturhistoriske Museum',url:'https://snm.ku.dk',kommune:'Københavns Kommune',category:'Museer'},
     {name:'Skibsklarerergaarden',url:'https://helsingormuseer.dk',kommune:'Helsingør Kommune',category:'Museer'},
     {name:'Værftsmuseet',url:'https://helsingormuseer.dk',kommune:'Helsingør Kommune',category:'Museer'},
     {name:'Esrum Kloster & Møllegård',url:'https://esrum.dk',kommune:'Gribskov Kommune',category:'Museer'},
@@ -714,7 +721,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=83"></script>
+<script src="assets/pwa-update.js?v=84"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
