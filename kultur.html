@@ -99,6 +99,27 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Gl. Holtegaard',url:'https://glholtegaard.dk',kommune:'Rudersdal Kommune',category:'Museer'},
+    {name:'Rudolph Tegners Museum & Statuepark',url:'https://rudolphtegner.dk',kommune:'Gribskov Kommune',category:'Museer'},
+    {name:'Willumsens Museum',url:'https://willumsensmuseum.dk',kommune:'Frederikssund Kommune',category:'Museer'},
+    {name:'Holmegaard Værk',url:'https://holmegaardvaerk.dk',kommune:'Næstved Kommune',category:'Museer'},
+    {name:'GeoCenter Møns Klint',url:'https://moensklint.dk',kommune:'Vordingborg Kommune',category:'Museer'},
+    {name:'Fuglsang Kunstmuseum',url:'https://fuglsangkunstmuseum.dk',kommune:'Guldborgsund Kommune',category:'Museer'},
+    {name:'Odsherreds Museum',url:'https://vestmuseum.dk',kommune:'Odsherred Kommune',category:'Museer'},
+    {name:'Vikingeborgen Trelleborg',url:'https://natmus.dk/museer-og-slotte/trelleborg/',kommune:'Slagelse Kommune',category:'Museer'},
+    {name:'Cold War Museum Stevnsfort',url:'https://www.oesm.dk',kommune:'Stevns Kommune',category:'Museer'},
+    {name:'Koldkrigsmuseum Langelandsfort',url:'https://langelandsmuseum.dk',kommune:'Langeland Kommune',category:'Museer'},
+    {name:'Svendborg Museum',url:'https://svendborgmuseum.dk',kommune:'Svendborg Kommune',category:'Museer'},
+    {name:'Museum Kolding',url:'https://museumkolding.dk',kommune:'Kolding Kommune',category:'Museer'},
+    {name:'Kongernes Jelling',url:'https://natmus.dk/museer-og-slotte/kongernes-jelling/',kommune:'Vejle Kommune',category:'Museer'},
+    {name:'Industrimuseet',url:'https://industrimuseet.dk',kommune:'Horsens Kommune',category:'Museer'},
+    {name:'Museum Midtjylland',url:'https://museummidtjylland.dk',kommune:'Herning Kommune',category:'Museer'},
+    {name:'HEART Herning Museum of Contemporary Art',url:'https://heartmus.dk',kommune:'Herning Kommune',category:'Museer'},
+    {name:'Museum Østjylland',url:'https://museumoj.dk',kommune:'Randers Kommune',category:'Museer'},
+    {name:'Gammel Estrup Danmarks Herregårdsmuseum',url:'https://gammelestrup.dk',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Kyst- og Fjordcentret',url:'https://kystogfjordcentret.dk',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Springeren - Maritimt Oplevelsescenter',url:'https://springeren-maritimt.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Kystmuseet Skagen',url:'https://kystmuseet.dk',kommune:'Frederikshavn Kommune',category:'Museer'},
     {name:'Designmuseum Danmark',url:'https://designmuseum.dk',kommune:'Københavns Kommune',category:'Museer'},
     {name:'Københavns Museum',url:'https://cphmuseum.kk.dk',kommune:'Københavns Kommune',category:'Museer'},
     {name:'Thorvaldsens Museum',url:'https://www.thorvaldsensmuseum.dk',kommune:'Københavns Kommune',category:'Museer'},
@@ -437,7 +458,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=72"></script>
+<script src="assets/pwa-update.js?v=73"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
