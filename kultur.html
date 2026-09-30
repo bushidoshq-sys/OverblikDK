@@ -102,6 +102,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Dokk1',url:'https://dokk1.dk',kommune:'Aarhus Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Bunkeren',url:'https://aarhus.dk',kommune:'Aarhus Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Pavillonen',url:'https://pavillonen.dk',kommune:'Norddjurs Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Stationen',url:'https://syddjurs.dk',kommune:'Syddjurs Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Inside',url:'https://favrskov.dk',kommune:'Favrskov Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Remisen',url:'https://brande.dk',kommune:'Ikast-Brande Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Hjerm',url:'https://struer.dk',kommune:'Struer Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Bølgen',url:'https://lemvig.dk',kommune:'Lemvig Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Randers',url:'https://randers.dk',kommune:'Randers Kommune',category:'Kulturhuse'},
     {name:'Kulturmaskinen',url:'https://kulturmaskinen.dk',kommune:'Odense Kommune',category:'Kulturhuse'},
     {name:'Kulturhuset Bastionen',url:'https://bastionen-nyborg.dk',kommune:'Nyborg Kommune',category:'Kulturhuse'},
     {name:'Kulturhuset Skovly',url:'https://www.assens.dk',kommune:'Assens Kommune',category:'Kulturhuse'},
