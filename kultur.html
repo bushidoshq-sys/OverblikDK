@@ -102,6 +102,17 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Guldboxen',url:'https://guldboxen.dk',kommune:'Guldborgsund Kommune',category:'Musik & spillesteder'},
+    {name:'Musikhuset Posten',url:'https://postenlive.dk',kommune:'Odense Kommune',category:'Musik & spillesteder'},
+    {name:'Dexter',url:'https://dexter.dk',kommune:'Odense Kommune',category:'Musik & spillesteder'},
+    {name:'Kansas City',url:'https://kansascity.dk',kommune:'Odense Kommune',category:'Musik & spillesteder'},
+    {name:'Studenterhuset Odense',url:'https://studenterhus.dk',kommune:'Odense Kommune',category:'Musik & spillesteder'},
+    {name:'Harders',url:'https://harders.nu',kommune:'Svendborg Kommune',category:'Musik & spillesteder'},
+    {name:'Skråen i Nordkraft',url:'https://skraaen.dk',kommune:'Aalborg Kommune',category:'Musik & spillesteder'},
+    {name:'Tøjhuset',url:'https://tojhuset.dk',kommune:'Fredericia Kommune',category:'Musik & spillesteder'},
+    {name:'Eksercerhuset',url:'https://tojhuset.dk',kommune:'Fredericia Kommune',category:'Musik & spillesteder'},
+    {name:'Mejeriet',url:'https://mejeriet.dk',kommune:'Sønderborg Kommune',category:'Musik & spillesteder'},
+    {name:'Templet',url:'https://templet.dk',kommune:'Lyngby-Taarbæk Kommune',category:'Musik & spillesteder'},
     {name:'INSP!',url:'https://insp.dk',kommune:'Roskilde Kommune',category:'Musik & spillesteder'},
     {name:'Elværket',url:'https://elvaerket.com',kommune:'Frederikssund Kommune',category:'Musik & spillesteder'},
     {name:'Klaverfabrikken',url:'https://klaverfabrikken.dk',kommune:'Hillerød Kommune',category:'Musik & spillesteder'},
