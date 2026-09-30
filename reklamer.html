@@ -53,6 +53,12 @@
     <span class="badge"><strong id="count">0</strong> links</span>
   </div>
 
+  <div class="category-filter" id="categoryFilter" aria-label="Filtrér reklamer og ugeaviser">
+    <button class="category-btn active" data-category="Alle">Alle</button>
+    <button class="category-btn" data-category="Tilbudsaviser & tilbud">Tilbudsaviser & tilbud</button>
+    <button class="category-btn" data-category="Reklamefravalg & beskyttelse">Reklamefravalg & beskyttelse</button>
+  </div>
+
   <ul id="links" class="link-list" aria-label="Reklamer og ugeaviser"></ul>
 </main>
 
@@ -64,10 +70,10 @@
   function render(listEl, data){
     listEl.innerHTML = '';
     const sorted = sortDa(data,'name');
-    sorted.forEach(({name,url,desc})=>{
+    sorted.forEach(({name,url,desc,category})=>{
       const li = document.createElement('li');
       li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
-        <span>${name}<small class="host">${desc || host(url)}</small></span><span class="host">${host(url)}</span></a>`;
+        <span>${name}<small class="host">${desc || host(url)}</small></span><span class="host">${category} · ${host(url)}</span></a>`;
       listEl.appendChild(li);
     });
     document.getElementById('count').textContent = String(sorted.length);
@@ -82,17 +88,28 @@
   }
 
   const LINKS = [
-    {name:'eTilbudsavis', url:'https://etilbudsavis.dk/', desc:'Online tilbudsaviser og tilbud samlet ét sted'},
-    {name:'MineTilbud', url:'https://minetilbud.dk/', desc:'Tilbudsaviser, reklamer og lokale tilbud'},
-    {name:'Reklamer Nej Tak – FK Distribution', url:'https://fk.dk/privat/reklamer-nej-tak/', desc:'Tilmeld eller ændr Nej tak-ordning'},
-    {name:'Borger.dk – Beskyttelse mod reklamer', url:'https://www.borger.dk/bolig-og-flytning/beskyttelse-mod-reklamer', desc:'Offentlig vejledning om reklamer og Robinsonlisten'},
-    {name:'Forbrug.dk – Reklamer Nej Tak', url:'https://forbrug.dk/emner/reklamer-og-spam/reklamer-nej-tak', desc:'Forklaring af Nej tak-ordningen'}
+    {name:'eTilbudsavis', url:'https://etilbudsavis.dk/', desc:'Online tilbudsaviser og tilbud samlet ét sted', category:'Tilbudsaviser & tilbud'},
+    {name:'MineTilbud', url:'https://minetilbud.dk/', desc:'Aktuelle og kommende tilbudsaviser, kataloger og tilbud', category:'Tilbudsaviser & tilbud'},
+    {name:'Reklamer NejTak – FK Distribution', url:'https://fk.dk/privat/reklamer-nej-tak/', desc:'Tilmeld, ændr eller afmeld NejTak-ordningen', category:'Reklamefravalg & beskyttelse'},
+    {name:'Robinsonlisten – Borger.dk', url:'https://www.borger.dk/bolig-og-flytning/robinsonlisten-markedsfoeringsbeskyttelse', desc:'Beskyttelse mod direkte adresseret markedsføring', category:'Reklamefravalg & beskyttelse'},
+    {name:'Nej tak – Forbrugerombudsmanden', url:'https://forbrugerombudsmanden.dk/alle-emner/uanmodede-henvendelser/nej-tak', desc:'Regler og vejledning om NejTak-ordninger og Robinsonlisten', category:'Reklamefravalg & beskyttelse'}
   ];
 
   const listEl = document.getElementById('links');
   const filterEl = document.getElementById('filter');
-  render(listEl, LINKS);
-  wireFilter(filterEl, listEl);
+  let activeCategory = 'Alle';
+  function applyFilters(){
+    const q = filterEl.value.toLowerCase().trim();
+    render(listEl, LINKS.filter(x => (activeCategory === 'Alle' || x.category === activeCategory) && (x.name+' '+x.desc+' '+x.category+' '+host(x.url)).toLowerCase().includes(q)));
+  }
+  filterEl.addEventListener('input', applyFilters);
+  document.querySelectorAll('.category-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCategory=btn.dataset.category;
+    applyFilters();
+  }));
+  applyFilters();
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
