@@ -1,5 +1,5 @@
 (function () {
-  const RELEASE_VERSION = '2026.09.30.97';
+  const RELEASE_VERSION = '2026.10.01.99';
   const isNativeShell =
     Boolean(window.Capacitor?.isNativePlatform?.()) ||
     navigator.userAgent.includes('OverblikDKNative');
@@ -19,17 +19,20 @@
       // The native shell loads the live GitHub Pages web layer. A cache-busted
       // request verifies that the current published Settings page is reachable.
       if (isNativeShell) {
-        const response = await fetch('./indstillinger?update-check=' + Date.now(), { cache: 'no-store' });
+        const response = await fetch('./assets/pwa-update.js?update-check=' + Date.now(), { cache: 'no-store' });
         if (!response.ok) throw new Error('Update check failed');
-        const text = await response.text();
-        const match = text.match(/assets\/pwa-update\.js\?v=(\d+)/);
-        const remote = match ? Number(match[1]) : null;
-        const local = Number(RELEASE_VERSION.split('.').pop());
-        if (remote && remote > local) {
-          if (status) status.textContent = 'Der er en nyere webversion. OverblikDK genindlæses nu…';
-          location.replace('./indstillinger?updated=' + Date.now());
+        const remoteScript = await response.text();
+        const match = remoteScript.match(/RELEASE_VERSION\s*=\s*['"]([^'"]+)['"]/);
+        const remoteVersion = match?.[1] || null;
+        if (!remoteVersion) throw new Error('Remote version missing');
+
+        if (remoteVersion !== RELEASE_VERSION) {
+          if (status) status.textContent = 'Ny version fundet: ' + remoteVersion + '. Genindlæser…';
+          const url = new URL(window.location.href);
+          url.searchParams.set('updated', Date.now());
+          window.location.replace(url.toString());
         } else {
-          if (status) status.textContent = 'OverblikDK er opdateret.';
+          if (status) status.textContent = 'OverblikDK er opdateret (' + RELEASE_VERSION + ').';
         }
         return;
       }
