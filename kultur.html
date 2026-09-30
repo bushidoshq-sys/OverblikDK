@@ -102,6 +102,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Musikhuzet Bornholm',url:'https://musikhuzet.dk',kommune:'Bornholms Regionskommune',category:'Musik & spillesteder'},
+    {name:'Pakhus 8',url:'https://pakhus8.dk',kommune:'Vordingborg Kommune',category:'Musik & spillesteder'},
+    {name:'Musikcaféen i Gørlev',url:'https://www.oplevkalundborg.dk/kultur/kulturelle-moedesteder/musik',kommune:'Kalundborg Kommune',category:'Musik & spillesteder'},
+    {name:'Kalundborg Blues- & Jazzklub',url:'https://www.oplevkalundborg.dk/kultur/kulturelle-moedesteder/musik',kommune:'Kalundborg Kommune',category:'Musik & spillesteder'},
+    {name:'Amfi Vestsjælland',url:'https://www.oplevkalundborg.dk/kultur/kulturelle-moedesteder/musik',kommune:'Kalundborg Kommune',category:'Musik & spillesteder'},
+    {name:'Værftet i Havnsø',url:'https://www.oplevkalundborg.dk/kultur/kulturelle-moedesteder/musik',kommune:'Kalundborg Kommune',category:'Musik & spillesteder'},
+    {name:'Aabenraa Live',url:'https://aabenraalive.dk',kommune:'Aabenraa Kommune',category:'Musik & spillesteder'},
+    {name:'NygadeHuset',url:'https://aabenraa.dk/borger/tilflytter/smaaboernsfamilier/efter-fyraften/kulturhuse',kommune:'Aabenraa Kommune',category:'Musik & spillesteder'},
+    {name:'Ringsted Kulturhus',url:'https://www.ringstedkulturhus.dk',kommune:'Ringsted Kommune',category:'Musik & spillesteder'},
     {name:'Kulturhuset Kilden',url:'https://kulturhusetkilden.dk',kommune:'Brøndby Kommune',category:'Musik & spillesteder'},
     {name:'Slagelse Musikhus',url:'https://slagelsemusikhus.dk',kommune:'Slagelse Kommune',category:'Musik & spillesteder'},
     {name:'Kulturhus Kappelborg',url:'https://kappelborg.dk',kommune:'Frederikshavn Kommune',category:'Musik & spillesteder'},
