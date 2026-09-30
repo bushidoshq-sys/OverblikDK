@@ -99,6 +99,31 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Danmarks Flymuseum',url:'https://flymuseum.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Ringkøbing Museum',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Skjern Vindmølle',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Abelines Gaard',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Fiskeriets Hus',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Lyngvig Fyr',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Kaj Munks Præstegård',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Dejbjerg Jernalder',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Provstgaards Jagthus',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Bang & Olufsen Samlingen',url:'https://struermuseum.dk',kommune:'Struer Kommune',category:'Museer'},
+    {name:'Museet for Religiøs Kunst',url:'https://mfrk.dk',kommune:'Lemvig Kommune',category:'Museer'},
+    {name:'Thorsminde Redningsstation',url:'https://strandingsmuseet.dk',kommune:'Holstebro Kommune',category:'Museer'},
+    {name:'Herning Museum',url:'https://museummidtjylland.dk',kommune:'Herning Kommune',category:'Museer'},
+    {name:'Brunkulslejerne Søby',url:'https://brunkulsmuseum.dk',kommune:'Herning Kommune',category:'Museer'},
+    {name:'Uhre Mølle',url:'https://ikast-brande.dk',kommune:'Ikast-Brande Kommune',category:'Museer'},
+    {name:'Museum Midtjylland – Vester Palsgaard Skovmuseum',url:'https://museummidtjylland.dk',kommune:'Ikast-Brande Kommune',category:'Museer'},
+    {name:'Elmuseet',url:'https://energimuseet.dk',kommune:'Viborg Kommune',category:'Museer'},
+    {name:'Mønsted Kalkgruber',url:'https://monsted-kalkgruber.dk',kommune:'Viborg Kommune',category:'Museer'},
+    {name:'Daugbjerg Kalkgruber',url:'https://daugbjergkalkgruber.dk',kommune:'Viborg Kommune',category:'Museer'},
+    {name:'Hvolris Jernalderlandsby',url:'https://viborgmuseum.dk',kommune:'Viborg Kommune',category:'Museer'},
+    {name:'Møllerup Gods Museumssamling',url:'https://moellerupgods.dk',kommune:'Syddjurs Kommune',category:'Museer'},
+    {name:'Rosenholm Slot',url:'https://rosenholm.dk',kommune:'Syddjurs Kommune',category:'Museer'},
+    {name:'Herregårdsmuseet Sostrup',url:'https://sostrup.org',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Djurslands Museum',url:'https://museumoj.dk',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Kat­tegatcentret',url:'https://kattegatcentret.dk',kommune:'Norddjurs Kommune',category:'Museer'},
     {name:'Museum Vestsjælland – Sorø Museum',url:'https://vestmuseum.dk',kommune:'Sorø Kommune',category:'Museer'},
     {name:'Hørvævsmuseet på Krengerup',url:'https://hoervaevsmuseet.dk',kommune:'Assens Kommune',category:'Museer'},
     {name:'Danmarks Fugle Zoo Museum',url:'https://fuglezoo.dk',kommune:'Assens Kommune',category:'Museer'},
@@ -672,7 +697,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=81"></script>
+<script src="assets/pwa-update.js?v=82"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
