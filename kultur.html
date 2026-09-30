@@ -99,6 +99,45 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Museum Vestsjælland – Sorø Museum',url:'https://vestmuseum.dk',kommune:'Sorø Kommune',category:'Museer'},
+    {name:'Hørvævsmuseet på Krengerup',url:'https://hoervaevsmuseet.dk',kommune:'Assens Kommune',category:'Museer'},
+    {name:'Danmarks Fugle Zoo Museum',url:'https://fuglezoo.dk',kommune:'Assens Kommune',category:'Museer'},
+    {name:'Gammel Estrup – Danmarks Herregårdsmuseum',url:'https://gammelestrup.dk',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Dansk Landbrugsmuseum',url:'https://detgroennemuseum.dk',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Djurslands Jernbanemuseum',url:'https://djbm.dk',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Ree Park Museumssamling',url:'https://reepark.dk',kommune:'Syddjurs Kommune',category:'Museer'},
+    {name:'Ebeltoft Museum',url:'https://museumoj.dk',kommune:'Syddjurs Kommune',category:'Museer'},
+    {name:'Farvergården Ebeltoft',url:'https://museumoj.dk',kommune:'Syddjurs Kommune',category:'Museer'},
+    {name:'Siamesisk Samling',url:'https://museumoj.dk',kommune:'Syddjurs Kommune',category:'Museer'},
+    {name:'Hornslet Egnsarkiv og Museum',url:'https://syddjurs.dk',kommune:'Syddjurs Kommune',category:'Museer'},
+    {name:'Museum Østjylland – Håndværksmuseet',url:'https://museumoj.dk',kommune:'Randers Kommune',category:'Museer'},
+    {name:'Randers Stadsarkiv',url:'https://randersstadsarkiv.dk',kommune:'Randers Kommune',category:'Museer'},
+    {name:'Dansk Designmuseum Randers',url:'https://randers.dk',kommune:'Randers Kommune',category:'Museer'},
+    {name:'Hobro Mini Zoo Museumssamling',url:'https://mariagerfjord.dk',kommune:'Mariagerfjord Kommune',category:'Museer'},
+    {name:'Lystfartøjsmuseet Hobro',url:'https://lystfartoejsmuseet.dk',kommune:'Mariagerfjord Kommune',category:'Museer'},
+    {name:'Mariager Saltcenter',url:'https://saltcenter.com',kommune:'Mariagerfjord Kommune',category:'Museer'},
+    {name:'Aalborg Forsvars- og Garnisonsmuseum',url:'https://forsvarsmuseum.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Aalborg Søfarts- og Marinemuseum',url:'https://springeren-maritimt.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Hals Museum og Skanse',url:'https://nordjyskemuseer.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Godthaab Hammerværk',url:'https://nordjyskemuseer.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Vikingemuseet Lindholm Høje',url:'https://nordjyskemuseer.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Lille Vildmosecentret',url:'https://lillevildmose.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Voergaard Slot',url:'https://voergaardslot.dk',kommune:'Brønderslev Kommune',category:'Museer'},
+    {name:'Try Museum',url:'https://bronderslev.dk',kommune:'Brønderslev Kommune',category:'Museer'},
+    {name:'Dorf Møllegård',url:'https://vhm.dk',kommune:'Brønderslev Kommune',category:'Museer'},
+    {name:'Børglum Kloster',url:'https://boerglumkloster.dk',kommune:'Hjørring Kommune',category:'Museer'},
+    {name:'Vendsyssel Historiske Museum – Hirtshals Museum',url:'https://vhm.dk',kommune:'Hjørring Kommune',category:'Museer'},
+    {name:'Vendsyssel Historiske Museum – Mosbjerg',url:'https://vhm.dk',kommune:'Hjørring Kommune',category:'Museer'},
+    {name:'Skagen Bunkermuseum',url:'https://skagenbunkermuseum.dk',kommune:'Frederikshavn Kommune',category:'Museer'},
+    {name:'Bangsbo Fort Bunkermuseum',url:'https://kystmuseet.dk',kommune:'Frederikshavn Kommune',category:'Museer'},
+    {name:'Sæby Miniby',url:'https://saebyminiby.dk',kommune:'Frederikshavn Kommune',category:'Museer'},
+    {name:'Løkken Museum',url:'https://vhm.dk',kommune:'Hjørring Kommune',category:'Museer'},
+    {name:'Fårup Skovhus Museum',url:'https://jammerbugt.dk',kommune:'Jammerbugt Kommune',category:'Museer'},
+    {name:'Han Herred Havbåde',url:'https://hanherredhavbaade.dk',kommune:'Jammerbugt Kommune',category:'Museer'},
+    {name:'Vorupør Museum',url:'https://museumthy.dk',kommune:'Thisted Kommune',category:'Museer'},
+    {name:'Hanstholm Bunkermuseum',url:'https://museumscenterhanstholm.dk',kommune:'Thisted Kommune',category:'Museer'},
+    {name:'Morslands Historiske Museum',url:'https://museummors.dk',kommune:'Morsø Kommune',category:'Museer'},
+    {name:'Støberimuseet',url:'https://museummors.dk',kommune:'Morsø Kommune',category:'Museer'},
     {name:'Kerteminde Museum',url:'https://ostfynsmuseer.dk',kommune:'Kerteminde Kommune',category:'Museer'},
     {name:'Farvergården',url:'https://ostfynsmuseer.dk',kommune:'Kerteminde Kommune',category:'Museer'},
     {name:'Toldboden Kerteminde',url:'https://ostfynsmuseer.dk',kommune:'Kerteminde Kommune',category:'Museer'},
@@ -633,7 +672,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=80"></script>
+<script src="assets/pwa-update.js?v=81"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
