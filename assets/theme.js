@@ -1,6 +1,7 @@
 (function () {
   const KEY = 'overblikdk-theme';
   const RETURN_KEY = 'overblikdk_settings_return';
+  const SCROLL_PREFIX = 'overblikdk_scroll:';
   const btn = document.getElementById('themeToggle');
   const brand = document.querySelector('.brand');
 
@@ -22,6 +23,26 @@
   }
 
   window.OverblikDKCloseSettings = closeSettings;
+
+  function scrollKey() {
+    return SCROLL_PREFIX + location.pathname + location.search;
+  }
+
+  function saveScrollPosition() {
+    sessionStorage.setItem(scrollKey(), String(Math.max(0, Math.round(window.scrollY || 0))));
+  }
+
+  function restoreScrollPosition() {
+    const saved = Number(sessionStorage.getItem(scrollKey()));
+    if (!Number.isFinite(saved) || saved <= 0) return;
+    requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, saved)));
+  }
+
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.addEventListener('pagehide', saveScrollPosition);
+  window.addEventListener('beforeunload', saveScrollPosition);
+  window.addEventListener('pageshow', restoreScrollPosition);
+  window.addEventListener('load', restoreScrollPosition);
 
   function buildHeaderActions() {
     if (!brand || !btn) return;
