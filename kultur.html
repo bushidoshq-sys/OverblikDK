@@ -102,6 +102,14 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Kulturhuset Islands Brygge',url:'https://kulturhusetislandsbrygge.kk.dk',kommune:'Københavns Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Indre By',url:'https://kulturhusetindreby.kk.dk',kommune:'Københavns Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Bispebjerg Nordvest',url:'https://kulturhusetbispebjergnordvest.kk.dk',kommune:'Københavns Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Pilegården',url:'https://pilegaarden.kk.dk',kommune:'Københavns Kommune',category:'Kulturhuse'},
+    {name:'Kulturstationen Vanløse',url:'https://kulturstationen.kk.dk',kommune:'Københavns Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Trommen',url:'https://trommen.dk',kommune:'Hørsholm Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Fredensborg Gamle Bio',url:'https://fredensborg.dk',kommune:'Fredensborg Kommune',category:'Kulturhuse'},
+    {name:'Byens Hus',url:'https://gentofte.dk/kultur-og-fritid/kulturhuse/byens-hus',kommune:'Gentofte Kommune',category:'Kulturhuse'},
     {name:'Galleri Sonja',url:'https://gallerisonja.com',kommune:'Bornholms Regionskommune',category:'Kunst & gallerier'},
     {name:'Augustiana Kunstpark & Kunsthal',url:'https://augustiana.dk',kommune:'Sønderborg Kommune',category:'Kunst & gallerier'},
     {name:'KunstVærket',url:'https://www.visitsonderjylland.dk',kommune:'Sønderborg Kommune',category:'Kunst & gallerier'},
