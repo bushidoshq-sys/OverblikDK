@@ -99,6 +99,34 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Gladsaxe Byarkiv',url:'https://gladsaxe.dk/kommunen/om-gladsaxe/byarkiv',kommune:'Gladsaxe Kommune',category:'Museer'},
+    {name:'Vedbækfundene',url:'https://museumns.dk',kommune:'Rudersdal Kommune',category:'Museer'},
+    {name:'Farum Arkiver & Museer',url:'https://furesoemuseer.dk',kommune:'Furesø Kommune',category:'Museer'},
+    {name:'Mosegaarden',url:'https://furesoemuseer.dk',kommune:'Furesø Kommune',category:'Museer'},
+    {name:'Hørsholm Lokalarkiv',url:'https://museumns.dk',kommune:'Hørsholm Kommune',category:'Museer'},
+    {name:'Skibshallerne',url:'https://museumamager.dk',kommune:'Dragør Kommune',category:'Museer'},
+    {name:'Kastrup Glasværk',url:'https://taarnby.dk',kommune:'Tårnby Kommune',category:'Museer'},
+    {name:'Hedeland Veteranbane Museum',url:'https://ibk.dk',kommune:'Høje-Taastrup Kommune',category:'Museer'},
+    {name:'Hedehusene Egnsmuseum',url:'https://htk.dk',kommune:'Høje-Taastrup Kommune',category:'Museer'},
+    {name:'Roskilde Domkirkes Museum',url:'https://roskildedomkirke.dk',kommune:'Roskilde Kommune',category:'Museer'},
+    {name:'Tadre Mølle',url:'https://romu.dk',kommune:'Lejre Kommune',category:'Museer'},
+    {name:'Gammel Kongsgård',url:'https://romu.dk',kommune:'Lejre Kommune',category:'Museer'},
+    {name:'Andelslandsbyen Nyvang',url:'https://andelslandsbyen.dk',kommune:'Holbæk Kommune',category:'Museer'},
+    {name:'Malergården',url:'https://vestmuseum.dk',kommune:'Odsherred Kommune',category:'Museer'},
+    {name:'Odsherred Brandmuseum',url:'https://odsherredbrandmuseum.dk',kommune:'Odsherred Kommune',category:'Museer'},
+    {name:'Anneberg Samlingerne',url:'https://annebergkulturpark.dk',kommune:'Odsherred Kommune',category:'Museer'},
+    {name:'Korsør By- og Overfartsmuseum',url:'https://vestmuseum.dk',kommune:'Slagelse Kommune',category:'Museer'},
+    {name:'Skælskør Bymuseum',url:'https://vestmuseum.dk',kommune:'Slagelse Kommune',category:'Museer'},
+    {name:'Flakkebjerg Skolemuseum',url:'https://vestmuseum.dk',kommune:'Slagelse Kommune',category:'Museer'},
+    {name:'Ringsted Radiomuseum',url:'https://ringstedradiomuseum.dk',kommune:'Ringsted Kommune',category:'Museer'},
+    {name:'Køge Miniby',url:'https://koegeminiby.dk',kommune:'Køge Kommune',category:'Museer'},
+    {name:'Haslev Museum',url:'https://www.oesm.dk',kommune:'Faxe Kommune',category:'Museer'},
+    {name:'Køge Søfarts- og Lokalhistoriske Samling',url:'https://koegearkiverne.dk',kommune:'Køge Kommune',category:'Museer'},
+    {name:'Præstø Museum',url:'https://museumse.dk',kommune:'Vordingborg Kommune',category:'Museer'},
+    {name:'Thorsvang Samlermuseum',url:'https://thorsvangsamlermuseum.dk',kommune:'Vordingborg Kommune',category:'Museer'},
+    {name:'Falsters Minder',url:'https://museumlollandfalster.dk',kommune:'Guldborgsund Kommune',category:'Museer'},
+    {name:'Stiftsmuseet Maribo',url:'https://museumlollandfalster.dk',kommune:'Lolland Kommune',category:'Museer'},
+    {name:'Danmarks Sukkermuseum',url:'https://sukkermuseum.dk',kommune:'Lolland Kommune',category:'Museer'},
     {name:'Albertslund Lokalhistoriske Samling',url:'https://albertslund.dk/kultur-og-fritid/fritids-og-kulturoplevelser/lokalhistorie',kommune:'Albertslund Kommune',category:'Museer'},
     {name:'Skenkelsø Mølle Museum',url:'https://egedalkommune.dk',kommune:'Egedal Kommune',category:'Museer'},
     {name:'Vikingelandsbyen',url:'https://vikingelandsbyen.albertslund.dk',kommune:'Albertslund Kommune',category:'Museer'},
@@ -580,7 +608,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=78"></script>
+<script src="assets/pwa-update.js?v=79"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
