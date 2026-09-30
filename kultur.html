@@ -102,6 +102,10 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Ringe Bio',url:'https://www.ringebio.dk',kommune:'Faaborg-Midtfyn Kommune',category:'Biografer'},
+    {name:'Varde Bio',url:'https://www.vardebio.dk',kommune:'Varde Kommune',category:'Biografer'},
+    {name:'Fotorama Hammel',url:'https://www.fotorama-hammel.dk',kommune:'Favrskov Kommune',category:'Biografer'},
+    {name:'Hadsten Bio',url:'https://www.hadstenbio.dk',kommune:'Favrskov Kommune',category:'Biografer'},
     {name:'Albertslund Biograferne',url:'https://albertslundbiograferne.dk',kommune:'Albertslund Kommune',category:'Biografer'},
     {name:'Baltoppen Bio 1-2',url:'https://baltoppenbio1-2.dk',kommune:'Ballerup Kommune',category:'Biografer'},
     {name:'Format Bio',url:'https://formatbio.dk',kommune:'Egedal Kommune',category:'Biografer'},
