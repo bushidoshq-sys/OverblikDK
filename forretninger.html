@@ -46,8 +46,18 @@
     </div>
   </section>
 
-  <section class="grid" aria-label="Dagligvareforretninger">
-    <article class="card store-card">
+  <div class="category-filter" id="categoryFilter" aria-label="Filtrér forretninger">
+    <button class="category-btn active" data-category="Alle">Alle</button>
+    <button class="category-btn" data-category="Dagligvarer">Dagligvarer</button>
+    <button class="category-btn" data-category="Bolig & byggemarked">Bolig & byggemarked</button>
+    <button class="category-btn" data-category="Elektronik">Elektronik</button>
+    <button class="category-btn" data-category="Tøj & sko">Tøj & sko</button>
+    <button class="category-btn" data-category="Personlig pleje">Personlig pleje</button>
+    <button class="category-btn" data-category="Børn & fritid">Børn & fritid</button>
+  </div>
+
+  <section class="grid" id="storeGrid" aria-label="Forretninger">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>ABC Lavpris</h3>
@@ -59,7 +69,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Løvbjerg</h3>
@@ -71,7 +81,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Netto</h3>
@@ -83,7 +93,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>REMA 1000</h3>
@@ -95,7 +105,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>føtex</h3>
@@ -107,7 +117,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Bilka</h3>
@@ -119,7 +129,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Coop 365discount</h3>
@@ -131,7 +141,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>SuperBrugsen</h3>
@@ -143,7 +153,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Lidl</h3>
@@ -155,7 +165,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Kvickly</h3>
@@ -167,7 +177,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Brugsen / Dagli'Brugsen</h3>
@@ -179,7 +189,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>MENY</h3>
@@ -191,7 +201,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>SPAR</h3>
@@ -203,7 +213,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Min Købmand</h3>
@@ -215,7 +225,7 @@
       </div>
     </article>
 
-    <article class="card store-card">
+    <article class="card store-card" data-category="Dagligvarer">
       <div class="icon">🛒</div>
       <div class="store-card__content">
         <h3>Let-Køb</h3>
@@ -230,7 +240,19 @@
 </main>
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<script>
+  const categoryButtons = document.querySelectorAll('.category-btn');
+  const storeCards = document.querySelectorAll('.store-card');
+  categoryButtons.forEach(btn => btn.addEventListener('click', () => {
+    categoryButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const category = btn.dataset.category;
+    storeCards.forEach(card => {
+      card.hidden = category !== 'Alle' && card.dataset.category !== category;
+    });
+  }));
+  document.getElementById('year').textContent=new Date().getFullYear();
+</script>
 <script src="assets/theme.js?v=24"></script>
 <script src="assets/favorites.js?v=14"></script>
 <script src="assets/pwa-update.js?v=20"></script>
