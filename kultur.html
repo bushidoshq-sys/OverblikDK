@@ -102,6 +102,21 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Odense Teater',url:'https://www.odenseteater.dk',kommune:'Odense Kommune',category:'Teatre'},
+    {name:'Teater95b',url:'https://www.teater95b.dk',kommune:'Odense Kommune',category:'Teatre'},
+    {name:'Sønderborg Teater',url:'https://www.sonderborgteater.dk',kommune:'Sønderborg Kommune',category:'Teatre'},
+    {name:'Sønderborg Sommer Revy',url:'https://www.sonderborg-sommer-revy.dk',kommune:'Sønderborg Kommune',category:'Teatre'},
+    {name:'Kolding Egnsteater',url:'https://www.koldingegnsteater.dk',kommune:'Kolding Kommune',category:'Teatre'},
+    {name:'Kolding Teater',url:'https://www.koldingteater.dk',kommune:'Kolding Kommune',category:'Teatre'},
+    {name:'Sønderjyllands Symfoniorkesters Koncertsal',url:'https://sdjsymfoni.dk',kommune:'Sønderborg Kommune',category:'Teatre'},
+    {name:'Holstebro Teater',url:'https://www.holstebroteater.dk',kommune:'Holstebro Kommune',category:'Teatre'},
+    {name:'Operaen i Midten',url:'https://www.operaenimidten.dk',kommune:'Herning Kommune',category:'Teatre'},
+    {name:'Herning Ny Teater',url:'https://www.herningnyteater.dk',kommune:'Herning Kommune',category:'Teatre'},
+    {name:'Randers Teater',url:'https://www.randersteater.dk',kommune:'Randers Kommune',category:'Teatre'},
+    {name:'Aarhus Teater',url:'https://www.aarhusteater.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Svalegangen',url:'https://www.svalegangen.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Teatret Gruppe 38',url:'https://www.gruppe38.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Filuren',url:'https://www.filuren.dk',kommune:'Aarhus Kommune',category:'Teatre'},
     {name:'Bornholms Teater',url:'https://www.bornholmsteater.dk',kommune:'Bornholms Regionskommune',category:'Teatre'},
     {name:'Rønne Theater',url:'https://www.roennetheater.dk',kommune:'Bornholms Regionskommune',category:'Teatre'},
     {name:'BaggårdTeatret',url:'https://www.baggaardteatret.dk',kommune:'Svendborg Kommune',category:'Teatre'},
