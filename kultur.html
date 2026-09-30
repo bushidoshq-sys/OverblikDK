@@ -102,6 +102,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Bornholms Teater',url:'https://www.bornholmsteater.dk',kommune:'Bornholms Regionskommune',category:'Teatre'},
+    {name:'Rønne Theater',url:'https://www.roennetheater.dk',kommune:'Bornholms Regionskommune',category:'Teatre'},
+    {name:'BaggårdTeatret',url:'https://www.baggaardteatret.dk',kommune:'Svendborg Kommune',category:'Teatre'},
+    {name:'Nørregaards Teater',url:'https://www.norregaardsteater.dk',kommune:'Odense Kommune',category:'Teatre'},
+    {name:'Teater Momentum',url:'https://www.teatermomentum.dk',kommune:'Odense Kommune',category:'Teatre'},
+    {name:'Den Fynske Opera',url:'https://www.denfynskeopera.dk',kommune:'Odense Kommune',category:'Teatre'},
+    {name:'Nyborg Teaterforening',url:'https://nyborgteater.dk',kommune:'Nyborg Kommune',category:'Teatre'},
+    {name:'Teatret Møllen',url:'https://www.teatretmoellen.dk',kommune:'Haderslev Kommune',category:'Teatre'},
+    {name:'Teater i Aabenraa',url:'https://www.teateriaabenraa.dk',kommune:'Aabenraa Kommune',category:'Teatre'},
     {name:'Helsingør Teater',url:'https://helsingorteater.dk',kommune:'Helsingør Kommune',category:'Teatre'},
     {name:'Espergærde Teaterhus',url:'https://espergaerdeteater.dk',kommune:'Helsingør Kommune',category:'Teatre'},
     {name:'Frederikssund Teater',url:'https://frederikssundteater.dk',kommune:'Frederikssund Kommune',category:'Teatre'},
