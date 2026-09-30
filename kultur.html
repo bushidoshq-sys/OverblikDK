@@ -102,6 +102,22 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Kulturbiografen Frysehuset',url:'https://www.kulturbiografen.dk',kommune:'Holbæk Kommune',category:'Biografer'},
+    {name:'Mørkøv Kino',url:'https://www.morkovkino.dk',kommune:'Holbæk Kommune',category:'Biografer'},
+    {name:'Kino Den Blå Engel',url:'https://kinodenblaaengel.dk',kommune:'Kalundborg Kommune',category:'Biografer'},
+    {name:'Hvalsø Bio',url:'https://www.hvalsoebio.dk',kommune:'Lejre Kommune',category:'Biografer'},
+    {name:'Vig Bio',url:'https://www.vigbio.dk',kommune:'Odsherred Kommune',category:'Biografer'},
+    {name:'Biografen Kanten',url:'https://faxe.biografkompagniet.dk',kommune:'Faxe Kommune',category:'Biografer'},
+    {name:'Haslev Bio',url:'https://haslevbio.dk',kommune:'Faxe Kommune',category:'Biografer'},
+    {name:'Biograf Caféen',url:'https://www.biografcafeen.dk',kommune:'Vordingborg Kommune',category:'Biografer'},
+    {name:'Bio Møn',url:'https://biomon.dk',kommune:'Vordingborg Kommune',category:'Biografer'},
+    {name:'Korsør Biograf Teater',url:'https://www.korsoer-bio.dk',kommune:'Slagelse Kommune',category:'Biografer'},
+    {name:'Victoria Teatret',url:'https://www.victoriateatret.dk',kommune:'Sorø Kommune',category:'Biografer'},
+    {name:'Birkerød Bio',url:'https://www.birkeroedbio.dk',kommune:'Rudersdal Kommune',category:'Biografer'},
+    {name:'Rønne Bio',url:'https://www.roennebio.dk',kommune:'Bornholms Regionskommune',category:'Biografer'},
+    {name:'Scala Gudhjem',url:'https://www.scalagudhjem.dk',kommune:'Bornholms Regionskommune',category:'Biografer'},
+    {name:'Nysted Biograf-Teater',url:'https://www.nystedbio.dk',kommune:'Guldborgsund Kommune',category:'Biografer'},
+    {name:'Lalandia Bio Rødby',url:'https://www.lalandia.dk',kommune:'Lolland Kommune',category:'Biografer'},
     {name:'Cinemateket',url:'https://www.dfi.dk/cinemateket',kommune:'Københavns Kommune',category:'Biografer'},
     {name:'Empire Bio',url:'https://www.empirebio.dk',kommune:'Københavns Kommune',category:'Biografer'},
     {name:'Gloria Biograf & Café',url:'https://www.gloria.dk',kommune:'Københavns Kommune',category:'Biografer'},
