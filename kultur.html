@@ -102,6 +102,16 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Teater Refleksion',url:'https://www.refleksion.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Teater Katapult',url:'https://www.katapult.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Teaterhuset Filuren',url:'https://www.filuren.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Limfjordsteatret',url:'https://www.limfjordsteatret.dk',kommune:'Morsø Kommune',category:'Teatre'},
+    {name:'Aalborg Teater',url:'https://www.aalborgteater.dk',kommune:'Aalborg Kommune',category:'Teatre'},
+    {name:'Teater Nordkraft',url:'https://www.teaternordkraft.dk',kommune:'Aalborg Kommune',category:'Teatre'},
+    {name:'Det Hem\'lige Teater',url:'https://www.det-hemlige-teater.dk',kommune:'Aalborg Kommune',category:'Teatre'},
+    {name:'Frederikshavn Teaterforening',url:'https://www.frederikshavnteaterforening.dk',kommune:'Frederikshavn Kommune',category:'Teatre'},
+    {name:'Thisted Musikteater',url:'https://www.thistedmusikteater.dk',kommune:'Thisted Kommune',category:'Teatre'},
+    {name:'Teaterkredsen Mariagerfjord',url:'https://www.teaterkredsenmariagerfjord.dk',kommune:'Mariagerfjord Kommune',category:'Teatre'},
     {name:'Odense Teater',url:'https://www.odenseteater.dk',kommune:'Odense Kommune',category:'Teatre'},
     {name:'Teater95b',url:'https://www.teater95b.dk',kommune:'Odense Kommune',category:'Teatre'},
     {name:'Sønderborg Teater',url:'https://www.sonderborgteater.dk',kommune:'Sønderborg Kommune',category:'Teatre'},
