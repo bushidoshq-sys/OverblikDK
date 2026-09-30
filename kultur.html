@@ -102,6 +102,13 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Augustiana Kunstpark & Kunsthal',url:'https://augustiana.dk',kommune:'Sønderborg Kommune',category:'Kunst & gallerier'},
+    {name:'KunstVærket',url:'https://www.visitsonderjylland.dk',kommune:'Sønderborg Kommune',category:'Kunst & gallerier'},
+    {name:'KunstPunkt',url:'https://www.visitsonderjylland.dk',kommune:'Sønderborg Kommune',category:'Kunst & gallerier'},
+    {name:'Galleri Galschiøt',url:'https://galschiot.com',kommune:'Odense Kommune',category:'Kunst & gallerier'},
+    {name:'Kunsthal Aarhus',url:'https://kunsthal.dk',kommune:'Aarhus Kommune',category:'Kunst & gallerier'},
+    {name:'Kunsthal Thy',url:'https://kunsthalthy.dk',kommune:'Thisted Kommune',category:'Kunst & gallerier'},
+    {name:'Galleri Visby',url:'https://gallerivisby.dk',kommune:'Hjørring Kommune',category:'Kunst & gallerier'},
     {name:'Galleri BAK',url:'https://www.visitsvendborg.dk/svendborg/gallerier',kommune:'Svendborg Kommune',category:'Kunst & gallerier'},
     {name:'Galleri Flintholm',url:'https://www.visitsvendborg.dk/svendborg/gallerier',kommune:'Svendborg Kommune',category:'Kunst & gallerier'},
     {name:'Galleri Storm',url:'https://www.visitsvendborg.dk/svendborg/gallerier',kommune:'Svendborg Kommune',category:'Kunst & gallerier'},
