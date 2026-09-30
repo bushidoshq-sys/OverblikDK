@@ -55,7 +55,7 @@
   </section>
 
   <div id="cultureCategoryView" hidden>
-    <p><button class="back culture-back" id="cultureBack" type="button">← Tilbage til Kultur</button></p>
+    <p><a class="back" id="cultureBack" href="#">← Tilbage til Kultur</a></p>
     <div class="toolbar">
       <div class="input" role="search">🔎
         <input id="filter" type="search" placeholder="Søg i kommune eller kultursted…" aria-label="Søg i links">
@@ -1077,7 +1077,7 @@
     activeCategory=''; categoryView.hidden=true; hub.hidden=false; homeBack.hidden=false; list.innerHTML=''; input.value='';
   }
   document.querySelectorAll('[data-culture-category]').forEach(btn=>btn.addEventListener('click',()=>showCategory(btn.dataset.cultureCategory)));
-  document.getElementById('cultureBack').addEventListener('click',showHub);
+  document.getElementById('cultureBack').addEventListener('click',e=>{e.preventDefault();showHub()});
   showHub(); wireFilter(input,list);
   document.getElementById('year').textContent=new Date().getFullYear();
 </script>
