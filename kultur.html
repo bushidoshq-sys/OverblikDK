@@ -99,6 +99,31 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Kerteminde Museum',url:'https://ostfynsmuseer.dk',kommune:'Kerteminde Kommune',category:'Museer'},
+    {name:'Farvergården',url:'https://ostfynsmuseer.dk',kommune:'Kerteminde Kommune',category:'Museer'},
+    {name:'Toldboden Kerteminde',url:'https://ostfynsmuseer.dk',kommune:'Kerteminde Kommune',category:'Museer'},
+    {name:'Nyborg Museum',url:'https://ostfynsmuseer.dk',kommune:'Nyborg Kommune',category:'Museer'},
+    {name:'Østfyns Museer',url:'https://ostfynsmuseer.dk',kommune:'Nyborg Kommune',category:'Museer'},
+    {name:'Tidens Samling',url:'https://tidenssamling.dk',kommune:'Odense Kommune',category:'Museer'},
+    {name:'Den Fynske Landsby',url:'https://museumodense.dk',kommune:'Odense Kommune',category:'Museer'},
+    {name:'Carl Nielsen Museet',url:'https://museumodense.dk',kommune:'Odense Kommune',category:'Museer'},
+    {name:'H.C. Andersens Barndomshjem',url:'https://museumodense.dk',kommune:'Odense Kommune',category:'Museer'},
+    {name:'Fyns Militærhistoriske Museum',url:'https://fynsmilitærhistoriskmuseum.dk',kommune:'Odense Kommune',category:'Museer'},
+    {name:'Danmarks Mediemuseum',url:'https://museumodense.dk',kommune:'Odense Kommune',category:'Museer'},
+    {name:'Faaborg Arrest',url:'https://ohavsmuseet.dk',kommune:'Faaborg-Midtfyn Kommune',category:'Museer'},
+    {name:'Kaleko Mølle',url:'https://ohavsmuseet.dk',kommune:'Faaborg-Midtfyn Kommune',category:'Museer'},
+    {name:'Den Gamle Gaard',url:'https://ohavsmuseet.dk',kommune:'Faaborg-Midtfyn Kommune',category:'Museer'},
+    {name:'Danmarks Museum for Lystsejlads',url:'https://lystsejlads.dk',kommune:'Svendborg Kommune',category:'Museer'},
+    {name:'Anne Hvides Gaard',url:'https://svendborgmuseum.dk',kommune:'Svendborg Kommune',category:'Museer'},
+    {name:'Strynø Mølle',url:'https://langelandsmuseum.dk',kommune:'Langeland Kommune',category:'Museer'},
+    {name:'Tobaksladen',url:'https://langelandsmuseum.dk',kommune:'Langeland Kommune',category:'Museer'},
+    {name:'Hjortø Museum',url:'https://svendborgmuseum.dk',kommune:'Svendborg Kommune',category:'Museer'},
+    {name:'Ærøskøbing Bymuseum',url:'https://aeroemuseum.dk',kommune:'Ærø Kommune',category:'Museer'},
+    {name:'Psykiatrisk Samling Middelfart',url:'https://middelfart-museum.dk',kommune:'Middelfart Kommune',category:'Museer'},
+    {name:'Assens Toldkammer',url:'https://museumvestfyn.dk',kommune:'Assens Kommune',category:'Museer'},
+    {name:'Willemoesgården',url:'https://museumvestfyn.dk',kommune:'Assens Kommune',category:'Museer'},
+    {name:'Skoda Museum Danmark',url:'https://skodamuseum.dk',kommune:'Assens Kommune',category:'Museer'},
+    {name:'Terrariet Vissenbjerg',url:'https://terrariet.dk',kommune:'Assens Kommune',category:'Museer'},
     {name:'Gladsaxe Byarkiv',url:'https://gladsaxe.dk/kommunen/om-gladsaxe/byarkiv',kommune:'Gladsaxe Kommune',category:'Museer'},
     {name:'Vedbækfundene',url:'https://museumns.dk',kommune:'Rudersdal Kommune',category:'Museer'},
     {name:'Farum Arkiver & Museer',url:'https://furesoemuseer.dk',kommune:'Furesø Kommune',category:'Museer'},
@@ -608,7 +633,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=79"></script>
+<script src="assets/pwa-update.js?v=80"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
