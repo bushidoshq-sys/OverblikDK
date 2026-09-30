@@ -102,6 +102,14 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Kino Ro\'s Torv',url:'https://www.kinorostorv.dk',kommune:'Roskilde Kommune',category:'Biografer'},
+    {name:'Kosmorama Skælskør',url:'https://www.kosmorama-skaelskoer.dk',kommune:'Slagelse Kommune',category:'Biografer'},
+    {name:'Kino Kalundborg',url:'https://www.kino-kalundborg.dk',kommune:'Kalundborg Kommune',category:'Biografer'},
+    {name:'Kino 1-2 Præstø',url:'https://www.kino1-2.dk',kommune:'Vordingborg Kommune',category:'Biografer'},
+    {name:'Rødding Bio',url:'https://www.roeddingbio.dk',kommune:'Vejen Kommune',category:'Biografer'},
+    {name:'Vejen Kino',url:'https://www.vejenkino.dk',kommune:'Vejen Kommune',category:'Biografer'},
+    {name:'Kino 1-2 Brande',url:'https://www.kino1-2brande.dk',kommune:'Ikast-Brande Kommune',category:'Biografer'},
+    {name:'Kino 1-2 Kjellerup',url:'https://www.kino1-2.dk',kommune:'Silkeborg Kommune',category:'Biografer'},
     {name:'Nordborg Bio',url:'https://www.nordborgbio.dk',kommune:'Sønderborg Kommune',category:'Biografer'},
     {name:'Grindsted Kino',url:'https://www.grindsted-kino.dk',kommune:'Billund Kommune',category:'Biografer'},
     {name:'Vamdrup Kino',url:'https://www.vamdrupkino.dk',kommune:'Kolding Kommune',category:'Biografer'},
