@@ -102,6 +102,17 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Teater Glimt',url:'https://teaterglimt.dk',kommune:'Roskilde Kommune',category:'Teatre'},
+    {name:'Teatergruppen Batida',url:'https://batida.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Teater Rio Rose',url:'https://riorose.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Teater Fantast',url:'https://teaterfantast.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Teater Apropos',url:'https://teaterapropos.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Teater Fluks',url:'https://teaterfluks.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Teaterhuset Thalia',url:'https://teaterhusethalia.dk',kommune:'Aarhus Kommune',category:'Teatre'},
+    {name:'Teater O',url:'https://teatero.dk',kommune:'Odense Kommune',category:'Teatre'},
+    {name:'Teater Blik',url:'https://teaterblik.dk',kommune:'Odense Kommune',category:'Teatre'},
+    {name:'Teater Nordlys',url:'https://teaternordlys.dk',kommune:'Aalborg Kommune',category:'Teatre'},
+    {name:'Det Musiske Hus',url:'https://detmusiskehus.dk',kommune:'Frederikshavn Kommune',category:'Teatre'},
     {name:'Teater Masken',url:'https://www.teatermasken.dk',kommune:'Guldborgsund Kommune',category:'Teatre'},
     {name:'Holbæk Drama College',url:'https://www.holbaekdramacollege.dk',kommune:'Holbæk Kommune',category:'Teatre'},
     {name:'Teater ZeBU',url:'https://www.zebu.nu',kommune:'Københavns Kommune',category:'Teatre'},
