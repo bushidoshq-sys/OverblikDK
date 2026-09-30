@@ -77,10 +77,10 @@ await writeFile(`${res}/drawable/overblikdk_logo.xml`, logoVector, 'utf8');
 
 const launcherForeground = `<?xml version="1.0" encoding="utf-8"?>
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetLeft="12%"
-    android:insetTop="12%"
-    android:insetRight="12%"
-    android:insetBottom="12%"
+    android:insetLeft="28%"
+    android:insetTop="28%"
+    android:insetRight="28%"
+    android:insetBottom="28%"
     android:drawable="@drawable/overblikdk_logo"/>
 `;
 await writeFile(`${res}/drawable/overblikdk_launcher_foreground.xml`, launcherForeground, 'utf8');
