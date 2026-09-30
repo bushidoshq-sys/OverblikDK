@@ -102,6 +102,7 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Galleri Sonja',url:'https://gallerisonja.com',kommune:'Bornholms Regionskommune',category:'Kunst & gallerier'},
     {name:'Augustiana Kunstpark & Kunsthal',url:'https://augustiana.dk',kommune:'Sønderborg Kommune',category:'Kunst & gallerier'},
     {name:'KunstVærket',url:'https://www.visitsonderjylland.dk',kommune:'Sønderborg Kommune',category:'Kunst & gallerier'},
     {name:'KunstPunkt',url:'https://www.visitsonderjylland.dk',kommune:'Sønderborg Kommune',category:'Kunst & gallerier'},
