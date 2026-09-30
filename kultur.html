@@ -99,6 +99,34 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Museum Sønderjylland – Kulturhistorie Aabenraa',url:'https://msj.dk',kommune:'Aabenraa Kommune',category:'Museer'},
+    {name:'Oldemorstoft',url:'https://msj.dk',kommune:'Aabenraa Kommune',category:'Museer'},
+    {name:'Drøhses Hus',url:'https://msj.dk',kommune:'Tønder Kommune',category:'Museer'},
+    {name:'Højer Mølle',url:'https://msj.dk',kommune:'Tønder Kommune',category:'Museer'},
+    {name:'Arkæologi Haderslev',url:'https://msj.dk',kommune:'Haderslev Kommune',category:'Museer'},
+    {name:'Ehlers Samlingen',url:'https://msj.dk',kommune:'Haderslev Kommune',category:'Museer'},
+    {name:'Cathrinesminde Teglværk',url:'https://msj.dk',kommune:'Sønderborg Kommune',category:'Museer'},
+    {name:'Historiecenter Dybbøl Banke',url:'https://1864.dk',kommune:'Sønderborg Kommune',category:'Museer'},
+    {name:'Universe Science Park',url:'https://universe.dk',kommune:'Sønderborg Kommune',category:'Museer'},
+    {name:'Blåvandshuk Fyr',url:'https://vardemuseerne.dk',kommune:'Varde Kommune',category:'Museer'},
+    {name:'Janus – Vestjyllands Kunstmuseum',url:'https://janusbygningen.dk',kommune:'Varde Kommune',category:'Museer'},
+    {name:'Esbjerg Museum',url:'https://sydvestjyskemuseer.dk',kommune:'Esbjerg Kommune',category:'Museer'},
+    {name:'Ribe Kunstmuseum',url:'https://ribekunstmuseum.dk',kommune:'Esbjerg Kommune',category:'Museer'},
+    {name:'Jacob A. Riis Museum',url:'https://sydvestjyskemuseer.dk',kommune:'Esbjerg Kommune',category:'Museer'},
+    {name:'Hex! Museum of Witch Hunt',url:'https://sydvestjyskemuseer.dk',kommune:'Esbjerg Kommune',category:'Museer'},
+    {name:'Karensminde Landbrugsmuseum',url:'https://billundmuseum.dk',kommune:'Billund Kommune',category:'Museer'},
+    {name:'Museum Frello',url:'https://vardemuseerne.dk',kommune:'Varde Kommune',category:'Museer'},
+    {name:'Skamlingsbanken Besøgscenter',url:'https://museumkolding.dk',kommune:'Kolding Kommune',category:'Museer'},
+    {name:'Christiansfeld Centret',url:'https://christiansfeldcentret.dk',kommune:'Kolding Kommune',category:'Museer'},
+    {name:'Haderslev Bymuseum',url:'https://msj.dk',kommune:'Haderslev Kommune',category:'Museer'},
+    {name:'Gram Clay Pit Museum',url:'https://msj.dk',kommune:'Haderslev Kommune',category:'Museer'},
+    {name:'Museum Sønderjylland – Sønderborg Slot',url:'https://msj.dk',kommune:'Sønderborg Kommune',category:'Museer'},
+    {name:'Tønder Museum',url:'https://msj.dk',kommune:'Tønder Kommune',category:'Museer'},
+    {name:'Højer Slusemuseum',url:'https://msj.dk',kommune:'Tønder Kommune',category:'Museer'},
+    {name:'Egtvedpigens Grav og Udstilling',url:'https://www.vejlemuseerne.dk',kommune:'Vejle Kommune',category:'Museer'},
+    {name:'Randbøldalmuseet',url:'https://www.vejlemuseerne.dk',kommune:'Vejle Kommune',category:'Museer'},
+    {name:'Danmarks Industrimuseum',url:'https://industrimuseet.dk',kommune:'Horsens Kommune',category:'Museer'},
+    {name:'Fængselsmuseet',url:'https://faengslet.dk',kommune:'Horsens Kommune',category:'Museer'},
     {name:'Koldkrigsmuseum REGAN Vest',url:'https://nordjyskemuseer.dk/u/regan-vest/',kommune:'Rebild Kommune',category:'Museer'},
     {name:'Himmerlands Museum',url:'https://vesthimmerlandsmuseum.dk',kommune:'Vesthimmerlands Kommune',category:'Museer'},
     {name:'Stenaldercenter Ertebølle',url:'https://vesthimmerlandsmuseum.dk',kommune:'Vesthimmerlands Kommune',category:'Museer'},
@@ -549,7 +577,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=76"></script>
+<script src="assets/pwa-update.js?v=77"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
