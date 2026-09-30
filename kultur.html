@@ -102,6 +102,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Kedelhuset',url:'https://kedelhuset.com',kommune:'Silkeborg Kommune',category:'Musik & spillesteder'},
+    {name:'Turbinen',url:'https://turbinen.dk',kommune:'Randers Kommune',category:'Musik & spillesteder'},
+    {name:'Von Hatten',url:'https://vonhatten.dk',kommune:'Randers Kommune',category:'Musik & spillesteder'},
+    {name:'Pakhuset',url:'https://pakhuset.dk',kommune:'Ikast-Brande Kommune',category:'Musik & spillesteder'},
+    {name:'Kulturcenter Limfjord',url:'https://kclimfjord.dk',kommune:'Skive Kommune',category:'Musik & spillesteder'},
+    {name:'Studenterhuset Aalborg',url:'https://studenterhuset.dk',kommune:'Aalborg Kommune',category:'Musik & spillesteder'},
+    {name:'1000Fryd',url:'https://1000fryd.dk',kommune:'Aalborg Kommune',category:'Musik & spillesteder'},
+    {name:'Huset i Hasserisgade',url:'https://huset.dk',kommune:'Aalborg Kommune',category:'Musik & spillesteder'},
+    {name:'Vendelhallen',url:'https://vendelhallen.dk',kommune:'Hjørring Kommune',category:'Musik & spillesteder'},
     {name:'Magasinet',url:'https://odensebib.dk/magasinet',kommune:'Odense Kommune',category:'Musik & spillesteder'},
     {name:'Posten',url:'https://postenlive.dk',kommune:'Odense Kommune',category:'Musik & spillesteder'},
     {name:'Generator',url:'https://generatorfestival.dk',kommune:'Vejle Kommune',category:'Musik & spillesteder'},
