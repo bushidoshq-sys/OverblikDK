@@ -43,10 +43,12 @@
 
   function getNativeTorch() {
     const cap = window.Capacitor;
-    if (!cap?.isNativePlatform?.() || !cap?.registerPlugin) return null;
-    // registerPlugin() is the reliable Capacitor bridge path; isPluginAvailable()
-    // can report false before/while the web layer resolves a community plugin.
-    if (!nativeTorch) nativeTorch = cap.registerPlugin('Torch');
+    if (!cap?.isNativePlatform?.()) return null;
+    // Prefer an already registered native plugin, then fall back to Capacitor's
+    // proxy registration. This covers both bundled and runtime-resolved bridges.
+    if (!nativeTorch) {
+      nativeTorch = cap.Plugins?.Torch || (cap.registerPlugin ? cap.registerPlugin('Torch') : null);
+    }
     return nativeTorch;
   }
 
