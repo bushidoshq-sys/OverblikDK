@@ -53,25 +53,31 @@
 <script>
   function sortDa(arr, key){ return arr.slice().sort((a,b)=> a[key].localeCompare(b[key],'da',{sensitivity:'base'})); }
   function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return '' } }
-  function render(listEl, data){
-    listEl.innerHTML = '';
-    const sorted = window.OverblikDKLocalHelper?.sortLinks(data) || sortDa(data,'name');
-    sorted.forEach(({name,url})=>{
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
-        <span>${name}</span><span class="host">${host(url)}</span></a>`;
-      listEl.appendChild(li);
-    });
-    document.getElementById('count').textContent = String(sorted.length);
-  }
-  function wireFilter(inputEl, listEl){
-    inputEl.addEventListener('input', ()=>{
-      const q = inputEl.value.toLowerCase().trim();
-      for(const li of listEl.querySelectorAll('li')){
-        li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
+  function render(el,data){
+    el.innerHTML='';
+    const municipalities=window.OverblikDKLocalData?.municipalityToRegion || {};
+    const groups=new Map(Object.keys(municipalities).map(k=>[k,[]]));
+    data.forEach(item=>{if(item.kommune && groups.has(item.kommune)) groups.get(item.kommune).push(item)});
+    [...groups.keys()].sort((a,b)=>{
+      const helper=window.OverblikDKLocalHelper;
+      if(helper?.enabled()){
+        const ra=helper.rank({kommune:a,region:municipalities[a]});
+        const rb=helper.rank({kommune:b,region:municipalities[b]});
+        if(ra!==rb)return ra-rb;
       }
+      return a.localeCompare(b,'da',{sensitivity:'base'});
+    }).forEach(kommune=>{
+      const items=groups.get(kommune);
+      if(!items.length)return;
+      const section=document.createElement('section'); section.className='culture-municipality';
+      const h=document.createElement('h2'); h.textContent=kommune.replace('Bornholms Regionskommune','Bornholm').replace(/ Kommune$/,''); section.appendChild(h);
+      const ul=document.createElement('ul'); ul.className='link-list';
+      sortDa(items,'name').forEach(item=>{const li=document.createElement('li');const link=document.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener';const n=document.createElement('span');n.textContent=item.name;const hs=document.createElement('span');hs.className='host';hs.textContent=host(item.url);link.append(n,hs);li.appendChild(link);ul.appendChild(li)});
+      section.appendChild(ul); el.appendChild(section);
     });
+    document.getElementById('count').textContent=data.length;
   }
+  function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
     {name:'Aalborg Bibliotekerne', url:'https://www.aalborgbibliotekerne.dk', kommune:'Aalborg Kommune', region:'Region Nordjylland'},
@@ -581,27 +587,15 @@
     {name:'Lintrup Bibliotek', url:'https://vejenbib.dk', kommune:'Vejen Kommune', region:'Region Syddanmark'},
   ];
 
-  const listEl = document.getElementById('links');
-  const filterEl = document.getElementById('filter');
-  // Biblioteker skal altid kunne vises uafhængigt af lokations-/sorteringslaget.
-  // Byg DOM direkte fra de 505 poster; regional sortering må aldrig blokere siden.
-  listEl.innerHTML = '';
-  sortDa(LINKS,'name').forEach(({name,url})=>{
-    const li=document.createElement('li');
-    const a=document.createElement('a');
-    a.href=url; a.target='_blank'; a.rel='noopener';
-    const n=document.createElement('span'); n.textContent=name;
-    const h=document.createElement('span'); h.className='host'; h.textContent=host(url);
-    a.append(n,h); li.appendChild(a); listEl.appendChild(li);
-  });
-  document.getElementById('count').textContent=String(LINKS.length);
-  wireFilter(filterEl, listEl);
+  const listEl=document.getElementById('links'), filterEl=document.getElementById('filter');
+  render(listEl,LINKS);
+  wireFilter(filterEl,listEl);
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=89"></script>
+<script src="assets/pwa-update.js?v=90"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
