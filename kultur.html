@@ -102,6 +102,11 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Den Blå Planet',url:'https://denblaaplanet.dk',kommune:'Tårnby Kommune',category:'Andre kultursteder'},
+    {name:'Planetarium',url:'https://planetarium.dk',kommune:'Københavns Kommune',category:'Andre kultursteder'},
+    {name:'Nordsøen Oceanarium',url:'https://nordsoenoceanarium.dk',kommune:'Hjørring Kommune',category:'Andre kultursteder'},
+    {name:'Vadehavscentret',url:'https://vadehavscentret.dk',kommune:'Esbjerg Kommune',category:'Andre kultursteder'},
+    {name:'Moesgaard',url:'https://moesgaardmuseum.dk',kommune:'Aarhus Kommune',category:'Andre kultursteder'},
     {name:'Nordkraft',url:'https://nordkraft.dk',kommune:'Aalborg Kommune',category:'Kulturhuse'},
     {name:'Kulturhuset Trekanten',url:'https://trekanten.info',kommune:'Aalborg Kommune',category:'Kulturhuse'},
     {name:'Kulturcenter Vendsyssel',url:'https://kulturcentervendsyssel.dk',kommune:'Hjørring Kommune',category:'Kulturhuse'},
