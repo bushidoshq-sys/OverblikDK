@@ -75,11 +75,21 @@ const logoVector = `<?xml version="1.0" encoding="utf-8"?>
 `;
 await writeFile(`${res}/drawable/overblikdk_logo.xml`, logoVector, 'utf8');
 
+const launcherForeground = `<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="12%"
+    android:insetTop="12%"
+    android:insetRight="12%"
+    android:insetBottom="12%"
+    android:drawable="@drawable/overblikdk_logo"/>
+`;
+await writeFile(`${res}/drawable/overblikdk_launcher_foreground.xml`, launcherForeground, 'utf8');
+
 const adaptiveIcon = `<?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
   <background android:drawable="@color/overblikdk_icon_background"/>
-  <foreground android:drawable="@drawable/overblikdk_logo"/>
-  <monochrome android:drawable="@drawable/overblikdk_logo"/>
+  <foreground android:drawable="@drawable/overblikdk_launcher_foreground"/>
+  <monochrome android:drawable="@drawable/overblikdk_launcher_foreground"/>
 </adaptive-icon>
 `;
 await writeFile(`${res}/mipmap-anydpi-v26/ic_launcher.xml`, adaptiveIcon, 'utf8');
