@@ -12,6 +12,7 @@
   let sosVideo = null;
   let sosPreviousTheme = null;
   let nativeTorch = null;
+  let nativeHaptics = null;
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -86,7 +87,19 @@
     overlay.style.opacity = on ? '1' : '0';
   }
 
-  function vibrateFor(ms) {
+  async function vibrateFor(ms) {
+    try {
+      const cap = window.Capacitor;
+      if (cap?.isNativePlatform?.()) {
+        if (!nativeHaptics) {
+          nativeHaptics = cap.Plugins?.Haptics || (cap.registerPlugin ? cap.registerPlugin('Haptics') : null);
+        }
+        if (nativeHaptics?.vibrate) {
+          await nativeHaptics.vibrate({ duration: ms });
+          return;
+        }
+      }
+    } catch {}
     try {
       if (navigator.vibrate) navigator.vibrate(ms);
     } catch {}
@@ -248,7 +261,7 @@
         const offMs = signal[i + 1] * unit;
 
         setScreenFlash(true);
-        vibrateFor(onMs);
+        await vibrateFor(onMs);
         if (sosMode === 'torch') {
           try {
             await setTorch(true);
