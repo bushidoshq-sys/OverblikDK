@@ -105,11 +105,26 @@ footer {
 
 .back {
   display: inline-block;
+  appearance: none;
   text-decoration: none;
-  color: var(--muted);
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: .62rem .9rem;
   margin: .3rem 0 1rem;
+  font-weight: 700;
+  line-height: 1.15;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
-.back:hover { color: var(--text); }
+.back:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.back:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  outline-offset: 2px;
+}
 
 .grid {
   display: grid;
