@@ -102,6 +102,11 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Nordborg Bio',url:'https://www.nordborgbio.dk',kommune:'Sønderborg Kommune',category:'Biografer'},
+    {name:'Grindsted Kino',url:'https://www.grindsted-kino.dk',kommune:'Billund Kommune',category:'Biografer'},
+    {name:'Vamdrup Kino',url:'https://www.vamdrupkino.dk',kommune:'Kolding Kommune',category:'Biografer'},
+    {name:'Agger Bio',url:'https://www.aggerbio.dk',kommune:'Thisted Kommune',category:'Biografer'},
+    {name:'Bjerringbro Biograf',url:'https://www.bbbio.dk',kommune:'Viborg Kommune',category:'Biografer'},
     {name:'Ringe Bio',url:'https://www.ringebio.dk',kommune:'Faaborg-Midtfyn Kommune',category:'Biografer'},
     {name:'Varde Bio',url:'https://www.vardebio.dk',kommune:'Varde Kommune',category:'Biografer'},
     {name:'Fotorama Hammel',url:'https://www.fotorama-hammel.dk',kommune:'Favrskov Kommune',category:'Biografer'},
