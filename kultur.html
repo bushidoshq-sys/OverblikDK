@@ -99,6 +99,23 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Skibsklarerergaarden',url:'https://helsingormuseer.dk',kommune:'Helsingør Kommune',category:'Museer'},
+    {name:'Værftsmuseet',url:'https://helsingormuseer.dk',kommune:'Helsingør Kommune',category:'Museer'},
+    {name:'Esrum Kloster & Møllegård',url:'https://esrum.dk',kommune:'Gribskov Kommune',category:'Museer'},
+    {name:'Munkeruphus',url:'https://munkeruphus.dk',kommune:'Gribskov Kommune',category:'Museer'},
+    {name:'Gilleleje Museum',url:'https://museumns.dk',kommune:'Gribskov Kommune',category:'Museer'},
+    {name:'Skibshallerne Gilleleje',url:'https://museumns.dk',kommune:'Gribskov Kommune',category:'Museer'},
+    {name:'Nakkehoved Fyrhistoriske Museum',url:'https://museumns.dk',kommune:'Gribskov Kommune',category:'Museer'},
+    {name:'Industrimuseet Frederiks Værk',url:'https://museumns.dk',kommune:'Halsnæs Kommune',category:'Museer'},
+    {name:'Krudtværksmuseet',url:'https://museumns.dk',kommune:'Halsnæs Kommune',category:'Museer'},
+    {name:'Hundested Sandskulptur Museum',url:'https://hundestedsandskulptur.dk',kommune:'Halsnæs Kommune',category:'Museer'},
+    {name:'Færgegården',url:'https://museumns.dk',kommune:'Frederikssund Kommune',category:'Museer'},
+    {name:'Jægerspris Slot Museum',url:'https://kongfrederik.dk',kommune:'Frederikssund Kommune',category:'Museer'},
+    {name:'Skibby Egnsmuseum',url:'https://frederikssund.dk',kommune:'Frederikssund Kommune',category:'Museer'},
+    {name:'Egholm Museum',url:'https://egholmmuseum.dk',kommune:'Lejre Kommune',category:'Museer'},
+    {name:'Hedeland Veteranbane',url:'https://ibk.dk',kommune:'Høje-Taastrup Kommune',category:'Museer'},
+    {name:'Vallensbæk Lokalhistoriske Samling',url:'https://vallensbaek.dk',kommune:'Vallensbæk Kommune',category:'Museer'},
+    {name:'Ishøj Lokalhistoriske Arkiv',url:'https://ishoj.dk',kommune:'Ishøj Kommune',category:'Museer'},
     {name:'Danmarks Flymuseum',url:'https://flymuseum.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
     {name:'Ringkøbing Museum',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
     {name:'Skjern Vindmølle',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
@@ -697,7 +714,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=82"></script>
+<script src="assets/pwa-update.js?v=83"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
