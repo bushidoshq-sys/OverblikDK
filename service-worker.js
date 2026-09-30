@@ -1,10 +1,10 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-29-location-fallback-v54';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-30-pull-indicator-v55';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger",
-  "./assets/styles.css?v=53",
+  "./assets/styles.css?v=55",
   "./assets/theme.js?v=24",
   "./assets/address-provider.js?v=27",
   "./assets/manual-location.js?v=28",
@@ -17,7 +17,7 @@ const FILES_TO_CACHE = [
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=40",
-  "./assets/pwa-update.js?v=54",
+  "./assets/pwa-update.js?v=55",
   "./assets/native-navigation.js?v=25",
   "./manifest.json",
   "./icons/logo.png",
