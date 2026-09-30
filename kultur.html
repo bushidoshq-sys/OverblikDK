@@ -99,6 +99,29 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Melstedgård',url:'https://bornholmsmuseum.dk',kommune:'Bornholms Regionskommune',category:'Museer'},
+    {name:'NaturBornholm',url:'https://naturbornholm.dk',kommune:'Bornholms Regionskommune',category:'Museer'},
+    {name:'Oluf Høst Museet',url:'https://olufhost.dk',kommune:'Bornholms Regionskommune',category:'Museer'},
+    {name:'Hammerichs Hus',url:'https://aeroemuseum.dk',kommune:'Ærø Kommune',category:'Museer'},
+    {name:'Flaske-Peters Samling',url:'https://aeroemuseum.dk',kommune:'Ærø Kommune',category:'Museer'},
+    {name:'Fanø Skibsfarts- og Dragtsamling',url:'https://fanoemuseum.dk',kommune:'Fanø Kommune',category:'Museer'},
+    {name:'Hannes Hus',url:'https://fanoemuseum.dk',kommune:'Fanø Kommune',category:'Museer'},
+    {name:'Frieboeshvile',url:'https://stadsarkivet.ltk.dk',kommune:'Lyngby-Taarbæk Kommune',category:'Museer'},
+    {name:'Sorgenfri Slot',url:'https://kongeligeslotte.dk',kommune:'Lyngby-Taarbæk Kommune',category:'Museer'},
+    {name:'Glostrup Lokalhistoriske Arkiv',url:'https://glostrup.dk',kommune:'Glostrup Kommune',category:'Museer'},
+    {name:'Vestvolden',url:'https://vestvolden.dk',kommune:'Hvidovre Kommune',category:'Museer'},
+    {name:'Brede Værk Museum',url:'https://natmus.dk',kommune:'Lyngby-Taarbæk Kommune',category:'Museer'},
+    {name:'Storm P. Museet',url:'https://frederiksbergmuseerne.dk',kommune:'Frederiksberg Kommune',category:'Museer'},
+    {name:'Bakkehusmuseet',url:'https://frederiksbergmuseerne.dk',kommune:'Frederiksberg Kommune',category:'Museer'},
+    {name:'Enigma Museum for Post, Tele og Kommunikation',url:'https://www.enigma.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Frihedsmuseet',url:'https://natmus.dk/museer-og-slotte/frihedsmuseet/',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Musikmuseet',url:'https://natmus.dk/museer-og-slotte/musikmuseet/',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Hirschsprungske Samling',url:'https://hirschsprung.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Københavns Bymuseum',url:'https://cphmuseum.kk.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Nikolaj Kunsthal',url:'https://nikolajkunsthal.kk.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Dansk Jødisk Museum',url:'https://jewmus.dk',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Guinness World Records Museum',url:'https://www.ripleys.com',kommune:'Københavns Kommune',category:'Museer'},
+    {name:'Museum of Illusions Copenhagen',url:'https://moicopenhagen.dk',kommune:'Københavns Kommune',category:'Museer'},
     {name:'Museum Amager',url:'https://museumamager.dk',kommune:'Tårnby Kommune',category:'Museer'},
     {name:'Immigrantmuseet',url:'https://immigrantmuseet.dk',kommune:'Furesø Kommune',category:'Museer'},
     {name:'Mosede Fort, Danmark 1914-18',url:'https://mosedefort.dk',kommune:'Greve Kommune',category:'Museer'},
@@ -497,7 +520,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=74"></script>
+<script src="assets/pwa-update.js?v=75"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
