@@ -47,13 +47,13 @@
   </section>
 
   <div class="category-filter" id="categoryFilter" aria-label="Filtrér forretninger">
-    <button class="category-btn active" data-category="Alle">Alle</button>
-    <button class="category-btn" data-category="Dagligvarer">Dagligvarer</button>
-    <button class="category-btn" data-category="Bolig & byggemarked">Bolig & byggemarked</button>
-    <button class="category-btn" data-category="Elektronik">Elektronik</button>
-    <button class="category-btn" data-category="Tøj & sko">Tøj & sko</button>
-    <button class="category-btn" data-category="Personlig pleje">Personlig pleje</button>
-    <button class="category-btn" data-category="Børn & fritid">Børn & fritid</button>
+    <button type="button" class="category-btn active" data-category="Alle">Alle</button>
+    <button type="button" class="category-btn" data-category="Dagligvarer">Dagligvarer</button>
+    <button type="button" class="category-btn" data-category="Bolig & byggemarked">Bolig & byggemarked</button>
+    <button type="button" class="category-btn" data-category="Elektronik">Elektronik</button>
+    <button type="button" class="category-btn" data-category="Tøj & sko">Tøj & sko</button>
+    <button type="button" class="category-btn" data-category="Personlig pleje">Personlig pleje</button>
+    <button type="button" class="category-btn" data-category="Børn & fritid">Børn & fritid</button>
   </div>
 
   <section class="grid" id="storeGrid" aria-label="Forretninger">
@@ -483,7 +483,9 @@
     btn.classList.add('active');
     const category = btn.dataset.category;
     storeCards.forEach(card => {
-      card.hidden = category !== 'Alle' && card.dataset.category !== category;
+      const hide = category !== 'Alle' && card.dataset.category !== category;
+      card.hidden = hide;
+      card.style.display = hide ? 'none' : '';
     });
   }));
   document.getElementById('year').textContent=new Date().getFullYear();
