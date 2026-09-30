@@ -99,6 +99,45 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Museum Amager',url:'https://museumamager.dk',kommune:'Tårnby Kommune',category:'Museer'},
+    {name:'Immigrantmuseet',url:'https://immigrantmuseet.dk',kommune:'Furesø Kommune',category:'Museer'},
+    {name:'Mosede Fort, Danmark 1914-18',url:'https://mosedefort.dk',kommune:'Greve Kommune',category:'Museer'},
+    {name:'Lützhøfts Købmandsgård',url:'https://romu.dk',kommune:'Roskilde Kommune',category:'Museer'},
+    {name:'Stevns Museum',url:'https://www.oesm.dk',kommune:'Stevns Kommune',category:'Museer'},
+    {name:'Køge Skitsesamling',url:'https://koes.dk',kommune:'Køge Kommune',category:'Museer'},
+    {name:'Museum Obscurum',url:'https://museumvestfyn.dk',kommune:'Assens Kommune',category:'Museer'},
+    {name:'Ernsts Samlinger',url:'https://museumvestfyn.dk',kommune:'Assens Kommune',category:'Museer'},
+    {name:'Vestfyns Hjemstavnsgård',url:'https://museumvestfyn.dk',kommune:'Assens Kommune',category:'Museer'},
+    {name:'Ladbyskibet',url:'https://vikingemuseetladby.dk',kommune:'Kerteminde Kommune',category:'Museer'},
+    {name:'FLUGT Refugee Museum of Denmark',url:'https://flugtmuseum.dk',kommune:'Varde Kommune',category:'Museer'},
+    {name:'Ribe VikingeCenter',url:'https://ribevikingecenter.dk',kommune:'Esbjerg Kommune',category:'Museer'},
+    {name:'Museet Ribes Vikinger',url:'https://sydvestjyskemuseer.dk',kommune:'Esbjerg Kommune',category:'Museer'},
+    {name:'Sønderborg Slot',url:'https://msj.dk',kommune:'Sønderborg Kommune',category:'Museer'},
+    {name:'Dybbøl Banke',url:'https://1864.dk',kommune:'Sønderborg Kommune',category:'Museer'},
+    {name:'Gram Lergrav – Palæontologi',url:'https://msj.dk',kommune:'Haderslev Kommune',category:'Museer'},
+    {name:'Haderslev Museum',url:'https://msj.dk',kommune:'Haderslev Kommune',category:'Museer'},
+    {name:'Billund Kommunes Museer',url:'https://billundmuseum.dk',kommune:'Billund Kommune',category:'Museer'},
+    {name:'Give-Egnens Museum',url:'https://www.vejlemuseerne.dk',kommune:'Vejle Kommune',category:'Museer'},
+    {name:'Besættelsesmuseet',url:'https://www.dengamleby.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'Steno Museet',url:'https://sciencemuseerne.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'Naturhistorisk Museum Aarhus',url:'https://www.naturhistoriskmuseum.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'Museum Ovartaci',url:'https://www.ovartaci.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'Museum Silkeborg Blicheregnen',url:'https://museumsilkeborg.dk',kommune:'Silkeborg Kommune',category:'Museer'},
+    {name:'Museum Silkeborg Papirmuseet',url:'https://museumsilkeborg.dk',kommune:'Silkeborg Kommune',category:'Museer'},
+    {name:'Hjerl Hedes Frilandsmuseum',url:'https://hjerlhede.dk',kommune:'Holstebro Kommune',category:'Museer'},
+    {name:'Bork Vikingehavn',url:'https://ringkobingfjordmuseer.dk',kommune:'Ringkøbing-Skjern Kommune',category:'Museer'},
+    {name:'Museum Salling Fur',url:'https://museumsalling.dk',kommune:'Skive Kommune',category:'Museer'},
+    {name:'Energimuseet',url:'https://energimuseet.dk',kommune:'Viborg Kommune',category:'Museer'},
+    {name:'Memphis Mansion Museum',url:'https://memphismansion.dk',kommune:'Randers Kommune',category:'Museer'},
+    {name:'Vikingemuseet Fyrkat',url:'https://nordjyskemuseer.dk',kommune:'Mariagerfjord Kommune',category:'Museer'},
+    {name:'Boldrup Museum',url:'https://nordjyskemuseer.dk',kommune:'Rebild Kommune',category:'Museer'},
+    {name:'Lindholm Høje Museet',url:'https://nordjyskemuseer.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Gråbrødrekloster Museet',url:'https://nordjyskemuseer.dk',kommune:'Aalborg Kommune',category:'Museer'},
+    {name:'Bangsbomuseet',url:'https://kystmuseet.dk',kommune:'Frederikshavn Kommune',category:'Museer'},
+    {name:'Sæby Museum',url:'https://kystmuseet.dk',kommune:'Frederikshavn Kommune',category:'Museer'},
+    {name:'Bunkermuseet Hirtshals',url:'https://vhm.dk',kommune:'Hjørring Kommune',category:'Museer'},
+    {name:'Limfjordsmuseet',url:'https://limfjordsmuseet.dk',kommune:'Vesthimmerlands Kommune',category:'Museer'},
+    {name:'Fur Museum',url:'https://museumsalling.dk',kommune:'Skive Kommune',category:'Museer'},
     {name:'Gl. Holtegaard',url:'https://glholtegaard.dk',kommune:'Rudersdal Kommune',category:'Museer'},
     {name:'Rudolph Tegners Museum & Statuepark',url:'https://rudolphtegner.dk',kommune:'Gribskov Kommune',category:'Museer'},
     {name:'Willumsens Museum',url:'https://willumsensmuseum.dk',kommune:'Frederikssund Kommune',category:'Museer'},
@@ -458,7 +497,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=73"></script>
+<script src="assets/pwa-update.js?v=74"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
