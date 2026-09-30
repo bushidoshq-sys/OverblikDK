@@ -102,6 +102,22 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Magasinet',url:'https://odensebib.dk/magasinet',kommune:'Odense Kommune',category:'Musik & spillesteder'},
+    {name:'Posten',url:'https://postenlive.dk',kommune:'Odense Kommune',category:'Musik & spillesteder'},
+    {name:'Generator',url:'https://generatorfestival.dk',kommune:'Vejle Kommune',category:'Musik & spillesteder'},
+    {name:'Bygningen Vejle',url:'https://bygningen-vejle.dk',kommune:'Vejle Kommune',category:'Musik & spillesteder'},
+    {name:'Platform K',url:'https://platform-k.dk',kommune:'Horsens Kommune',category:'Musik & spillesteder'},
+    {name:'Kulisselageret',url:'https://kulisselageret.dk',kommune:'Horsens Kommune',category:'Musik & spillesteder'},
+    {name:'HeadQuarters',url:'https://headquarters.dk',kommune:'Aarhus Kommune',category:'Musik & spillesteder'},
+    {name:'Train',url:'https://train.dk',kommune:'Aarhus Kommune',category:'Musik & spillesteder'},
+    {name:'Radar',url:'https://radarlive.dk',kommune:'Aarhus Kommune',category:'Musik & spillesteder'},
+    {name:'VoxHall',url:'https://voxhall.dk',kommune:'Aarhus Kommune',category:'Musik & spillesteder'},
+    {name:'Atlas',url:'https://fondenvoxhall.dk/atlas',kommune:'Aarhus Kommune',category:'Musik & spillesteder'},
+    {name:'Turkis',url:'https://turkisaarhus.dk',kommune:'Aarhus Kommune',category:'Musik & spillesteder'},
+    {name:'Fermaten',url:'https://fermaten.dk',kommune:'Herning Kommune',category:'Musik & spillesteder'},
+    {name:'Tobaksfabrikken',url:'https://tobaksfabrikken.dk',kommune:'Holstebro Kommune',category:'Musik & spillesteder'},
+    {name:'Paletten',url:'https://paletten.dk',kommune:'Viborg Kommune',category:'Musik & spillesteder'},
+    {name:'Rampelys',url:'https://rampelys.dk',kommune:'Silkeborg Kommune',category:'Musik & spillesteder'},
     {name:'Guldboxen',url:'https://guldboxen.dk',kommune:'Guldborgsund Kommune',category:'Musik & spillesteder'},
     {name:'Musikhuset Posten',url:'https://postenlive.dk',kommune:'Odense Kommune',category:'Musik & spillesteder'},
     {name:'Dexter',url:'https://dexter.dk',kommune:'Odense Kommune',category:'Musik & spillesteder'},
