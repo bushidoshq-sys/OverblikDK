@@ -102,6 +102,15 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Kulturhus Kilden',url:'https://www.roskilde.dk',kommune:'Roskilde Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Pavillonen',url:'https://pavillonen.dk',kommune:'Køge Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Bølgen',url:'https://naestved.dk',kommune:'Næstved Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset No1',url:'https://www.slagelse.dk',kommune:'Slagelse Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Kilden',url:'https://www.kalundborg.dk',kommune:'Kalundborg Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset i Svinninge',url:'https://holbaek.dk',kommune:'Holbæk Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Gimle',url:'https://gimlekalundborg.dk',kommune:'Kalundborg Kommune',category:'Kulturhuse'},
+    {name:'Kulturhus Bangs Have',url:'https://www.lolland.dk',kommune:'Lolland Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Møllen',url:'https://vordingborg.dk',kommune:'Vordingborg Kommune',category:'Kulturhuse'},
     {name:'Kulturhuset Islands Brygge',url:'https://kulturhusetislandsbrygge.kk.dk',kommune:'Københavns Kommune',category:'Kulturhuse'},
     {name:'Kulturhuset Indre By',url:'https://kulturhusetindreby.kk.dk',kommune:'Københavns Kommune',category:'Kulturhuse'},
     {name:'Kulturhuset Bispebjerg Nordvest',url:'https://kulturhusetbispebjergnordvest.kk.dk',kommune:'Københavns Kommune',category:'Kulturhuse'},
