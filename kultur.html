@@ -102,6 +102,14 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Nordkraft',url:'https://nordkraft.dk',kommune:'Aalborg Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Trekanten',url:'https://trekanten.info',kommune:'Aalborg Kommune',category:'Kulturhuse'},
+    {name:'Kulturcenter Vendsyssel',url:'https://kulturcentervendsyssel.dk',kommune:'Hjørring Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Løkken',url:'https://loekkenkulturhus.dk',kommune:'Hjørring Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Blokhus',url:'https://kulturhusetblokhus.dk',kommune:'Jammerbugt Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Aars',url:'https://vesthimmerland.dk',kommune:'Vesthimmerlands Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset i Arden',url:'https://mariagerfjord.dk',kommune:'Mariagerfjord Kommune',category:'Kulturhuse'},
+    {name:'Kulturhuset Hanstholm',url:'https://thisted.dk',kommune:'Thisted Kommune',category:'Kulturhuse'},
     {name:'Dokk1',url:'https://dokk1.dk',kommune:'Aarhus Kommune',category:'Kulturhuse'},
     {name:'Kulturhuset Bunkeren',url:'https://aarhus.dk',kommune:'Aarhus Kommune',category:'Kulturhuse'},
     {name:'Kulturhuset Pavillonen',url:'https://pavillonen.dk',kommune:'Norddjurs Kommune',category:'Kulturhuse'},
