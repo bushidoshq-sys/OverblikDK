@@ -102,6 +102,21 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Nordisk Film Biografer Odense',url:'https://www.nfbio.dk/biografer/odense',kommune:'Odense Kommune',category:'Biografer'},
+    {name:'Scala Svendborg',url:'https://www.scala-svendborg.dk',kommune:'Svendborg Kommune',category:'Biografer'},
+    {name:'Nyborg Kino Teatret',url:'https://nyborg.biografkompagniet.dk',kommune:'Nyborg Kommune',category:'Biografer'},
+    {name:'Helios Biograf og Kulturhus',url:'https://www.heliosbio.dk',kommune:'Faaborg-Midtfyn Kommune',category:'Biografer'},
+    {name:'Panorama Middelfart',url:'https://www.0024.dk',kommune:'Middelfart Kommune',category:'Biografer'},
+    {name:'Tobaksgaardens Bio',url:'https://tobaksgaarden.dk',kommune:'Assens Kommune',category:'Biografer'},
+    {name:'Nordisk Film Biografer Esbjerg Broen',url:'https://www.nfbio.dk/biografer/esbjerg-broen',kommune:'Esbjerg Kommune',category:'Biografer'},
+    {name:'Nordisk Film Biografer Kolding',url:'https://www.nfbio.dk/biografer/kolding',kommune:'Kolding Kommune',category:'Biografer'},
+    {name:'Lido Biograferne',url:'https://lido.dk',kommune:'Vejle Kommune',category:'Biografer'},
+    {name:'Panorama Fredericia',url:'https://www.0024.dk',kommune:'Fredericia Kommune',category:'Biografer'},
+    {name:'Kinorama Sønderborg',url:'https://www.kinorama.dk',kommune:'Sønderborg Kommune',category:'Biografer'},
+    {name:'Kinorama Aabenraa',url:'https://www.kinorama.dk',kommune:'Aabenraa Kommune',category:'Biografer'},
+    {name:'Kosmorama Haderslev',url:'https://www.kosmorama6100.dk',kommune:'Haderslev Kommune',category:'Biografer'},
+    {name:'Biografen 1 & 2',url:'https://kino12.dk',kommune:'Tønder Kommune',category:'Biografer'},
+    {name:'Toftlund Biograf',url:'https://www.toftlundbiograf.dk',kommune:'Tønder Kommune',category:'Biografer'},
     {name:'Kulturbiografen Frysehuset',url:'https://www.kulturbiografen.dk',kommune:'Holbæk Kommune',category:'Biografer'},
     {name:'Mørkøv Kino',url:'https://www.morkovkino.dk',kommune:'Holbæk Kommune',category:'Biografer'},
     {name:'Kino Den Blå Engel',url:'https://kinodenblaaengel.dk',kommune:'Kalundborg Kommune',category:'Biografer'},
