@@ -33,7 +33,7 @@
 </header>
 
 <main class="container">
-  <p><a class="back" href="index.html">← Tilbage til forsiden</a></p>
+  <p><a class="back" href="/">← Tilbage til forsiden</a></p>
 
   <section class="quick-panel" aria-labelledby="cultureTitle">
     <div class="quick-head"><div>
@@ -42,7 +42,7 @@
       <p>Biblioteker, museer, biografer, teatre, musik, kunst og kulturhuse samlet ét sted.</p>
     </div></div>
     <div class="nearby-actions" id="cultureCategories">
-      <a class="nearby-btn" href="biblioteker">📚 Biblioteker</a>
+      <a class="nearby-btn" href="/biblioteker">📚 Biblioteker</a>
       <button class="nearby-btn" type="button" data-culture-category="Museer">🏛️ Museer</button>
       <button class="nearby-btn" type="button" data-culture-category="Biografer">🎬 Biografer</button>
       <button class="nearby-btn" type="button" data-culture-category="Teatre">🎭 Teatre</button>
@@ -53,14 +53,16 @@
     </div>
   </section>
 
-  <div class="toolbar">
-    <div class="input" role="search">🔎
-      <input id="filter" type="search" placeholder="Søg i kommune eller kultursted…" aria-label="Søg i links">
+  <div id="cultureCategoryView" hidden>
+    <p><button class="back culture-back" id="cultureBack" type="button">← Tilbage til Kultur</button></p>
+    <div class="toolbar">
+      <div class="input" role="search">🔎
+        <input id="filter" type="search" placeholder="Søg i kommune eller kultursted…" aria-label="Søg i links">
+      </div>
+      <span class="badge"><strong id="count">0</strong> links</span>
     </div>
-    <span class="badge"><strong id="count">0</strong> links</span>
+    <div id="links" aria-label="Kultur efter kommune"></div>
   </div>
-
-  <div id="links" aria-label="Kultur efter kommune"></div>
 </main>
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
@@ -71,7 +73,7 @@
 <script>
   function sortDa(a,k){return a.slice().sort((x,y)=>x[k].localeCompare(y[k],'da',{sensitivity:'base'}))}
   function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return''}}
-  let activeCategory='Museer';
+  let activeCategory='';
   function categoryOf(name,explicit=''){if(explicit)return explicit;const s=name.toLowerCase();if(/biograf|cinema/.test(s))return 'Biografer';if(/bibliotek/.test(s))return 'Biblioteker';if(/museum|museet|museer|museums|samling|arkiv|kloster|gården|gaard|fregatten|saltsyderi|kalkminer|slot|slotskirke|historisk/.test(s))return 'Museer';if(/teater|opera|scene|skuespil/.test(s))return 'Teatre';if(/musik|koncert|spillested|maskinhallen/.test(s))return 'Musik & spillesteder';if(/kunst|galleri|glasmuse/.test(s))return 'Kunst & gallerier';if(/kultur|folkets hus|sløjfen|medborger/.test(s))return 'Kulturhuse';return 'Andre kultursteder'}
   function render(el,data){
     el.innerHTML='';
@@ -731,15 +733,25 @@
   ];
 
   const list=document.getElementById('links'), input=document.getElementById('filter');
-  function showCategory(category){activeCategory=category;const data=category?LINKS.filter(x=>categoryOf(x.name,x.category)===category):LINKS;render(list,data);input.value='';document.querySelectorAll('[data-culture-category]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cultureCategory===category?'true':'false'))}
+  const hub=document.querySelector('.quick-panel'), categoryView=document.getElementById('cultureCategoryView');
+  function showCategory(category){
+    activeCategory=category;
+    const data=LINKS.filter(x=>categoryOf(x.name,x.category)===category);
+    hub.hidden=true; categoryView.hidden=false;
+    render(list,data); input.value='';
+  }
+  function showHub(){
+    activeCategory=''; categoryView.hidden=true; hub.hidden=false; list.innerHTML=''; input.value='';
+  }
   document.querySelectorAll('[data-culture-category]').forEach(btn=>btn.addEventListener('click',()=>showCategory(btn.dataset.cultureCategory)));
-  showCategory(activeCategory); wireFilter(input,list);
+  document.getElementById('cultureBack').addEventListener('click',showHub);
+  showHub(); wireFilter(input,list);
   document.getElementById('year').textContent=new Date().getFullYear();
 </script>
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=87"></script>
+<script src="assets/pwa-update.js?v=88"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
