@@ -30,10 +30,14 @@
         <h1>OverblikDK</h1>
         <small>Din genvej til danske links</small>
       </div>
-      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
-        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
-        <span class="theme-toggle__text">Mørk</span>
-      </button>
+      <div class="header-actions">
+        <a class="header-icon-btn" href="/" aria-label="Forside" title="Forside">🏛️</a>
+        <a class="header-icon-btn" href="/indstillinger" aria-label="Indstillinger" title="Indstillinger">⚙️</a>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Skift mellem lys og mørk visning" aria-pressed="false">
+          <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+          <span class="theme-toggle__text">Mørk</span>
+        </button>
+      </div>
     </div>
     <div class="navline"></div>
   </header>
@@ -222,7 +226,7 @@
   <script src="assets/regional-sort.js?v=35"></script>
 
   
-  <script src="assets/pwa-update.js?v=71"></script>
+  <script src="assets/pwa-update.js?v=92"></script>
   <script src="assets/local-data.js?v=6"></script>
   <script src="assets/local-helper.js?v=27"></script>
   <script src="assets/favorites.js?v=14"></script>
