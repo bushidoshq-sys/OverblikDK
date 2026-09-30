@@ -38,18 +38,28 @@
 
   <div class="toolbar">
     <div class="input" role="search">🔎
-      <input id="filter" type="search" placeholder="Søg i sport eller Superliga-klub" aria-label="Søg i links">
+      <input id="filter" type="search" placeholder="Søg i sport, forbund eller klub" aria-label="Søg i links">
     </div>
     <span class="badge"><strong id="count">0</strong> links</span>
   </div>
 
-  <h2>Generelt</h2>
-  <ul id="links" class="link-list" aria-label="Sport – generelt"></ul>
-
-  <hr class="sep" />
-
-  <h2>Superliga-klubber</h2>
-  <ul id="superliga-links" class="link-list" aria-label="Superliga-klubber"></ul>
+  <div class="category-buttons" id="sportCategories" aria-label="Sportskategorier">
+    <button class="category-btn active" data-category="Alle">Alle</button>
+    <button class="category-btn" data-category="Organisationer">Organisationer</button>
+    <button class="category-btn" data-category="Fodbold">Fodbold</button>
+    <button class="category-btn" data-category="Håndbold">Håndbold</button>
+    <button class="category-btn" data-category="Badminton">Badminton</button>
+    <button class="category-btn" data-category="Basketball">Basketball</button>
+    <button class="category-btn" data-category="Ishockey">Ishockey</button>
+    <button class="category-btn" data-category="Svømning">Svømning</button>
+    <button class="category-btn" data-category="Atletik">Atletik</button>
+    <button class="category-btn" data-category="Cykling">Cykling</button>
+    <button class="category-btn" data-category="Tennis">Tennis</button>
+    <button class="category-btn" data-category="Gymnastik">Gymnastik</button>
+    <button class="category-btn" data-category="Andre sportsgrene">Andre sportsgrene</button>
+  </div>
+  <h2 id="sportHeading">Alle sportslinks</h2>
+  <ul id="links" class="link-list" aria-label="Sportslinks"></ul>
 </main>
 
 <footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
@@ -77,41 +87,49 @@
     });
   }
 
-  // Generelle sportslinks
-  const GENERAL = [
-    {name:'Danmarks Idrætsforbund (DIF)', url:'https://www.dif.dk'},
-    {name:'DBU – Dansk Boldspil-Union', url:'https://dbu.dk'},
-    {name:'Håndbold.dk', url:'https://danskhaandbold.dk/'},
-    {name:'OL Danmark', url:'https://www.ol.dk'},
-    {name:'Team Danmark', url:'https://www.teamdanmark.dk'},
-    // original listing Brøndby etc. kan være her, hvis ønsket...
+  const SPORTS = [
+    {name:'Danmarks Idrætsforbund (DIF)',url:'https://www.dif.dk',category:'Organisationer'},
+    {name:'Team Danmark',url:'https://www.teamdanmark.dk',category:'Organisationer'},
+    {name:'Danmarks Olympiske Komité',url:'https://www.ol.dk',category:'Organisationer'},
+    {name:'DBU – Dansk Boldspil-Union',url:'https://www.dbu.dk',category:'Fodbold'},
+    {name:'DanskHåndbold',url:'https://danskhaandbold.dk',category:'Håndbold'},
+    {name:'Badminton Danmark',url:'https://badminton.dk',category:'Badminton'},
+    {name:'Danmarks Basketball Forbund',url:'https://basket.dk',category:'Basketball'},
+    {name:'Danmarks Ishockey Union',url:'https://ishockey.dk',category:'Ishockey'},
+    {name:'Dansk Svømmeunion',url:'https://www.svoem.org',category:'Svømning'},
+    {name:'Dansk Atletik',url:'https://dansk-atletik.dk',category:'Atletik'},
+    {name:'Danmarks Cykle Union',url:'https://www.cyklingdanmark.dk',category:'Cykling'},
+    {name:'Dansk Tennis Forbund',url:'https://tennis.dk',category:'Tennis'},
+    {name:'GymDanmark',url:'https://gymdanmark.dk',category:'Gymnastik'},
+    {name:'AC Horsens',url:'https://achorsens.dk',category:'Fodbold'},
+    {name:'AGF',url:'https://agf.dk',category:'Fodbold'},
+    {name:'Brøndby IF',url:'https://brondby.com',category:'Fodbold'},
+    {name:'FC København',url:'https://fck.dk',category:'Fodbold'},
+    {name:'FC Midtjylland',url:'https://www.fcm.dk',category:'Fodbold'},
+    {name:'FC Nordsjælland',url:'https://fcn.dk',category:'Fodbold'},
+    {name:'Lyngby BK',url:'https://lyngby-boldklub.dk',category:'Fodbold'},
+    {name:'Odense Boldklub (OB)',url:'https://ob.dk',category:'Fodbold'},
+    {name:'Randers FC',url:'https://randersfc.dk',category:'Fodbold'},
+    {name:'Silkeborg IF',url:'https://www.silkeborgif.com',category:'Fodbold'},
+    {name:'SønderjyskE Fodbold',url:'https://www.soenderjyske.dk',category:'Fodbold'},
+    {name:'Viborg FF',url:'https://vff.dk',category:'Fodbold'}
   ];
-
-  const SUPERLIGA = [
-    {name:'AC Horsens', url:'https://achorsens.dk'},
-    {name:'AGF', url:'https://agf.dk'},
-    {name:'Brøndby IF', url:'https://brondby.com'},
-    {name:'FC København', url:'https://fck.dk'},
-    {name:'FC Midtjylland', url:'https://www.fcm.dk'},
-    {name:'FC Nordsjælland', url:'https://fcn.dk'},
-    {name:'Lyngby BK', url:'https://lyngby-boldklub.dk'},
-    {name:'Odense Boldklub (OB)', url:'https://ob.dk'},
-    {name:'Randers FC', url:'https://randersfc.dk'},
-    {name:'Silkeborg IF', url:'https://www.silkeborgif.com'},
-    {name:'SønderjyskE Fodbold', url:'https://www.soenderjyske.dk'},
-        {name:'Viborg FF', url:'https://vff.dk'}
-  ];
-  // 3F Superliga 2026/27 – kontrolleret mod DBU/Superligaens officielle holdoversigt.
-
-  const genList = document.getElementById('links');
-  const supList = document.getElementById('superliga-links');
-  const filter = document.getElementById('filter');
-
-  const genCount = render(genList, GENERAL);
-  render(supList, SUPERLIGA);
-  document.getElementById('count').textContent = genCount + SUPERLIGA.length;
-
-  wireFilter(filter, [genList, supList]);
+  let activeCategory='Alle';
+  const list=document.getElementById('links');
+  const filter=document.getElementById('filter');
+  function refresh(){
+    const q=filter.value.toLowerCase().trim();
+    const data=SPORTS.filter(x=>(activeCategory==='Alle'||x.category===activeCategory)&&(!q||(x.name+' '+x.category).toLowerCase().includes(q)));
+    render(list,data); document.getElementById('count').textContent=data.length;
+    document.getElementById('sportHeading').textContent=activeCategory==='Alle'?'Alle sportslinks':activeCategory;
+  }
+  filter.addEventListener('input',refresh);
+  document.querySelectorAll('#sportCategories .category-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    activeCategory=btn.dataset.category;
+    document.querySelectorAll('#sportCategories .category-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    refresh();
+  }));
+  refresh();
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
