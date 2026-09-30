@@ -99,6 +99,35 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Koldkrigsmuseum REGAN Vest',url:'https://nordjyskemuseer.dk/u/regan-vest/',kommune:'Rebild Kommune',category:'Museer'},
+    {name:'Himmerlands Museum',url:'https://vesthimmerlandsmuseum.dk',kommune:'Vesthimmerlands Kommune',category:'Museer'},
+    {name:'Stenaldercenter Ertebølle',url:'https://vesthimmerlandsmuseum.dk',kommune:'Vesthimmerlands Kommune',category:'Museer'},
+    {name:'Økolariet',url:'https://okolariet.dk',kommune:'Vejle Kommune',category:'Museer'},
+    {name:'Museum Give',url:'https://www.vejlemuseerne.dk',kommune:'Vejle Kommune',category:'Museer'},
+    {name:'Horsens Fængselsmuseum',url:'https://faengslet.dk',kommune:'Horsens Kommune',category:'Museer'},
+    {name:'Kvindemuseet',url:'https://konmuseum.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'Vikingemuseet Aarhus',url:'https://www.moesgaardmuseum.dk',kommune:'Aarhus Kommune',category:'Museer'},
+    {name:'Øm Kloster Museum',url:'https://museumskanderborg.dk',kommune:'Skanderborg Kommune',category:'Museer'},
+    {name:'Ferskvandsmuseet',url:'https://museumskanderborg.dk',kommune:'Skanderborg Kommune',category:'Museer'},
+    {name:'Himmelbjerggårdens lokalhistoriske samling',url:'https://museumskanderborg.dk',kommune:'Skanderborg Kommune',category:'Museer'},
+    {name:'Museum Horsens',url:'https://horsensmuseum.dk',kommune:'Horsens Kommune',category:'Museer'},
+    {name:'AQUA Akvarium & Dyrepark',url:'https://aqua.dk',kommune:'Silkeborg Kommune',category:'Museer'},
+    {name:'Museum Silkeborg Hovedgården',url:'https://museumsilkeborg.dk',kommune:'Silkeborg Kommune',category:'Museer'},
+    {name:'Klosterlund Museum',url:'https://museummidtjylland.dk',kommune:'Ikast-Brande Kommune',category:'Museer'},
+    {name:'Textilforum',url:'https://museummidtjylland.dk',kommune:'Herning Kommune',category:'Museer'},
+    {name:'Herningsholm Museum',url:'https://museummidtjylland.dk',kommune:'Herning Kommune',category:'Museer'},
+    {name:'Strandingsmuseum St. George',url:'https://strandingsmuseet.dk',kommune:'Holstebro Kommune',category:'Museer'},
+    {name:'Skive Museum',url:'https://museumsalling.dk',kommune:'Skive Kommune',category:'Museer'},
+    {name:'Spøttrup Borg',url:'https://museumsalling.dk',kommune:'Skive Kommune',category:'Museer'},
+    {name:'De Fem Halder',url:'https://viborgmuseum.dk',kommune:'Viborg Kommune',category:'Museer'},
+    {name:'Gaia Museum Outsider Art',url:'https://gaiamuseum.dk',kommune:'Randers Kommune',category:'Museer'},
+    {name:'Det Grønne Museum',url:'https://detgroennemuseum.dk',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Gammel Estrup',url:'https://gammelestrup.dk',kommune:'Norddjurs Kommune',category:'Museer'},
+    {name:'Karpenhøj Naturcenter',url:'https://karpenhoej.dk',kommune:'Syddjurs Kommune',category:'Museer'},
+    {name:'Mariager Museum',url:'https://nordjyskemuseer.dk',kommune:'Mariagerfjord Kommune',category:'Museer'},
+    {name:'Hadsund Egnssamling',url:'https://nordjyskemuseer.dk',kommune:'Mariagerfjord Kommune',category:'Museer'},
+    {name:'Cirkusmuseet i Rold',url:'https://cirkusmuseet.dk',kommune:'Mariagerfjord Kommune',category:'Museer'},
+    {name:'Himmerlands Kunstmuseum',url:'https://himmerlandskunstmuseum.dk',kommune:'Vesthimmerlands Kommune',category:'Museer'},
     {name:'Melstedgård',url:'https://bornholmsmuseum.dk',kommune:'Bornholms Regionskommune',category:'Museer'},
     {name:'NaturBornholm',url:'https://naturbornholm.dk',kommune:'Bornholms Regionskommune',category:'Museer'},
     {name:'Oluf Høst Museet',url:'https://olufhost.dk',kommune:'Bornholms Regionskommune',category:'Museer'},
@@ -520,7 +549,7 @@
 
   <script src="assets/theme.js?v=24"></script>
   <script src="assets/favorites.js?v=14"></script>
-<script src="assets/pwa-update.js?v=75"></script>
+<script src="assets/pwa-update.js?v=76"></script>
   <script src="assets/native-navigation.js?v=24"></script>
 </body>
 </html>
