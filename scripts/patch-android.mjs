@@ -6,7 +6,8 @@ let xml = await readFile(manifestPath, 'utf8');
 const permissions = [
   '    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />',
   '    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />',
-  '    <uses-permission android:name="android.permission.FLASHLIGHT" />'
+  '    <uses-permission android:name="android.permission.FLASHLIGHT" />',
+  '    <uses-permission android:name="android.permission.VIBRATE" />'
 ];
 
 const missing = permissions.filter(line => !xml.includes(line.trim()));
