@@ -1,11 +1,11 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-30-header-nav-v93';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-30-scroll-restore-v94';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger",
   "./assets/styles.css?v=57",
-  "./assets/theme.js?v=24",
+  "./assets/theme.js?v=94",
   "./assets/address-provider.js?v=27",
   "./assets/manual-location.js?v=28",
   "./assets/manual-location.js?v=27",
@@ -17,7 +17,7 @@ const FILES_TO_CACHE = [
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=40",
-  "./assets/pwa-update.js?v=93",
+  "./assets/pwa-update.js?v=94",
   "./assets/native-navigation.js?v=25",
   "./manifest.json",
   "./icons/logo.png",
