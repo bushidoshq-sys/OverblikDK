@@ -102,6 +102,8 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Overgaden',url:'https://overgaden.org',kommune:'Københavns Kommune',category:'Kunst & gallerier'},
+    {name:'Møstings',url:'https://frederiksbergmuseerne.dk/mostings',kommune:'Frederiksberg Kommune',category:'Kunst & gallerier'},
     {name:'Musikhuzet Bornholm',url:'https://musikhuzet.dk',kommune:'Bornholms Regionskommune',category:'Musik & spillesteder'},
     {name:'Pakhus 8',url:'https://pakhus8.dk',kommune:'Vordingborg Kommune',category:'Musik & spillesteder'},
     {name:'Musikcaféen i Gørlev',url:'https://www.oplevkalundborg.dk/kultur/kulturelle-moedesteder/musik',kommune:'Kalundborg Kommune',category:'Musik & spillesteder'},
