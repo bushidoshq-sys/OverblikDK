@@ -102,6 +102,10 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Kulturhuset Kilden',url:'https://kulturhusetkilden.dk',kommune:'Brøndby Kommune',category:'Musik & spillesteder'},
+    {name:'Slagelse Musikhus',url:'https://slagelsemusikhus.dk',kommune:'Slagelse Kommune',category:'Musik & spillesteder'},
+    {name:'Kulturhus Kappelborg',url:'https://kappelborg.dk',kommune:'Frederikshavn Kommune',category:'Musik & spillesteder'},
+    {name:'Kulturhus Gimle',url:'https://gimle.fmk.dk',kommune:'Faaborg-Midtfyn Kommune',category:'Musik & spillesteder'},
     {name:'Kedelhuset',url:'https://kedelhuset.com',kommune:'Silkeborg Kommune',category:'Musik & spillesteder'},
     {name:'Turbinen',url:'https://turbinen.dk',kommune:'Randers Kommune',category:'Musik & spillesteder'},
     {name:'Von Hatten',url:'https://vonhatten.dk',kommune:'Randers Kommune',category:'Musik & spillesteder'},
