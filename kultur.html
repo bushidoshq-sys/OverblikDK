@@ -102,6 +102,18 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Betty Nansen Teatret',url:'https://www.bettynansen.dk',kommune:'Frederiksberg Kommune',category:'Teatre'},
+    {name:'Aveny-T',url:'https://www.aveny-t.dk',kommune:'Frederiksberg Kommune',category:'Teatre'},
+    {name:'Folketeatret',url:'https://www.folketeatret.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Nørrebro Teater',url:'https://www.nbt.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Østre Gasværk Teater',url:'https://www.ostregasvaerk.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Republique',url:'https://www.republique.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Teater Grob',url:'https://www.grob.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Husets Teater',url:'https://www.husetsteater.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Teater V',url:'https://www.teater-v.dk',kommune:'Københavns Kommune',category:'Teatre'},
+    {name:'Ballerup Teaterforening',url:'https://www.ballerupteaterforening.dk',kommune:'Ballerup Kommune',category:'Teatre'},
+    {name:'Tårnby Teater',url:'https://www.taarnbyteater.dk',kommune:'Tårnby Kommune',category:'Teatre'},
+    {name:'Teater Momentum',url:'https://www.teatermomentum.dk',kommune:'Københavns Kommune',category:'Teatre'},
     {name:'Kino Ro\'s Torv',url:'https://www.kinorostorv.dk',kommune:'Roskilde Kommune',category:'Biografer'},
     {name:'Kosmorama Skælskør',url:'https://www.kosmorama-skaelskoer.dk',kommune:'Slagelse Kommune',category:'Biografer'},
     {name:'Kino Kalundborg',url:'https://www.kino-kalundborg.dk',kommune:'Kalundborg Kommune',category:'Biografer'},
