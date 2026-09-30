@@ -53,6 +53,11 @@
       brand.insertBefore(actions, btn);
     }
 
+    const home = brand.querySelector('a.header-icon-btn[href="/"], a.header-icon-btn[href="./"], a.header-icon-btn[href="index.html"]');
+    if (home && home.parentElement !== actions) actions.appendChild(home);
+
+    if (btn.parentElement !== actions) actions.appendChild(btn);
+
     if (!actions.querySelector('[data-header-settings]')) {
       const settings = document.createElement('a');
       settings.className = 'header-icon-btn';
@@ -73,7 +78,6 @@
       actions.appendChild(settings);
     }
 
-    if (btn.parentElement !== actions) actions.appendChild(btn);
   }
 
   function setTheme(theme) {
