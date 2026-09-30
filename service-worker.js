@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-09-30-cinemas-v114';
+const CACHE_NAME = 'overblikdk-cache-v2026-09-30-cinemas-final-v115';
 
 const FILES_TO_CACHE = [
   "./",
