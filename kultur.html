@@ -102,6 +102,19 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'VEGA',url:'https://vega.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'Pumpehuset',url:'https://pumpehuset.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'Loppen',url:'https://loppen.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'ALICE',url:'https://alicecph.com',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'Hotel Cecil',url:'https://hotelcecil.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'Amager Bio',url:'https://amagerbio.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'BETA',url:'https://amagerbio.dk/beta',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'Stengade',url:'https://stengade.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'Jazzhus Montmartre',url:'https://jazzhusmontmartre.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'KoncertKirken',url:'https://koncertkirken.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'DR Koncerthuset',url:'https://drkoncerthuset.dk',kommune:'Københavns Kommune',category:'Musik & spillesteder'},
+    {name:'K.B. Hallen',url:'https://kbhallen.dk',kommune:'Frederiksberg Kommune',category:'Musik & spillesteder'},
+    {name:'MantziusLive',url:'https://mantziuslive.dk',kommune:'Rudersdal Kommune',category:'Musik & spillesteder'},
     {name:'Teater Glimt',url:'https://teaterglimt.dk',kommune:'Roskilde Kommune',category:'Teatre'},
     {name:'Teatergruppen Batida',url:'https://batida.dk',kommune:'Københavns Kommune',category:'Teatre'},
     {name:'Teater Rio Rose',url:'https://riorose.dk',kommune:'Københavns Kommune',category:'Teatre'},
