@@ -59,12 +59,10 @@
   function wireFilter(inp,ul){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const li of ul.querySelectorAll('li')){li.style.display=li.textContent.toLowerCase().includes(q)?'':''}})}
 
   const LINKS = [
-    {name:'AL – Arbejdernes Landsbank', url:'https://www.al-bank.dk'},
+    {name:'AL Sydbank', url:'https://www.sydbank.dk'},
     {name:'BLS – Lån & Spar Bank', url:'https://www.lsb.dk'},
-    {name:'Coop Bank', url:'https://www.coopbank.dk'},
     {name:'Danske Bank', url:'https://danskebank.dk'},
     {name:'Djurslands Bank', url:'https://www.djurslandsbank.dk'},
-    {name:'Handelsbanken Danmark', url:'https://www.handelsbanken.dk'},
     {name:'Jyske Bank', url:'https://www.jyskebank.dk'},
     {name:'Landbobanken (Ringkjøbing Landbobank)', url:'https://landbobanken.dk'},
     {name:'Lunar', url:'https://www.lunar.dk'},
@@ -74,9 +72,7 @@
     {name:'Nykredit Bank', url:'https://www.nykredit.dk'},
     {name:'Saxo Bank', url:'https://www.home.saxo'},
     {name:'Spar Nord Bank', url:'https://www.sparnord.dk'},
-    {name:'Sparekassen Kronjylland', url:'https://www.sparkron.dk'},
-    {name:'Sydbank', url:'https://www.sydbank.dk'},
-    {name:'Vestjysk Bank', url:'https://www.vestjyskbank.dk'}
+    {name:'Sparekassen Kronjylland', url:'https://www.sparkron.dk'}
   ];
 
   const list=document.getElementById('links'); const input=document.getElementById('filter');
