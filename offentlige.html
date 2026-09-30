@@ -42,6 +42,18 @@
     </div>
     <span class="badge"><strong id="count">0</strong> links</span>
   </div>
+  <div class="category-filter" id="categoryFilter" aria-label="Filtrér offentlige links">
+    <button class="category-btn active" data-category="Alle">Alle</button>
+    <button class="category-btn" data-category="Borger & ID">Borger & ID</button>
+    <button class="category-btn" data-category="Skat & økonomi">Skat & økonomi</button>
+    <button class="category-btn" data-category="Arbejde & ydelser">Arbejde & ydelser</button>
+    <button class="category-btn" data-category="Sundhed">Sundhed</button>
+    <button class="category-btn" data-category="Familie & bolig">Familie & bolig</button>
+    <button class="category-btn" data-category="Ret & sikkerhed">Ret & sikkerhed</button>
+    <button class="category-btn" data-category="Demokrati & lov">Demokrati & lov</button>
+    <button class="category-btn" data-category="Erhverv">Erhverv</button>
+    <button class="category-btn" data-category="International">International</button>
+  </div>
 
   <ul id="links" class="link-list" aria-label="Offentlige links"></ul>
 </main>
@@ -55,10 +67,10 @@
   function render(listEl, data){
     listEl.innerHTML = '';
     const sorted = sortDa(data,'name');
-    sorted.forEach(({name,url})=>{
+    sorted.forEach(({name,url,category})=>{
       const li = document.createElement('li');
       li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
-        <span>${name}</span><span class="host">${host(url)}</span></a>`;
+        <span>${name}</span><span class="host">${host(url)} · ${category}</span></a>`;
       listEl.appendChild(li);
     });
     document.getElementById('count').textContent = String(sorted.length);
@@ -73,29 +85,45 @@
   }
 
   const LINKS = [
-    {name:'Ankestyrelsen', url:'https://ast.dk'},
-    {name:'Borger.dk', url:'https://www.borger.dk'},
-    {name:'Borgerforslag', url:'https://www.borgerforslag.dk'},
-    {name:'CPR – Det Centrale Personregister', url:'https://www.cpr.dk'},
-    {name:'Digital Post', url:'https://www.digitalpost.dk'},
-    {name:'e-Boks', url:'https://www.e-boks.dk'},
-    {name:'Folketinget', url:'https://www.ft.dk'},
-    {name:'Jobnet', url:'https://www.jobnet.dk'},
-    {name:'Min Læge', url:'https://minlaegeapp.dk'},
-    {name:'MitID', url:'https://www.mitid.dk'},
-    {name:'NemKonto', url:'https://www.nemkonto.dk'},
-    {name:'Politi', url:'https://politi.dk'},
-    {name:'Retsinformation', url:'https://www.retsinformation.dk'},
-    {name:'SKAT', url:'https://www.skat.dk'},
-    {name:'Sundhed.dk', url:'https://www.sundhed.dk'},
-    {name:'Udbetaling Danmark (ATP)', url:'https://www.atp.dk/karriere/udbetaling-danmark'},
-    {name:'Virk.dk (Erhverv)', url:'https://www.virk.dk'}
+    {name:'Ankestyrelsen',url:'https://ast.dk',category:'Ret & sikkerhed'},
+    {name:'Borger.dk',url:'https://www.borger.dk',category:'Borger & ID'},
+    {name:'Digital Post',url:'https://www.borger.dk/hjaelp-og-vejledning/hvad-har-du-brug-for-hjaelp-til/digital-post',category:'Borger & ID'},
+    {name:'MitID',url:'https://www.mitid.dk',category:'Borger & ID'},
+    {name:'CPR – Det Centrale Personregister',url:'https://www.cpr.dk',category:'Borger & ID'},
+    {name:'e-Boks',url:'https://www.e-boks.dk',category:'Borger & ID'},
+    {name:'SKAT',url:'https://skat.dk',category:'Skat & økonomi'},
+    {name:'TastSelv Borger',url:'https://skat.dk/borger',category:'Skat & økonomi'},
+    {name:'NemKonto',url:'https://www.nemkonto.dk',category:'Skat & økonomi'},
+    {name:'Gældsstyrelsen – Mit gældsoverblik',url:'https://gaeldst.dk',category:'Skat & økonomi'},
+    {name:'Jobnet',url:'https://www.jobnet.dk',category:'Arbejde & ydelser'},
+    {name:'Udbetaling Danmark',url:'https://www.borger.dk',category:'Arbejde & ydelser'},
+    {name:'Sundhed.dk',url:'https://www.sundhed.dk',category:'Sundhed'},
+    {name:'Min Læge',url:'https://minlaegeapp.dk',category:'Sundhed'},
+    {name:'Familieretshuset',url:'https://familieretshuset.dk',category:'Familie & bolig'},
+    {name:'Politi',url:'https://politi.dk',category:'Ret & sikkerhed'},
+    {name:'Danmarks Domstole',url:'https://www.domstol.dk',category:'Ret & sikkerhed'},
+    {name:'Folketinget',url:'https://www.ft.dk',category:'Demokrati & lov'},
+    {name:'Borgerforslag',url:'https://www.borgerforslag.dk',category:'Demokrati & lov'},
+    {name:'Retsinformation',url:'https://www.retsinformation.dk',category:'Demokrati & lov'},
+    {name:'Virk.dk',url:'https://www.virk.dk',category:'Erhverv'},
+    {name:'Life in Denmark',url:'https://lifeindenmark.borger.dk',category:'International'}
   ];
 
   const listEl = document.getElementById('links');
   const filterEl = document.getElementById('filter');
-  render(listEl, LINKS);
-  wireFilter(filterEl, listEl);
+  let activeCategory = 'Alle';
+  function applyFilters(){
+    const q = filterEl.value.toLowerCase().trim();
+    render(listEl, LINKS.filter(x => (activeCategory === 'Alle' || x.category === activeCategory) && (x.name+' '+x.category+' '+host(x.url)).toLowerCase().includes(q)));
+  }
+  filterEl.addEventListener('input', applyFilters);
+  document.querySelectorAll('.category-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCategory=btn.dataset.category;
+    applyFilters();
+  }));
+  applyFilters();
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
