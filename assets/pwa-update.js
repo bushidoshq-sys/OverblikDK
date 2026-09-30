@@ -67,16 +67,20 @@
       if (window.scrollY !== 0 || event.touches.length !== 1) return;
       startY = event.touches[0].clientY;
       pulling = true;
-      indicator = document.createElement('div');
-      indicator.className = 'pull-refresh-indicator';
-      indicator.textContent = '⟳';
-      document.body.appendChild(indicator);
+
     }, { passive: true });
 
     document.addEventListener('touchmove', (event) => {
       if (!pulling || window.scrollY !== 0) return;
       if (event.touches[0].clientY < startY) pulling = false;
-      if (indicator) indicator.classList.toggle('ready', event.touches[0].clientY - startY >= threshold);
+      const distance = event.touches[0].clientY - startY;
+      if (distance > 8 && !indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'pull-refresh-indicator';
+        indicator.textContent = '⟳';
+        document.body.appendChild(indicator);
+      }
+      if (indicator) indicator.classList.toggle('ready', distance >= threshold);
     }, { passive: true });
 
     document.addEventListener('touchend', (event) => {
