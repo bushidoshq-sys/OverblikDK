@@ -126,3 +126,5 @@ for (const stylePath of [`${res}/values/styles.xml`, `${res}/values-v31/styles.x
 console.log('OverblikDK red logo applied to Android adaptive icon and splash resources.');
 
 // SOS native fix build trigger v164
+
+// Forside navigation fix build trigger
