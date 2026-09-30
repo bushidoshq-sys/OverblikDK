@@ -102,6 +102,20 @@
   function wireFilter(inp,root){inp.addEventListener('input',()=>{const q=inp.value.toLowerCase().trim();for(const s of root.querySelectorAll('.culture-municipality'))s.style.display=s.textContent.toLowerCase().includes(q)?'':'none'})}
 
   const LINKS = [
+    {name:'Helsingør Teater',url:'https://helsingorteater.dk',kommune:'Helsingør Kommune',category:'Teatre'},
+    {name:'Espergærde Teaterhus',url:'https://espergaerdeteater.dk',kommune:'Helsingør Kommune',category:'Teatre'},
+    {name:'Frederikssund Teater',url:'https://frederikssundteater.dk',kommune:'Frederikssund Kommune',category:'Teatre'},
+    {name:'Roskilde Teater',url:'https://roskildeteater.dk',kommune:'Roskilde Kommune',category:'Teatre'},
+    {name:'Teater Lo Specchio',url:'https://lospecchio.dk',kommune:'Roskilde Kommune',category:'Teatre'},
+    {name:'Holbæk Teater',url:'https://holbaekteater.dk',kommune:'Holbæk Kommune',category:'Teatre'},
+    {name:'Teater Momentum Slagelse',url:'https://teatermomentum.dk',kommune:'Slagelse Kommune',category:'Teatre'},
+    {name:'Slagelse Teater',url:'https://slagelseteater.dk',kommune:'Slagelse Kommune',category:'Teatre'},
+    {name:'Næstved Teater',url:'https://naestvedteater.dk',kommune:'Næstved Kommune',category:'Teatre'},
+    {name:'Vordingborg Teater',url:'https://vordingborgteater.dk',kommune:'Vordingborg Kommune',category:'Teatre'},
+    {name:'Cantabile 2',url:'https://cantabile2.dk',kommune:'Vordingborg Kommune',category:'Teatre'},
+    {name:'Teaterbygningen Fanefjord',url:'https://fanefjord.dk',kommune:'Vordingborg Kommune',category:'Teatre'},
+    {name:'Kulturværftet',url:'https://kuto.dk',kommune:'Helsingør Kommune',category:'Teatre'},
+    {name:'Toldkammeret',url:'https://kuto.dk',kommune:'Helsingør Kommune',category:'Teatre'},
     {name:'Betty Nansen Teatret',url:'https://www.bettynansen.dk',kommune:'Frederiksberg Kommune',category:'Teatre'},
     {name:'Aveny-T',url:'https://www.aveny-t.dk',kommune:'Frederiksberg Kommune',category:'Teatre'},
     {name:'Folketeatret',url:'https://www.folketeatret.dk',kommune:'Københavns Kommune',category:'Teatre'},
