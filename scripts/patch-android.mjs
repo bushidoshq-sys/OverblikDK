@@ -218,3 +218,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Home is Android navigation history boundary v176
 
 // Final home-bounded Android navigation rollout v177
+
+// Build trigger: DAWA migration to Adressevaelger + DAGI v2 (2026-10-01)
