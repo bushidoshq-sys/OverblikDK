@@ -208,3 +208,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Center front-page emergency button build trigger v171
 
 // Full-screen black/white SOS with centered inverse STOP v172
+
+// Refresh active favorite stars on home v173
