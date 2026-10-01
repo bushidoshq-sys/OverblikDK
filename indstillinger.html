@@ -135,8 +135,10 @@
         window.OverblikDKApplyRegionalSort?.();
         return;
       }
-      if (manualPanel) manualPanel.hidden = false;
-      document.getElementById('settingsFallbackAddressInput')?.focus();
+      if (manualPanel) {
+        manualPanel.hidden = false;
+        manualPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
 
     clearManualBtn?.addEventListener('click', async () => {
