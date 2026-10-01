@@ -138,6 +138,8 @@
       if (manualPanel) {
         manualPanel.hidden = false;
         manualPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const manualInput = document.getElementById('settingsFallbackAddressInput');
+        setTimeout(() => manualInput?.focus({ preventScroll: true }), 450);
       }
     });
 
