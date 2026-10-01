@@ -101,7 +101,9 @@
   function updateButtons() {
     const favs = getFavs();
     document.querySelectorAll('.favorite-toggle').forEach(btn => {
-      const active = favoriteIndex(btn.dataset.favoriteUrl, favs) >= 0;
+      // Buttons rendered inside the home Favorites list represent saved items
+      // by definition. They use data-del rather than data-favorite-url.
+      const active = btn.hasAttribute('data-del') || favoriteIndex(btn.dataset.favoriteUrl, favs) >= 0;
       const symbol = active ? '★' : '☆';
       const pressed = String(active);
       const label = active ? 'Fjern fra Favoritter' : 'Gem i Favoritter';
