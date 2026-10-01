@@ -30,10 +30,13 @@
     }
 
     if (!isHome()) {
-      if (canGoBack && history.length > 1) {
-        history.back();
+      // Android Back follows the same information hierarchy as the visible
+      // "Tilbage" link. This is deterministic and does not depend on browser history.
+      const backLink = document.querySelector('a.back[href]');
+      if (backLink) {
+        location.assign(backLink.href);
       } else {
-        location.replace(new URL('index.html', location.href).href);
+        location.assign(new URL('index.html', location.href).href);
       }
       return;
     }
