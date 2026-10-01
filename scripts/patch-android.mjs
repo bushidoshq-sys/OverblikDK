@@ -130,3 +130,5 @@ console.log('OverblikDK red logo applied to Android adaptive icon and splash res
 // Forside navigation fix build trigger
 
 // Native update-check fix build trigger v165
+
+// Dark category contrast build trigger v166
