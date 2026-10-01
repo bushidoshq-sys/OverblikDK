@@ -1,10 +1,10 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-01-update-check-v165';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-01-dark-category-contrast-v166';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger",
-  "./assets/styles.css?v=57",
+  "./assets/styles.css?v=58",
   "./assets/theme.js?v=94",
   "./assets/address-provider.js?v=27",
   "./assets/manual-location.js?v=28",
