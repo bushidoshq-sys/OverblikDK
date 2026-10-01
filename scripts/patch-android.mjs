@@ -210,3 +210,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Full-screen black/white SOS with centered inverse STOP v172
 
 // Refresh active favorite stars on home v173
+
+// Shared compact Back pill UI v174
