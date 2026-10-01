@@ -34,9 +34,14 @@
       // "Tilbage" link. This is deterministic and does not depend on browser history.
       const backLink = document.querySelector('a.back[href]');
       if (backLink) {
-        location.assign(backLink.href);
+        const target = new URL(backLink.href, location.href);
+        const targetFile = target.pathname.split('/').pop() || 'index.html';
+        // Home is the navigation boundary: reaching it replaces the current
+        // history entry so an older OverblikDK journey cannot reappear.
+        if (targetFile === 'index.html') location.replace(target.href);
+        else location.assign(target.href);
       } else {
-        location.assign(new URL('index.html', location.href).href);
+        location.replace(new URL('index.html', location.href).href);
       }
       return;
     }
