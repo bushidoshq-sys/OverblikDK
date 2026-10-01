@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-01-dark-category-contrast-v166';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-01-hierarchical-back-v167';
 
 const FILES_TO_CACHE = [
   "./",
