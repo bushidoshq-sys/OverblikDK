@@ -73,11 +73,29 @@
       position: 'fixed',
       inset: '0',
       zIndex: '2147483647',
-      background: '#fff',
+      background: '#000',
       opacity: '0',
       pointerEvents: 'none',
-      transition: 'none'
+      transition: 'none',
+      display: 'grid',
+      placeItems: 'center'
     });
+    const stop = document.createElement('button');
+    stop.type = 'button';
+    stop.textContent = 'STOP';
+    stop.setAttribute('aria-label', 'Stop S.O.S.-blink');
+    Object.assign(stop.style, {
+      border: '3px solid currentColor',
+      borderRadius: '999px',
+      padding: '1rem 1.6rem',
+      font: '700 1.2rem system-ui, sans-serif',
+      background: '#fff',
+      color: '#000',
+      pointerEvents: 'auto',
+      minWidth: '8rem'
+    });
+    stop.addEventListener('click', () => stopSOS());
+    overlay.appendChild(stop);
     document.body.appendChild(overlay);
     sosOverlay = overlay;
     return overlay;
@@ -85,7 +103,20 @@
 
   function setScreenFlash(on) {
     const overlay = ensureSOSOverlay();
-    overlay.style.opacity = on ? '1' : '0';
+    const stop = overlay.querySelector('button');
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'auto';
+    overlay.style.background = on ? '#fff' : '#000';
+    if (stop) {
+      stop.style.background = on ? '#000' : '#fff';
+      stop.style.color = on ? '#fff' : '#000';
+    }
+  }
+
+  function hideSOSOverlay() {
+    if (!sosOverlay) return;
+    sosOverlay.style.opacity = '0';
+    sosOverlay.style.pointerEvents = 'none';
   }
 
   async function vibrateFor(ms) {
@@ -193,7 +224,7 @@
       sosVideo.remove();
       sosVideo = null;
     }
-    setScreenFlash(false);
+    hideSOSOverlay();
     try { if (navigator.vibrate) navigator.vibrate(0); } catch {}
     sosMode = null;
     nativeTorch = null;
