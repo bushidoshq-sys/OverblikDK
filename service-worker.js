@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-01-center-emergency-v171';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-01-fullscreen-sos-v172';
 
 const FILES_TO_CACHE = [
   "./",
@@ -12,7 +12,7 @@ const FILES_TO_CACHE = [
   "./assets/address-settings.js?v=16",
   "./assets/location-tools.js?v=51",
   "./assets/regional-sort.js?v=34",
-  "./assets/emergency.js?v=54",
+  "./assets/emergency.js?v=55",
   "./assets/favorites.js?v=14",
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
