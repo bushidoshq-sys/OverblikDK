@@ -214,3 +214,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Shared compact Back pill UI v174
 
 // Home favorites active-star logic fix v175
+
+// Home is Android navigation history boundary v176
