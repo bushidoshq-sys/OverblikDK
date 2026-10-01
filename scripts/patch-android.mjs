@@ -202,3 +202,5 @@ if (!mainActivity.includes('registerPlugin(OverblikVibrationPlugin.class)')) {
   await writeFile(mainActivityPath, mainActivity, 'utf8');
 }
 console.log('Dedicated OverblikDK native vibration plugin installed.');
+
+// Final native vibrator build trigger v170
