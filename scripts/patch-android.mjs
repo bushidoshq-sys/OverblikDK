@@ -222,3 +222,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Build trigger: DAWA migration to Adressevaelger + DAGI v2 (2026-10-01)
 
 // Build trigger: fix native vibration MainActivity newlines (2026-10-01)
+
+// Build trigger: manual/automatic location switch v178 (2026-10-01)
