@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-01-home-favorite-active-v175';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-01-home-history-boundary-v176';
 
 const FILES_TO_CACHE = [
   "./",
@@ -18,7 +18,7 @@ const FILES_TO_CACHE = [
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=40",
   "./assets/pwa-update.js?v=99",
-  "./assets/native-navigation.js?v=25",
+  "./assets/native-navigation.js?v=26",
   "./manifest.json",
   "./icons/logo.png",
   "./icons/icon-192.png",
