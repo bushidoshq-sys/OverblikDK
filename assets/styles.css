@@ -521,3 +521,8 @@ small.host { display: block; margin-top: 4px; }
   outline:3px solid color-mix(in srgb, var(--accent, #e7192d) 30%, transparent);
   outline-offset:2px;
 }
+
+
+/* Nødsituation: compact centered title row */
+.emergency-head--sos { justify-content:center; text-align:center; }
+.emergency-head--sos h2 { margin:0; width:100%; }
