@@ -212,3 +212,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Refresh active favorite stars on home v173
 
 // Shared compact Back pill UI v174
+
+// Home favorites active-star logic fix v175
