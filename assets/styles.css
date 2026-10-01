@@ -201,6 +201,7 @@ footer {
   align-items: center;
 }
 .quick-action.danger, .emergency-call.danger { background: #c1121f; }
+.quick-action--emergency { margin-inline: auto; }
 .store-action--secondary, .nearby-btn, .emergency-call:not(.danger) {
   background: color-mix(in srgb, var(--brand) 14%, var(--panel));
   color: var(--text);
