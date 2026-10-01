@@ -52,6 +52,7 @@
     <div class="emergency-actions">
       <button class="emergency-call" type="button" id="refreshLocalContextBtn">Opdater kommune/region</button>
       <button class="emergency-call" type="button" onclick="OverblikDKUpdateLocalContext?.()">Forbedr lokation</button>
+      <button class="emergency-call" type="button" id="useManualLocationBtn">✏️ Brug adresse i stedet</button>
     </div>
     <div id="regionalSortStatus" class="position-box">Regional sortering er slået fra.</div>
 
@@ -124,7 +125,7 @@
 </script>
 <script src="assets/theme.js?v=94"></script>
 <script src="assets/address-provider.js?v=29"></script>
-<script src="assets/manual-location.js?v=29"></script>
+<script src="assets/manual-location.js?v=30"></script>
 <script src="assets/location-tools.js?v=34"></script>
 <script src="assets/regional-sort.js?v=34"></script>
 <script src="assets/address-settings.js?v=16"></script>
@@ -133,15 +134,37 @@
   <script src="assets/native-navigation.js?v=26"></script>
   <script>
     const manualPanel = document.getElementById('manualLocationPanel');
-    const showManualFallbackIfNeeded = async () => {
-      try {
-        await window.OverblikDKLocation?.getPosition?.({ fresh: false, timeout: 8000, targetAccuracy: 50 });
-        if (manualPanel) manualPanel.hidden = true;
-      } catch {
-        if (manualPanel) manualPanel.hidden = false;
+    const manualBtn = document.getElementById('useManualLocationBtn');
+    const clearManualBtn = document.getElementById('clearManualLocationBtn');
+
+    function syncManualPanel() {
+      const manual = window.OverblikDKManualLocation?.read?.();
+      if (manualPanel) manualPanel.hidden = !manual;
+      if (manualBtn) manualBtn.textContent = manual ? '📍 Brug automatisk position igen' : '✏️ Brug adresse i stedet';
+    }
+
+    manualBtn?.addEventListener('click', async () => {
+      if (window.OverblikDKManualLocation?.read?.()) {
+        window.OverblikDKManualLocation.clear();
+        window.OverblikDKLocation?.clearSessionPosition?.();
+        syncManualPanel();
+        await window.OverblikDKUpdateLocalContext?.();
+        window.OverblikDKApplyRegionalSort?.();
+        return;
       }
-    };
-    showManualFallbackIfNeeded();
+      if (manualPanel) manualPanel.hidden = false;
+      document.getElementById('settingsFallbackAddressInput')?.focus();
+    });
+
+    clearManualBtn?.addEventListener('click', async () => {
+      window.OverblikDKManualLocation?.clear?.();
+      window.OverblikDKLocation?.clearSessionPosition?.();
+      syncManualPanel();
+      await window.OverblikDKUpdateLocalContext?.();
+      window.OverblikDKApplyRegionalSort?.();
+    });
+
+    syncManualPanel();
 
     OverblikDKManualLocation?.mount?.({
       inputId: 'settingsFallbackAddressInput',
