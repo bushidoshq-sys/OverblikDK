@@ -197,7 +197,7 @@ let mainActivity = await readFile(mainActivityPath, 'utf8');
 if (!mainActivity.includes('registerPlugin(OverblikVibrationPlugin.class)')) {
   mainActivity = mainActivity.replace(
     /public class MainActivity extends BridgeActivity \{/,
-    'public class MainActivity extends BridgeActivity {\\n  @Override\\n  public void onCreate(android.os.Bundle savedInstanceState) {\\n    registerPlugin(OverblikVibrationPlugin.class);\\n    super.onCreate(savedInstanceState);\\n  }'
+    `public class MainActivity extends BridgeActivity {\n  @Override\n  public void onCreate(android.os.Bundle savedInstanceState) {\n    registerPlugin(OverblikVibrationPlugin.class);\n    super.onCreate(savedInstanceState);\n  }`
   );
   await writeFile(mainActivityPath, mainActivity, 'utf8');
 }
@@ -220,3 +220,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Final home-bounded Android navigation rollout v177
 
 // Build trigger: DAWA migration to Adressevaelger + DAGI v2 (2026-10-01)
+
+// Build trigger: fix native vibration MainActivity newlines (2026-10-01)
