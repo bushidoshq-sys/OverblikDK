@@ -1,10 +1,10 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-01-native-vibrator-v169';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-01-center-emergency-v171';
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./indstillinger",
-  "./assets/styles.css?v=58",
+  "./assets/styles.css?v=59",
   "./assets/theme.js?v=94",
   "./assets/address-provider.js?v=27",
   "./assets/manual-location.js?v=28",
