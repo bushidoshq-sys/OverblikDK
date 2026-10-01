@@ -134,3 +134,5 @@ console.log('OverblikDK red logo applied to Android adaptive icon and splash res
 // Dark category contrast build trigger v166
 
 // Fix Biblioteker/Kultur app-relative navigation
+
+// Hierarchical Android Back navigation build trigger v167
