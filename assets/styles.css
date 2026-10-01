@@ -500,10 +500,10 @@ small.host { display: block; margin-top: 4px; }
 }
 .category-btn{
   appearance:none;
-  border:1px solid var(--border, #d8dce3);
+  border:1px solid var(--line);
   border-radius:999px;
-  background:var(--card, #fff);
-  color:var(--text, #1f2937);
+  background:var(--panel);
+  color:var(--text);
   padding:.62rem .9rem;
   font:inherit;
   font-weight:700;
@@ -512,8 +512,8 @@ small.host { display: block; margin-top: 4px; }
   box-shadow:0 1px 3px rgba(0,0,0,.06);
 }
 .category-btn.active{
-  background:var(--accent, #e7192d);
-  border-color:var(--accent, #e7192d);
+  background:var(--brand);
+  border-color:var(--brand);
   color:#fff;
 }
 .category-btn:focus-visible{
