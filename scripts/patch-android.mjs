@@ -132,3 +132,5 @@ console.log('OverblikDK red logo applied to Android adaptive icon and splash res
 // Native update-check fix build trigger v165
 
 // Dark category contrast build trigger v166
+
+// Fix Biblioteker/Kultur app-relative navigation
