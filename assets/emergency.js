@@ -13,6 +13,7 @@
   let sosPreviousTheme = null;
   let nativeTorch = null;
   let nativeHaptics = null;
+  let nativeVibration = null;
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -91,6 +92,13 @@
     try {
       const cap = window.Capacitor;
       if (cap?.isNativePlatform?.()) {
+        if (!nativeVibration && cap.registerPlugin) {
+          nativeVibration = cap.registerPlugin('OverblikVibration');
+        }
+        if (nativeVibration?.vibrate) {
+          await nativeVibration.vibrate({ duration: ms });
+          return;
+        }
         if (!nativeHaptics) {
           nativeHaptics = cap.Plugins?.Haptics || (cap.registerPlugin ? cap.registerPlugin('Haptics') : null);
         }
