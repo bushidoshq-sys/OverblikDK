@@ -138,3 +138,67 @@ console.log('OverblikDK red logo applied to Android adaptive icon and splash res
 // Hierarchical Android Back navigation build trigger v167
 
 // Final hierarchical Back rollout build trigger v168
+
+
+// Dedicated native SOS vibration plugin. Avoid WebView/browser haptics ambiguity.
+const javaDir = 'android/app/src/main/java/dk/overblikdk/app';
+await ensure(javaDir);
+await writeFile(`${javaDir}/OverblikVibrationPlugin.java`, `package dk.overblikdk.app;
+
+import android.content.Context;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.os.VibratorManager;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
+
+@CapacitorPlugin(name = "OverblikVibration")
+public class OverblikVibrationPlugin extends Plugin {
+    private Vibrator vibrator() {
+        Context context = getContext();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            VibratorManager manager = (VibratorManager) context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
+            return manager.getDefaultVibrator();
+        }
+        return (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+    }
+
+    @PluginMethod
+    public void vibrate(PluginCall call) {
+        long duration = Math.max(1, call.getLong("duration", 180L));
+        Vibrator vibrator = vibrator();
+        if (vibrator == null || !vibrator.hasVibrator()) {
+            call.reject("No vibrator available");
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            vibrator.vibrate(duration);
+        }
+        call.resolve(new JSObject());
+    }
+
+    @PluginMethod
+    public void cancel(PluginCall call) {
+        Vibrator vibrator = vibrator();
+        if (vibrator != null) vibrator.cancel();
+        call.resolve(new JSObject());
+    }
+}
+`, 'utf8');
+
+const mainActivityPath = `${javaDir}/MainActivity.java`;
+let mainActivity = await readFile(mainActivityPath, 'utf8');
+if (!mainActivity.includes('registerPlugin(OverblikVibrationPlugin.class)')) {
+  mainActivity = mainActivity.replace(
+    /public class MainActivity extends BridgeActivity \{/,
+    'public class MainActivity extends BridgeActivity {\\n  @Override\\n  public void onCreate(android.os.Bundle savedInstanceState) {\\n    registerPlugin(OverblikVibrationPlugin.class);\\n    super.onCreate(savedInstanceState);\\n  }'
+  );
+  await writeFile(mainActivityPath, mainActivity, 'utf8');
+}
+console.log('Dedicated OverblikDK native vibration plugin installed.');
