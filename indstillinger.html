@@ -75,31 +75,6 @@
     </div>
   </section>
 
-  <section class="settings-page-panel" aria-labelledby="homeAddressTitle">
-    <p class="section-kicker">Hjemmested</p>
-    <h2 id="homeAddressTitle">🏠 Min adresse</h2>
-    <p>Vælg en gyldig dansk adresse. Adressen bruges som dit hjemmested og holdes adskilt fra GPS, som fortsat betyder din aktuelle position.</p>
-
-    <label class="address-field-label" for="homeAddressInput">Adresse</label>
-    <div class="address-field-wrap">
-      <input id="homeAddressInput" class="address-field" type="text" inputmode="text" autocomplete="street-address" placeholder="Begynd at skrive din adresse…" aria-autocomplete="list" aria-controls="homeAddressSuggestions">
-      <ul id="homeAddressSuggestions" class="address-suggestions" role="listbox" hidden></ul>
-    </div>
-
-    <label class="settings-check">
-      <input type="checkbox" id="rememberHomeAddress">
-      <span>
-        <strong>Husk min adresse på denne enhed</strong><br>
-        Slået fra: adressen gemmes kun for den aktuelle app-session og fjernes, når sessionen lukkes.
-      </span>
-    </label>
-
-    <div class="emergency-actions">
-      <button class="emergency-call" type="button" id="clearHomeAddressBtn">Slet adresse nu</button>
-    </div>
-    <div id="homeAddressStatus" class="position-box">Ingen hjemmeadresse gemt.</div>
-  </section>
-
   <section class="settings-page-panel" aria-labelledby="updateTitle">
     <p class="section-kicker">Om</p>
     <h2 id="updateTitle">📲 OverblikDK</h2>
@@ -128,7 +103,6 @@
 <script src="assets/manual-location.js?v=30"></script>
 <script src="assets/location-tools.js?v=34"></script>
 <script src="assets/regional-sort.js?v=34"></script>
-<script src="assets/address-settings.js?v=16"></script>
 <script src="assets/favorites.js?v=14"></script>
 <script src="assets/pwa-update.js?v=99"></script>
   <script src="assets/native-navigation.js?v=26"></script>
