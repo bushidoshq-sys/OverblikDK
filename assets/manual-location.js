@@ -17,9 +17,16 @@ window.OverblikDKManualLocation = (function () {
   async function fromSuggestion(item) {
     if (!item?.data?.id) throw new Error('Vælg en adresse fra forslagene.');
     const detail = await window.OverblikDKAddressProvider.getAddress(item.data.id);
-    const area = window.OverblikDKAddressProvider.addressContext(detail);
     const coords = window.OverblikDKAddressProvider.addressCoordinates(detail);
     if (!coords) throw new Error('Adressen havde ingen brugbare koordinater.');
+    const admin = await window.OverblikDKAddressProvider.reverseAdministrativeContext(
+      coords.latitude,
+      coords.longitude
+    );
+    const area = {
+      kommune: admin?.kommune?.navn || '',
+      region: admin?.region?.navn || ''
+    };
 
     const value = {
       id: item.data.id,
