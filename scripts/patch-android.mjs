@@ -216,3 +216,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Home favorites active-star logic fix v175
 
 // Home is Android navigation history boundary v176
+
+// Final home-bounded Android navigation rollout v177
