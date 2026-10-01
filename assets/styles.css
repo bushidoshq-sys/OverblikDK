@@ -526,3 +526,7 @@ small.host { display: block; margin-top: 4px; }
 /* Nødsituation: compact centered title row */
 .emergency-head--sos { justify-content:center; text-align:center; }
 .emergency-head--sos h2 { margin:0; width:100%; }
+
+/* Nødkontakter: centered section heading */
+.emergency-head--contacts { justify-content:center; text-align:center; }
+.emergency-head--contacts > div { width:100%; }
