@@ -147,6 +147,15 @@
       if (window.OverblikDKManualLocation?.read?.()) {
         window.OverblikDKManualLocation.clear();
         window.OverblikDKLocation?.clearSessionPosition?.();
+        const manualInput = document.getElementById('settingsFallbackAddressInput');
+        const manualSuggestions = document.getElementById('settingsFallbackAddressSuggestions');
+        const manualStatus = document.getElementById('settingsFallbackAddressStatus');
+        if (manualInput) manualInput.value = '';
+        if (manualSuggestions) {
+          manualSuggestions.innerHTML = '';
+          manualSuggestions.hidden = true;
+        }
+        if (manualStatus) manualStatus.textContent = '';
         syncManualPanel();
         await window.OverblikDKUpdateLocalContext?.();
         window.OverblikDKApplyRegionalSort?.();
@@ -159,6 +168,15 @@
     clearManualBtn?.addEventListener('click', async () => {
       window.OverblikDKManualLocation?.clear?.();
       window.OverblikDKLocation?.clearSessionPosition?.();
+      const manualInput = document.getElementById('settingsFallbackAddressInput');
+      const manualSuggestions = document.getElementById('settingsFallbackAddressSuggestions');
+      const manualStatus = document.getElementById('settingsFallbackAddressStatus');
+      if (manualInput) manualInput.value = '';
+      if (manualSuggestions) {
+        manualSuggestions.innerHTML = '';
+        manualSuggestions.hidden = true;
+      }
+      if (manualStatus) manualStatus.textContent = '';
       syncManualPanel();
       await window.OverblikDKUpdateLocalContext?.();
       window.OverblikDKApplyRegionalSort?.();
