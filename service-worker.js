@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-01-settings-back-v179';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-02-master-sync-v180';
 
 const FILES_TO_CACHE = [
   "./",
@@ -8,8 +8,7 @@ const FILES_TO_CACHE = [
   "./assets/theme.js?v=94",
   "./assets/address-provider.js?v=29",
   "./assets/manual-location.js?v=30",
-  "./assets/manual-location.js?v=30",
-  "./assets/address-settings.js?v=16",
+  "./assets/home-address.js?v=1",
   "./assets/location-tools.js?v=51",
   "./assets/regional-sort.js?v=34",
   "./assets/emergency.js?v=55",
@@ -39,6 +38,7 @@ const FILES_TO_CACHE = [
   "./sport",
   "./forretninger",
   "./reklamer",
+  "./omregner",
   "./google2b71488ba44ee784.html"
 ];
 
@@ -68,6 +68,7 @@ self.addEventListener('fetch', (event) => {
     url.pathname.endsWith('/assets/regional-sort.js') ||
     url.pathname.endsWith('/assets/address-provider.js') ||
     url.pathname.endsWith('/assets/manual-location.js') ||
+    url.pathname.endsWith('/assets/home-address.js') ||
     url.pathname.endsWith('/assets/nearby.js') ||
     url.pathname.endsWith('/assets/address-provider.js') ||
     url.pathname.endsWith('/assets/manual-location.js') ||
