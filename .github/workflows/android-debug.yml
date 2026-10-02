@@ -1,5 +1,5 @@
 name: Build Android APK # signed-v3-pkcs12
-# trigger: full-link-audit-complete-2026-10-02
+# trigger: master-header-sync-2026-10-02
 
 on:
   workflow_dispatch:
