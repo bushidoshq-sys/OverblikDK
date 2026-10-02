@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OverblikDK – Omregner</title><link rel="stylesheet" href="assets/styles.css?v=62"><link rel="icon" type="image/png" href="icons/icon-192.png">
+<script>(function(){const s=localStorage.getItem('overblikdk-theme');const p=matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-theme',s||(p?'dark':'light'))})();</script></head>
+<body><header class="header"><div class="brand container"><img class="logo" src="icons/logo.png" alt=""><div><h1>OverblikDK</h1><small>Omregner</small></div><a class="header-icon-btn" href="index.html" aria-label="Forside">🏛️</a><button id="themeToggle" class="theme-toggle" type="button"><span class="theme-toggle__icon">🌙</span><span class="theme-toggle__text">Mørk</span></button></div><div class="navline"></div></header>
+<main class="container"><p><a class="back" href="index.html">← Tilbage</a></p>
+<section class="departure-panel"><div class="departure-head"><div><p class="kicker">Værktøj</p><h2>🔄 Omregner</h2><p>Omregn længde, vægt, temperatur, areal, volumen og hastighed direkte.</p></div></div></section>
+<div class="toolbar"><label class="input">Type <select id="kind"></select></label></div>
+<section class="departure-panel"><div class="converter-grid"><label>Fra<input id="amount" class="address-field" inputmode="decimal" value="1"><select id="from" class="address-field"></select></label><button id="swap" class="nearby-btn" type="button" aria-label="Byt enheder">↕️ Byt</button><label>Til<input id="result" class="address-field" readonly><select id="to" class="address-field"></select></label></div></section>
+</main><footer class="container">© <span id="year"></span> OverblikDK · BushidoDK</footer>
+<script>
+const sets={
+'Længde':{m:['Meter',1],km:['Kilometer',1000],cm:['Centimeter',.01],mm:['Millimeter',.001],mi:['Miles',1609.344],yd:['Yards',.9144],ft:['Feet',.3048],inch:['Tommer',.0254]},
+'Vægt':{kg:['Kilogram',1],g:['Gram',.001],mg:['Milligram',.000001],lb:['Pund (lb)',.45359237],oz:['Ounces',.028349523125]},
+'Areal':{m2:['m²',1],km2:['km²',1e6],ha:['Hektar',10000],ft2:['ft²',.09290304],acre:['Acres',4046.8564224]},
+'Volumen':{l:['Liter',1],ml:['Milliliter',.001],dl:['Deciliter',.1],m3:['m³',1000],gal:['US gallons',3.785411784],floz:['US fl oz',.0295735295625]},
+'Hastighed':{kmh:['km/t',1],ms:['m/s',3.6],mph:['mph',1.609344],knot:['Knob',1.852]},
+'Temperatur':{c:['Celsius'],f:['Fahrenheit'],k:['Kelvin']}
+};
+const kind=document.getElementById('kind'),from=document.getElementById('from'),to=document.getElementById('to'),amount=document.getElementById('amount'),result=document.getElementById('result');
+Object.keys(sets).forEach(x=>kind.add(new Option(x,x)));
+function fill(){from.innerHTML=to.innerHTML='';Object.entries(sets[kind.value]).forEach(([k,v])=>{from.add(new Option(v[0],k));to.add(new Option(v[0],k))});to.selectedIndex=Math.min(1,to.options.length-1);calc()}
+function calc(){let n=Number(String(amount.value).replace(',','.'));if(!Number.isFinite(n)){result.value='';return}if(kind.value==='Temperatur'){let c=from.value==='c'?n:from.value==='f'?(n-32)*5/9:n-273.15;let x=to.value==='c'?c:to.value==='f'?c*9/5+32:c+273.15;result.value=fmt(x);return}const a=sets[kind.value][from.value][1],b=sets[kind.value][to.value][1];result.value=fmt(n*a/b)}
+function fmt(n){return new Intl.NumberFormat('da-DK',{maximumFractionDigits:8}).format(n)}
+kind.onchange=fill;from.onchange=to.onchange=amount.oninput=calc;document.getElementById('swap').onclick=()=>{const x=from.value;from.value=to.value;to.value=x;calc()};document.getElementById('year').textContent=new Date().getFullYear();fill();
+</script><script src="assets/theme.js?v=94"></script><script src="assets/native-navigation.js?v=26"></script></body></html>
