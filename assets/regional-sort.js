@@ -45,8 +45,14 @@
       };
       if (!ctx.kommune || !ctx.region) throw new Error('Kommune/region mangler i lokationssvaret.');
       sessionStorage.removeItem(CONTEXT_KEY);
-      if (!manual) sessionStorage.removeItem('overblikdk_manual_current_location');
-      localStorage.setItem(CONTEXT_KEY, JSON.stringify(ctx));
+      if (manual) {
+        // Manuel adresse er kun en midlertidig sessionsposition og må derfor
+        // ikke gøre den afledte kommune/region permanent.
+        sessionStorage.setItem(CONTEXT_KEY, JSON.stringify(ctx));
+      } else {
+        sessionStorage.removeItem('overblikdk_manual_current_location');
+        localStorage.setItem(CONTEXT_KEY, JSON.stringify(ctx));
+      }
       window.OverblikDKLocationStage = 'færdig';
       setStatus();
       window.OverblikDKApplyRegionalSort?.();
