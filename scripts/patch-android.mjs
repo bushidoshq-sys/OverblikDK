@@ -228,3 +228,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Build trigger: settings polish and manual address reset v179 (2026-10-01)
 
 // Build trigger: final settings, nearby and emergency cleanup (2026-10-01)
+
+// Build trigger: complete Kultur link audit 2026-10-02
