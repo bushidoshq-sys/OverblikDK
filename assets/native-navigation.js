@@ -82,7 +82,21 @@
 
   const App = cap.registerPlugin('App');
 
-  App.addListener('backButton', () => {
+  function usableInternalReferrer() {
+    if (!document.referrer) return false;
+    try {
+      const ref = new URL(document.referrer);
+      const current = new URL(location.href);
+      if (ref.origin !== current.origin) return false;
+      const refFile = ref.pathname.split('/').pop() || 'index.html';
+      const currentName = currentFile();
+      return refFile !== currentName;
+    } catch {
+      return false;
+    }
+  }
+
+  App.addListener('backButton', ({ canGoBack }) => {
     if (closeOpenDialog()) return;
 
     if (currentFile() === 'indstillinger.html') {
@@ -91,12 +105,8 @@
     }
 
     if (!isHome()) {
-      const backLink = document.querySelector('a.back[href]');
-      if (backLink) {
-        const target = new URL(backLink.href, location.href);
-        const targetFile = target.pathname.split('/').pop() || 'index.html';
-        if (targetFile === 'index.html') location.replace(target.href);
-        else location.assign(target.href);
+      if (canGoBack && usableInternalReferrer()) {
+        history.back();
       } else {
         location.replace(new URL('index.html', location.href).href);
       }
