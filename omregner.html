@@ -16,12 +16,12 @@ const sets={
 'Volumen':{l:['Liter',1],ml:['Milliliter',.001],dl:['Deciliter',.1],m3:['m³',1000],gal:['US gallons',3.785411784],floz:['US fl oz',.0295735295625]},
 'Hastighed':{kmh:['km/t',1],ms:['m/s',3.6],mph:['mph',1.609344],knot:['Knob',1.852]},
 'Temperatur':{c:['Celsius'],f:['Fahrenheit'],k:['Kelvin']},
-'Valuta':{DKK:['Danske kroner'],EUR:['Euro'],USD:['US dollar'],GBP:['Britiske pund'],SEK:['Svenske kroner'],NOK:['Norske kroner'],CHF:['Schweiziske franc'],JPY:['Japanske yen'],PHP:['Filippinske peso']}
+'Valuta':{DKK:['🇩🇰 DKK – Danske kroner'],EUR:['🇪🇺 EUR – Euro'],USD:['🇺🇸 USD – US dollar'],GBP:['🇬🇧 GBP – Britiske pund'],SEK:['🇸🇪 SEK – Svenske kroner'],NOK:['🇳🇴 NOK – Norske kroner'],CHF:['🇨🇭 CHF – Schweiziske franc'],JPY:['🇯🇵 JPY – Japanske yen'],PHP:['🇵🇭 PHP – Filippinske peso'],CAD:['🇨🇦 CAD – Canadiske dollar'],AUD:['🇦🇺 AUD – Australske dollar']}
 };
 const kind=document.getElementById('kind'),from=document.getElementById('from'),to=document.getElementById('to'),amount=document.getElementById('amount'),result=document.getElementById('result');
 Object.keys(sets).forEach(x=>kind.add(new Option(x,x)));
 function fill(){from.innerHTML=to.innerHTML='';Object.entries(sets[kind.value]).forEach(([k,v])=>{from.add(new Option(v[0],k));to.add(new Option(v[0],k))});to.selectedIndex=Math.min(1,to.options.length-1);calc()}
-const fx={DKK:1,EUR:7.4756,USD:6.5766,GBP:8.6940,SEK:.6636,NOK:.6929,CHF:7.9452,JPY:.0414,PHP:.1048};
+const fx={DKK:1,EUR:7.4756,USD:6.5766,GBP:8.6940,SEK:.6636,NOK:.6929,CHF:7.9452,JPY:.0414,PHP:.1048,CAD:4.7350,AUD:4.3100};
 function calc(){let n=Number(String(amount.value).replace(',','.'));if(!Number.isFinite(n)){result.value='';return}if(kind.value==='Valuta'){result.value=fmt(n*fx[from.value]/fx[to.value]);return}if(kind.value==='Temperatur'){let c=from.value==='c'?n:from.value==='f'?(n-32)*5/9:n-273.15;let x=to.value==='c'?c:to.value==='f'?c*9/5+32:c+273.15;result.value=fmt(x);return}const a=sets[kind.value][from.value][1],b=sets[kind.value][to.value][1];result.value=fmt(n*a/b)}
 function fmt(n){return new Intl.NumberFormat('da-DK',{maximumFractionDigits:8}).format(n)}
 kind.onchange=fill;from.onchange=to.onchange=amount.oninput=calc;document.getElementById('swap').onclick=()=>{const x=from.value;from.value=to.value;to.value=x;calc()};document.getElementById('year').textContent=new Date().getFullYear();fill();
