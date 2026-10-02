@@ -244,7 +244,7 @@ window.OverblikDKLocation = (function () {
     gpsMessageTimer = setInterval(() => {
       messageIndex = (messageIndex + 1) % gpsMessages.length;
       msg.textContent = gpsMessages[messageIndex];
-    }, 5000);
+    }, 2500);
     const started = Date.now();
     gpsProgressTimer = setInterval(() => {
       const pct = Math.min(96, Math.max(2, ((Date.now() - started) / timeout) * 100));
@@ -297,12 +297,15 @@ window.OverblikDKLocation = (function () {
         console.warn('Native lokation fejlede; prøver web-lokation som fallback.', error);
       }
     }
-    const position = await getWebPosition(options);
-    window.OverblikDKLocationDiagnostics.source = 'web';
-    window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
-    rememberSessionPosition(position, 'web');
-    hideGpsProgress();
-    return position;
+    try {
+      const position = await getWebPosition(options);
+      window.OverblikDKLocationDiagnostics.source = 'web';
+      window.OverblikDKLocationDiagnostics.accuracy = position?.coords?.accuracy ?? null;
+      rememberSessionPosition(position, 'web');
+      return position;
+    } finally {
+      hideGpsProgress();
+    }
   }
 
   function mapsUrl(lat, lon) {
