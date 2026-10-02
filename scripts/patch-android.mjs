@@ -232,3 +232,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Build trigger: complete Kultur link audit 2026-10-02
 
 // Build trigger: add OverblikDK converter 2026-10-02
+
+// Build trigger: complete library link audit 2026-10-02
