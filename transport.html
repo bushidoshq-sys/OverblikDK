@@ -91,7 +91,7 @@
     const municipality = helper.normalizeMunicipality(ctx.kommune);
     const region = helper.normalizeRegion(helper.canonicalRegionFromContext(ctx));
 
-    if (municipality === 'bornholm') return {name:'BAT – Bornholms Trafik', url:'https://www.bat.dk'};
+    if (municipality === 'bornholms' || municipality === 'bornholm') return {name:'BAT – Bornholms Trafik', url:'https://www.bat.dk'};
     if (municipality === 'fanø') return {name:'Fanø Kommune – bus', url:'https://fanoe.dk/borger/faerge-bus-og-taxa/rutebil'};
     if (municipality === 'ærø') return {name:'Ærø Kommune – busser', url:'https://www.aeroekommune.dk/mit-liv/trafik-og-veje/busser'};
     if (SYDTRAFIK_KOMMUNER.has(ctx.kommune?.replace(/ Kommune$/,''))) return {name:'Sydtrafik', url:'https://sydtrafik.dk'};
