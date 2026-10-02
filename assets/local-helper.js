@@ -77,19 +77,9 @@ window.OverblikDKLocalHelper = (function () {
   }
 
   function sortRegionGroups(groups) {
-    if (!enabled()) return groups.slice();
-    const ctx = context();
-    const ownRegion = normalizeRegion(canonicalRegionFromContext(ctx));
-    return groups.map((group, index) => ({group, index}))
-      .sort((a, b) => {
-        const ar = normalizeRegion(a.group.region);
-        const br = normalizeRegion(b.group.region);
-        const score = r => r === ownRegion ? 0 : (normalize(a.group.region) === 'officielle oversigter' ? 1 : 2);
-        const scoreB = r => r === ownRegion ? 0 : (normalize(b.group.region) === 'officielle oversigter' ? 1 : 2);
-        const d = score(ar) - scoreB(br);
-        if (d) return d;
-        return a.index - b.index;
-      }).map(x => x.group);
+    // Regional sortering må kun ændre rækkefølgen af links inde i en
+    // eksisterende gruppe. Selve gruppe-/regionshierarkiet skal være stabilt.
+    return groups.slice();
   }
 
   return {
