@@ -58,6 +58,29 @@
 
   </section>
 
+  <section class="settings-page-panel" aria-labelledby="homeAddressTitle">
+    <p class="section-kicker">Hjemmested</p>
+    <h2 id="homeAddressTitle">🏠 Min adresse</h2>
+    <p>Gem en valideret dansk hjemmeadresse til lokale funktioner. Den holdes adskilt fra din aktuelle GPS-position.</p>
+
+    <div class="manual-location-fallback">
+      <div class="address-field-wrap">
+        <input id="homeAddressInput" class="address-field" type="text" autocomplete="street-address" placeholder="Skriv din adresse…" aria-controls="homeAddressSuggestions">
+        <ul id="homeAddressSuggestions" class="address-suggestions" role="listbox" hidden></ul>
+      </div>
+
+      <label class="settings-check">
+        <input type="checkbox" id="rememberHomeAddress">
+        <span><strong>Husk min adresse på denne enhed</strong><br>Slået fra gemmes adressen kun i denne session.</span>
+      </label>
+
+      <div class="emergency-actions">
+        <button class="emergency-call" type="button" id="deleteHomeAddressBtn">Slet adresse nu</button>
+      </div>
+      <div id="homeAddressStatus" class="position-box">Ingen hjemmeadresse gemt.</div>
+    </div>
+  </section>
+
   <section id="manualLocationPanel" class="settings-page-panel" aria-labelledby="manualLocationTitle" hidden>
     <p class="section-kicker">Aktuel position</p>
     <h2 id="manualLocationTitle">📍 Brug adresse som position</h2>
@@ -101,6 +124,7 @@
 <script src="assets/theme.js?v=94"></script>
 <script src="assets/address-provider.js?v=29"></script>
 <script src="assets/manual-location.js?v=30"></script>
+<script src="assets/home-address.js?v=1"></script>
 <script src="assets/location-tools.js?v=34"></script>
 <script src="assets/regional-sort.js?v=34"></script>
 <script src="assets/favorites.js?v=14"></script>
@@ -161,6 +185,14 @@
     });
 
     syncManualPanel();
+
+    window.OverblikDKHomeAddress?.mount?.({
+      inputId: 'homeAddressInput',
+      suggestionsId: 'homeAddressSuggestions',
+      statusId: 'homeAddressStatus',
+      rememberId: 'rememberHomeAddress',
+      deleteId: 'deleteHomeAddressBtn'
+    });
 
     OverblikDKManualLocation?.mount?.({
       inputId: 'settingsFallbackAddressInput',
