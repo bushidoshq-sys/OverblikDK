@@ -718,3 +718,5 @@ console.log('Dedicated OverblikDK vibration + offline emergency fallback install
 // Final build trigger: fix native fallback SOS torch permission flow 2026-10-03
 
 // Build trigger: native fallback reconnect + global emergency contact sync 2026-10-03
+
+// Build trigger: emergency-contact cache preservation 2026-10-03
