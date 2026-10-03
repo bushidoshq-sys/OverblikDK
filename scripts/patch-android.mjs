@@ -205,8 +205,13 @@ public class OverblikVibrationPlugin extends Plugin {
 
 await writeFile(`${javaDir}/OfflineEmergencyPlugin.java`, `package dk.overblikdk.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.os.Build;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -236,6 +241,35 @@ public class OfflineEmergencyPlugin extends Plugin {
         prefs.edit().putString(CONTACTS, contacts.toString()).apply();
         JSObject result = new JSObject();
         result.put("count", contacts.length());
+        call.resolve(result);
+    }
+
+    private boolean hasValidatedInternet() {
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network network = cm.getActiveNetwork();
+            if (network == null) return false;
+            NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+            return caps != null
+                && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+        }
+        android.net.NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnected();
+    }
+
+    @PluginMethod
+    public void openIfOffline(PluginCall call) {
+        boolean offline = !hasValidatedInternet();
+        if (offline) {
+            getActivity().runOnUiThread(() -> {
+                Intent intent = new Intent(getContext(), EmergencyFallbackActivity.class);
+                getActivity().startActivity(intent);
+            });
+        }
+        JSObject result = new JSObject();
+        result.put("opened", offline);
         call.resolve(result);
     }
 }
