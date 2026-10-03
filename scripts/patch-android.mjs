@@ -381,9 +381,6 @@ public class EmergencyFallbackActivity extends Activity {
         sos.setOnClickListener(v -> startSOS());
         root.addView(sos);
 
-        root.addView(text("Nødkontakter", 20, true));
-        addContacts(root);
-
         Button retry = button("Prøv OverblikDK online");
         retry.setOnClickListener(v -> {
             if (hasInternet()) {
