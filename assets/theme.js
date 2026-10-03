@@ -1,6 +1,6 @@
 (function () {
   const KEY = 'overblikdk-theme';
-  const RETURN_KEY = 'overblikdk_settings_return';
+  const RETURN_KEY = 'overblikdk-settings-return';
   const SCROLL_PREFIX = 'overblikdk_scroll:';
   const btn = document.getElementById('themeToggle');
   const brand = document.querySelector('.brand');
@@ -58,24 +58,36 @@
 
     if (btn.parentElement !== actions) actions.appendChild(btn);
 
-    if (!actions.querySelector('[data-header-settings]')) {
-      const settings = document.createElement('a');
+    let settings = actions.querySelector('[data-header-settings]') ||
+      brand.querySelector('a.header-icon-btn[href="indstillinger.html"]');
+
+    if (!settings) {
+      settings = document.createElement('a');
       settings.className = 'header-icon-btn';
-      const onSettingsPage = (location.pathname.split('/').pop() || '') === 'indstillinger.html';
-      settings.href = onSettingsPage ? 'index.html' : 'indstillinger.html';
-      settings.setAttribute('data-header-settings', '');
-      settings.setAttribute('aria-label', onSettingsPage ? 'Luk indstillinger' : 'Åbn indstillinger');
-      settings.title = onSettingsPage ? 'Luk indstillinger' : 'Indstillinger';
-      settings.textContent = onSettingsPage ? '✕' : '⚙️';
+      settings.href = 'indstillinger.html';
+      actions.appendChild(settings);
+    } else if (settings.parentElement !== actions) {
+      actions.appendChild(settings);
+    }
+
+    const onSettingsPage = (location.pathname.split('/').pop() || '') === 'indstillinger.html';
+    settings.setAttribute('data-header-settings', '');
+    settings.href = onSettingsPage ? '#' : 'indstillinger.html';
+    settings.setAttribute('aria-label', onSettingsPage ? 'Luk indstillinger' : 'Åbn indstillinger');
+    settings.title = onSettingsPage ? 'Luk indstillinger' : 'Indstillinger';
+    settings.textContent = onSettingsPage ? '✕' : '⚙️';
+
+    if (!settings.dataset.headerSettingsBound) {
+      settings.dataset.headerSettingsBound = 'true';
       settings.addEventListener('click', (event) => {
-        if (onSettingsPage) {
+        const settingsPage = (location.pathname.split('/').pop() || '') === 'indstillinger.html';
+        if (settingsPage) {
           event.preventDefault();
           closeSettings();
           return;
         }
-        sessionStorage.setItem(RETURN_KEY, currentInternalPath());
+        sessionStorage.setItem(RETURN_KEY, location.href);
       });
-      actions.appendChild(settings);
     }
 
   }
