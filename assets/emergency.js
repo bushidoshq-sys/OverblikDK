@@ -335,8 +335,20 @@
   function getContacts() {
     try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; }
   }
+
+  function syncNativeEmergencyContacts(contacts) {
+    try {
+      const cap = window.Capacitor;
+      if (!cap?.isNativePlatform?.() || !cap.registerPlugin) return;
+      const plugin = cap.registerPlugin('OfflineEmergency');
+      plugin.syncContacts({ contacts: contacts.slice(0, 3) }).catch(() => {});
+    } catch {}
+  }
+
   function saveContacts(c) {
-    localStorage.setItem(KEY, JSON.stringify(c.slice(0, 3)));
+    const contacts = c.slice(0, 3);
+    localStorage.setItem(KEY, JSON.stringify(contacts));
+    syncNativeEmergencyContacts(contacts);
   }
   function normalizePhone(phone) {
     return String(phone || '').replace(/[^\d+]/g, '');
@@ -354,6 +366,7 @@
   function renderContacts() {
     if (!contactsBox) return;
     const contacts = getContacts();
+    syncNativeEmergencyContacts(contacts);
     if (!contacts.length) {
       contactsBox.textContent = 'Ingen nødkontakter gemt endnu.';
       return;
