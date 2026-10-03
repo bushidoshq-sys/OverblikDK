@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-03-offline-emergency-v187';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-03-offline-emergency-v188';
 
 const FILES_TO_CACHE = [
   "./",
@@ -11,13 +11,13 @@ const FILES_TO_CACHE = [
   "./assets/home-address.js?v=1",
   "./assets/location-tools.js?v=51",
   "./assets/regional-sort.js?v=34",
-  "./assets/emergency.js?v=55",
+  "./assets/emergency.js?v=56",
   "./assets/favorites.js?v=16",
   "./assets/local-helper.js?v=27",
   "./assets/local-data.js?v=6",
   "./assets/nearby.js?v=40",
   "./assets/pwa-update.js?v=99",
-  "./assets/native-navigation.js?v=26",
+  "./assets/native-navigation.js?v=27",
   "./manifest.json",
   "./icons/logo.png",
   "./icons/icon-192.png",
