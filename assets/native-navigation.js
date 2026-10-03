@@ -67,6 +67,15 @@
 
   if (cap?.isNativePlatform?.() && cap?.registerPlugin) {
     const OfflineEmergency = cap.registerPlugin('OfflineEmergency');
+
+    // Keep the native offline fallback supplied with the latest emergency
+    // contacts from any online page, not only when the emergency page is opened.
+    try {
+      const contacts = JSON.parse(localStorage.getItem('overblikdk_emergency_contacts') || '[]');
+      OfflineEmergency.syncContacts({ contacts: Array.isArray(contacts) ? contacts.slice(0, 3) : [] }).catch(() => {});
+    } catch {
+      OfflineEmergency.syncContacts({ contacts: [] }).catch(() => {});
+    }
     document.addEventListener('click', (event) => {
       const link = event.target.closest?.('a[href]');
       if (!link) return;
