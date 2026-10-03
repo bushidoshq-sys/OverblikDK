@@ -643,15 +643,20 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onResume() {
         super.onResume();
-        // Returning from the native fallback must start a fresh online load.
-        // Otherwise Chromium can leave its ERR_INTERNET_DISCONNECTED page visible.
-        if (offlineFallbackShown && hasValidatedInternet()) {
-            offlineFallbackShown = false;
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (bridge != null && bridge.getWebView() != null) {
-                    bridge.getWebView().loadUrl("https://bushidoshq-sys.github.io/OverblikDK/");
-                }
-            }, 350);
+        // Returning from the native fallback must never expose Chromium's
+        // ERR_INTERNET_DISCONNECTED page. Reload online, otherwise reopen fallback.
+        if (offlineFallbackShown) {
+            if (hasValidatedInternet()) {
+                offlineFallbackShown = false;
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    if (bridge != null && bridge.getWebView() != null) {
+                        bridge.getWebView().loadUrl("https://bushidoshq-sys.github.io/OverblikDK/");
+                    }
+                }, 350);
+            } else {
+                new Handler(Looper.getMainLooper()).postDelayed(() ->
+                    startActivity(new Intent(this, EmergencyFallbackActivity.class)), 150);
+            }
         }
     }
 
