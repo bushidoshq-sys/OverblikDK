@@ -113,7 +113,8 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
-  document.getElementById('settingsBackBtn')?.addEventListener('click', () => {
+  document.getElementById('settingsBackBtn')?.addEventListener('click', (event) => {
+    event.preventDefault();
     if (window.OverblikDKCloseSettings) {
       window.OverblikDKCloseSettings();
       return;
