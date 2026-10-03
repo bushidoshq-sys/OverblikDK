@@ -63,20 +63,6 @@
     }
   }, true);
 
-  if (currentFile() === 'indstillinger.html') {
-    const settingsAction = document.querySelector('a[href="indstillinger.html"]');
-    if (settingsAction) {
-      settingsAction.href = '#';
-      settingsAction.setAttribute('aria-label', 'Luk indstillinger');
-      settingsAction.setAttribute('title', 'Luk indstillinger');
-      settingsAction.textContent = '✕';
-      settingsAction.addEventListener('click', (event) => {
-        event.preventDefault();
-        window.OverblikDKCloseSettings();
-      });
-    }
-  }
-
   const cap = window.Capacitor;
   if (!cap?.isNativePlatform?.() || !cap?.registerPlugin) return;
 
