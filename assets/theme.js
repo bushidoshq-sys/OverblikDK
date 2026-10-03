@@ -11,15 +11,22 @@
   }
 
   function closeSettings() {
+    const fallback = new URL('index.html', location.href).href;
     const target = sessionStorage.getItem(RETURN_KEY);
     sessionStorage.removeItem(RETURN_KEY);
 
-    if (target && !/^https?:/i.test(target) && !target.includes('indstillinger.html')) {
-      location.href = new URL(target, location.href).href;
-      return;
+    if (target) {
+      try {
+        const url = new URL(target, location.href);
+        const file = url.pathname.split('/').pop() || 'index.html';
+        if (url.origin === location.origin && file !== 'indstillinger.html') {
+          location.replace(url.href);
+          return;
+        }
+      } catch {}
     }
 
-    location.replace(new URL('index.html', location.href).href);
+    location.replace(fallback);
   }
 
   window.OverblikDKCloseSettings = closeSettings;
