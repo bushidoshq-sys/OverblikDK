@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-02-master-sync-v182';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-03-header-fix-v183';
 
 const FILES_TO_CACHE = [
   "./",
