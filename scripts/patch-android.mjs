@@ -673,3 +673,5 @@ console.log('Dedicated OverblikDK vibration + offline emergency fallback install
 // Build trigger: native offline emergency fallback v187 (2026-10-03)
 
 // Final build trigger: bundle offline emergency web bridge 2026-10-03
+
+// Final build trigger: emergency contact sync cache bust 2026-10-03
