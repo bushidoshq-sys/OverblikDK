@@ -644,7 +644,7 @@ public class MainActivity extends BridgeActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         // Returning from the native fallback must start a fresh online load.
         // Otherwise Chromium can leave its ERR_INTERNET_DISCONNECTED page visible.
