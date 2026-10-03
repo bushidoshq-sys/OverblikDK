@@ -643,6 +643,21 @@ public class MainActivity extends BridgeActivity {
         }, 1200);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Returning from the native fallback must start a fresh online load.
+        // Otherwise Chromium can leave its ERR_INTERNET_DISCONNECTED page visible.
+        if (offlineFallbackShown && hasValidatedInternet()) {
+            offlineFallbackShown = false;
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (bridge != null && bridge.getWebView() != null) {
+                    bridge.getWebView().loadUrl("https://bushidoshq-sys.github.io/OverblikDK/");
+                }
+            }, 350);
+        }
+    }
+
     private boolean hasValidatedInternet() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) return false;
@@ -701,3 +716,5 @@ console.log('Dedicated OverblikDK vibration + offline emergency fallback install
 // Final build trigger: emergency contact sync cache bust 2026-10-03
 
 // Final build trigger: fix native fallback SOS torch permission flow 2026-10-03
+
+// Build trigger: native fallback reconnect + global emergency contact sync 2026-10-03
