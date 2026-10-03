@@ -1,5 +1,5 @@
 (function () {
-  const RELEASE_VERSION = '2026.10.03.103';
+  const RELEASE_VERSION = '2026.10.03.104';
   const isNativeShell =
     Boolean(window.Capacitor?.isNativePlatform?.()) ||
     navigator.userAgent.includes('OverblikDKNative');
