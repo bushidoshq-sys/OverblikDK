@@ -1,4 +1,4 @@
-const CACHE_NAME = 'overblikdk-cache-v2026-10-03-sos-stop-v186';
+const CACHE_NAME = 'overblikdk-cache-v2026-10-03-offline-emergency-v187';
 
 const FILES_TO_CACHE = [
   "./",
