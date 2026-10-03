@@ -487,12 +487,17 @@ public class EmergencyFallbackActivity extends Activity {
         }
     }
 
-    private void findTorchCamera() {
+    private boolean ensureTorchReady() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
             checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, 501);
-            return;
+            return false;
         }
+        findTorchCamera();
+        return true;
+    }
+
+    private void findTorchCamera() {
         try {
             CameraManager camera = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
             if (camera == null) return;
@@ -509,6 +514,20 @@ public class EmergencyFallbackActivity extends Activity {
         } catch (Exception ignored) {}
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 501) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                findTorchCamera();
+                startSOSInternal();
+            } else {
+                Toast.makeText(this, "Kameratilladelse blev afvist. S.O.S. fortsætter uden lommelygte.", Toast.LENGTH_LONG).show();
+                startSOSInternal();
+            }
+        }
+    }
+
     private void setTorch(boolean on) {
         if (torchCameraId == null) return;
         try {
@@ -519,7 +538,12 @@ public class EmergencyFallbackActivity extends Activity {
 
     private void startSOS() {
         if (sosRunning) return;
-        findTorchCamera();
+        if (!ensureTorchReady()) return;
+        startSOSInternal();
+    }
+
+    private void startSOSInternal() {
+        if (sosRunning) return;
         sosRunning = true;
         sosStep = 0;
 
@@ -675,3 +699,5 @@ console.log('Dedicated OverblikDK vibration + offline emergency fallback install
 // Final build trigger: bundle offline emergency web bridge 2026-10-03
 
 // Final build trigger: emergency contact sync cache bust 2026-10-03
+
+// Final build trigger: fix native fallback SOS torch permission flow 2026-10-03
