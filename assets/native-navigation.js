@@ -72,10 +72,12 @@
     // contacts from any online page, not only when the emergency page is opened.
     try {
       const contacts = JSON.parse(localStorage.getItem('overblikdk_emergency_contacts') || '[]');
-      OfflineEmergency.syncContacts({ contacts: Array.isArray(contacts) ? contacts.slice(0, 3) : [] }).catch(() => {});
-    } catch {
-      OfflineEmergency.syncContacts({ contacts: [] }).catch(() => {});
-    }
+      // Only write when we actually have contacts. Never let an empty/stale
+      // page cache erase the native emergency cache.
+      if (Array.isArray(contacts) && contacts.length) {
+        OfflineEmergency.syncContacts({ contacts: contacts.slice(0, 3) }).catch(() => {});
+      }
+    } catch {}
     document.addEventListener('click', (event) => {
       const link = event.target.closest?.('a[href]');
       if (!link) return;
