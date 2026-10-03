@@ -7,7 +7,9 @@ const permissions = [
   '    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />',
   '    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />',
   '    <uses-permission android:name="android.permission.FLASHLIGHT" />',
-  '    <uses-permission android:name="android.permission.VIBRATE" />'
+  '    <uses-permission android:name="android.permission.VIBRATE" />',
+  '    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />',
+  '    <uses-permission android:name="android.permission.CAMERA" />'
 ];
 
 const missing = permissions.filter(line => !xml.includes(line.trim()));
@@ -17,6 +19,15 @@ if (missing.length) {
   console.log('Added required Android permissions.');
 } else {
   console.log('Required Android permissions already present.');
+}
+
+if (!xml.includes('android:name=".EmergencyFallbackActivity"')) {
+  xml = xml.replace(
+    /<application\b[^>]*>/,
+    match => match + '\n        <activity android:name=".EmergencyFallbackActivity" android:exported="false" />'
+  );
+  await writeFile(manifestPath, xml, 'utf8');
+  console.log('Registered native emergency fallback activity.');
 }
 
 const gradlePath = 'android/app/build.gradle';
@@ -192,16 +203,404 @@ public class OverblikVibrationPlugin extends Plugin {
 }
 `, 'utf8');
 
-const mainActivityPath = `${javaDir}/MainActivity.java`;
-let mainActivity = await readFile(mainActivityPath, 'utf8');
-if (!mainActivity.includes('registerPlugin(OverblikVibrationPlugin.class)')) {
-  mainActivity = mainActivity.replace(
-    /public class MainActivity extends BridgeActivity \{/,
-    `public class MainActivity extends BridgeActivity {\n  @Override\n  public void onCreate(android.os.Bundle savedInstanceState) {\n    registerPlugin(OverblikVibrationPlugin.class);\n    super.onCreate(savedInstanceState);\n  }`
-  );
-  await writeFile(mainActivityPath, mainActivity, 'utf8');
+await writeFile(`${javaDir}/OfflineEmergencyPlugin.java`, `package dk.overblikdk.app;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import com.getcapacitor.JSArray;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
+
+@CapacitorPlugin(name = "OfflineEmergency")
+public class OfflineEmergencyPlugin extends Plugin {
+    private static final String PREFS = "overblikdk_offline_emergency";
+    private static final String CONTACTS = "contacts";
+
+    @PluginMethod
+    public void open(PluginCall call) {
+        getActivity().runOnUiThread(() -> {
+            Intent intent = new Intent(getContext(), EmergencyFallbackActivity.class);
+            getActivity().startActivity(intent);
+            call.resolve();
+        });
+    }
+
+    @PluginMethod
+    public void syncContacts(PluginCall call) {
+        JSArray contacts = call.getArray("contacts");
+        if (contacts == null) contacts = new JSArray();
+        SharedPreferences prefs = getContext().getSharedPreferences(PREFS, 0);
+        prefs.edit().putString(CONTACTS, contacts.toString()).apply();
+        JSObject result = new JSObject();
+        result.put("count", contacts.length());
+        call.resolve(result);
+    }
 }
-console.log('Dedicated OverblikDK native vibration plugin installed.');
+`, 'utf8');
+
+await writeFile(`${javaDir}/EmergencyFallbackActivity.java`, `package dk.overblikdk.app;
+
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.os.VibratorManager;
+import android.provider.Settings;
+import android.view.Gravity;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class EmergencyFallbackActivity extends Activity {
+    private static final String PREFS = "overblikdk_offline_emergency";
+    private static final String CONTACTS = "contacts";
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private boolean sosRunning = false;
+    private int sosStep = 0;
+    private View sosOverlay;
+    private String torchCameraId = null;
+    private final int[] signal = {
+        180,180, 180,180, 180,540,
+        540,180, 540,180, 540,540,
+        180,180, 180,180, 180,1260
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        buildMainUi();
+    }
+
+    private int dp(int value) {
+        return Math.round(value * getResources().getDisplayMetrics().density);
+    }
+
+    private TextView text(String value, int size, boolean bold) {
+        TextView view = new TextView(this);
+        view.setText(value);
+        view.setTextSize(size);
+        view.setTextColor(Color.WHITE);
+        view.setPadding(0, dp(8), 0, dp(8));
+        if (bold) view.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        return view;
+    }
+
+    private Button button(String label) {
+        Button button = new Button(this);
+        button.setText(label);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        lp.setMargins(0, dp(6), 0, dp(6));
+        button.setLayoutParams(lp);
+        button.setMinHeight(dp(54));
+        return button;
+    }
+
+    private void buildMainUi() {
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setPadding(dp(20), dp(20), dp(20), dp(24));
+        root.setBackgroundColor(Color.rgb(22, 22, 22));
+
+        ScrollView scroll = new ScrollView(this);
+        scroll.addView(root);
+        setContentView(scroll);
+
+        root.addView(text("🚨 OverblikDK – Nødfallback", 24, true));
+        root.addView(text("Denne side ligger i selve appen og virker uden internet.", 16, false));
+
+        Button call112 = button("Ring 112");
+        call112.setOnClickListener(v -> confirm112());
+        root.addView(call112);
+
+        Button sos = button("Start S.O.S.-blink");
+        sos.setOnClickListener(v -> startSOS());
+        root.addView(sos);
+
+        root.addView(text("Nødkontakter", 20, true));
+        addContacts(root);
+
+        Button retry = button("Prøv OverblikDK online");
+        retry.setOnClickListener(v -> {
+            if (hasInternet()) {
+                finish();
+            } else {
+                Toast.makeText(this, "Ingen internetforbindelse endnu.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        root.addView(retry);
+
+        root.addView(text("Kort, eksterne links og andre netfunktioner kræver internet.", 14, false));
+    }
+
+    private void addContacts(LinearLayout root) {
+        SharedPreferences prefs = getSharedPreferences(PREFS, 0);
+        String raw = prefs.getString(CONTACTS, "[]");
+        try {
+            JSONArray contacts = new JSONArray(raw);
+            if (contacts.length() == 0) {
+                root.addView(text("Ingen nødkontakter er synkroniseret endnu.", 15, false));
+                return;
+            }
+            for (int i = 0; i < contacts.length(); i++) {
+                JSONObject c = contacts.optJSONObject(i);
+                if (c == null) continue;
+                String name = c.optString("name", "Nødkontakt");
+                String phone = c.optString("phone", "");
+                if (phone.isEmpty()) continue;
+
+                TextView label = text(name + "  ·  " + phone, 16, true);
+                root.addView(label);
+
+                LinearLayout row = new LinearLayout(this);
+                row.setOrientation(LinearLayout.HORIZONTAL);
+
+                Button dial = button("Ring");
+                Button sms = button("SMS");
+                LinearLayout.LayoutParams half = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                half.setMargins(0, 0, dp(6), dp(8));
+                dial.setLayoutParams(half);
+                LinearLayout.LayoutParams half2 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                half2.setMargins(dp(6), 0, 0, dp(8));
+                sms.setLayoutParams(half2);
+
+                dial.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + normalizePhone(phone)))));
+                sms.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + normalizePhone(phone)))));
+                row.addView(dial);
+                row.addView(sms);
+                root.addView(row);
+            }
+        } catch (Exception error) {
+            root.addView(text("Nødkontakter kunne ikke læses.", 15, false));
+        }
+    }
+
+    private String normalizePhone(String phone) {
+        return phone.replaceAll("[^0-9+]", "");
+    }
+
+    private void confirm112() {
+        new AlertDialog.Builder(this)
+            .setTitle("Ring 112")
+            .setMessage("Vil du åbne telefonens opkaldsskærm med 112?")
+            .setNegativeButton("Annuller", null)
+            .setPositiveButton("Åbn", (dialog, which) ->
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:112")))
+            )
+            .show();
+    }
+
+    private boolean hasInternet() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network network = cm.getActiveNetwork();
+            if (network == null) return false;
+            NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+            return caps != null
+                && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+        }
+        android.net.NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnected();
+    }
+
+    private Vibrator vibrator() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            VibratorManager manager = (VibratorManager) getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
+            return manager == null ? null : manager.getDefaultVibrator();
+        }
+        return (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+    }
+
+    private void vibrate(long ms) {
+        Vibrator v = vibrator();
+        if (v == null || !v.hasVibrator()) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(ms, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            v.vibrate(ms);
+        }
+    }
+
+    private void findTorchCamera() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 501);
+            return;
+        }
+        try {
+            CameraManager camera = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            if (camera == null) return;
+            for (String id : camera.getCameraIdList()) {
+                CameraCharacteristics chars = camera.getCameraCharacteristics(id);
+                Boolean flash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+                Integer facing = chars.get(CameraCharacteristics.LENS_FACING);
+                if (Boolean.TRUE.equals(flash) &&
+                    (facing == null || facing == CameraCharacteristics.LENS_FACING_BACK)) {
+                    torchCameraId = id;
+                    return;
+                }
+            }
+        } catch (Exception ignored) {}
+    }
+
+    private void setTorch(boolean on) {
+        if (torchCameraId == null) return;
+        try {
+            CameraManager camera = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            if (camera != null) camera.setTorchMode(torchCameraId, on);
+        } catch (Exception ignored) {}
+    }
+
+    private void startSOS() {
+        if (sosRunning) return;
+        findTorchCamera();
+        sosRunning = true;
+        sosStep = 0;
+
+        LinearLayout overlay = new LinearLayout(this);
+        overlay.setOrientation(LinearLayout.VERTICAL);
+        overlay.setGravity(Gravity.CENTER);
+        overlay.setBackgroundColor(Color.BLACK);
+        overlay.setPadding(dp(24), dp(24), dp(24), dp(24));
+
+        TextView title = text("S.O.S.", 32, true);
+        title.setGravity(Gravity.CENTER);
+        overlay.addView(title);
+
+        Button stop = button("STOP");
+        stop.setOnClickListener(v -> stopSOS());
+        overlay.addView(stop);
+
+        addContentView(overlay, new WindowManager.LayoutParams(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        ));
+        sosOverlay = overlay;
+        runSOSStep();
+    }
+
+    private void runSOSStep() {
+        if (!sosRunning || sosOverlay == null) return;
+        final boolean on = (sosStep % 2 == 0);
+        final int duration = signal[sosStep % signal.length];
+
+        sosOverlay.setBackgroundColor(on ? Color.WHITE : Color.BLACK);
+        if (sosOverlay instanceof LinearLayout) {
+            LinearLayout layout = (LinearLayout) sosOverlay;
+            for (int i = 0; i < layout.getChildCount(); i++) {
+                View child = layout.getChildAt(i);
+                if (child instanceof TextView && !(child instanceof Button)) {
+                    ((TextView) child).setTextColor(on ? Color.BLACK : Color.WHITE);
+                }
+            }
+        }
+
+        setTorch(on);
+        if (on) vibrate(duration);
+
+        sosStep = (sosStep + 1) % signal.length;
+        handler.postDelayed(this::runSOSStep, duration);
+    }
+
+    private void stopSOS() {
+        sosRunning = false;
+        handler.removeCallbacksAndMessages(null);
+        setTorch(false);
+        Vibrator v = vibrator();
+        if (v != null) v.cancel();
+        if (sosOverlay != null) {
+            ((android.view.ViewGroup) sosOverlay.getParent()).removeView(sosOverlay);
+            sosOverlay = null;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (sosRunning) stopSOS();
+        super.onPause();
+    }
+}
+`, 'utf8');
+
+const mainActivityPath = `${javaDir}/MainActivity.java`;
+await writeFile(mainActivityPath, `package dk.overblikdk.app;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import com.getcapacitor.BridgeActivity;
+
+public class MainActivity extends BridgeActivity {
+    private boolean offlineFallbackShown = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        registerPlugin(OverblikVibrationPlugin.class);
+        registerPlugin(OfflineEmergencyPlugin.class);
+        super.onCreate(savedInstanceState);
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (!offlineFallbackShown && !hasValidatedInternet()) {
+                offlineFallbackShown = true;
+                startActivity(new Intent(this, EmergencyFallbackActivity.class));
+            }
+        }, 1200);
+    }
+
+    private boolean hasValidatedInternet() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network network = cm.getActiveNetwork();
+            if (network == null) return false;
+            NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+            return caps != null
+                && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+        }
+        android.net.NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnected();
+    }
+}
+`, 'utf8');
+
+console.log('Dedicated OverblikDK vibration + offline emergency fallback installed.');
 
 // Final native vibrator build trigger v170
 
@@ -234,3 +633,5 @@ console.log('Dedicated OverblikDK native vibration plugin installed.');
 // Build trigger: add OverblikDK converter 2026-10-02
 
 // Build trigger: complete library link audit 2026-10-02
+
+// Build trigger: native offline emergency fallback v187 (2026-10-03)
