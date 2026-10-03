@@ -365,6 +365,8 @@ public class EmergencyFallbackActivity extends Activity {
         root.setBackgroundColor(Color.rgb(22, 22, 22));
 
         ScrollView scroll = new ScrollView(this);
+        scroll.setFillViewport(true);
+        scroll.setBackgroundColor(Color.rgb(22, 22, 22));
         scroll.addView(root);
         setContentView(scroll);
 
