@@ -358,6 +358,17 @@ public class EmergencyFallbackActivity extends Activity {
         return button;
     }
 
+    @Override
+    public void onBackPressed() {
+        // The offline fallback is a safety screen. Do not expose the failed
+        // WebView underneath while there is still no validated internet.
+        if (!hasInternet()) {
+            Toast.makeText(this, "Du er stadig offline.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        finish();
+    }
+
     private void buildMainUi() {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
