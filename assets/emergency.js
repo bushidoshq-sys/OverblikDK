@@ -301,6 +301,8 @@
 
         setScreenFlash(true);
         await vibrateFor(onMs);
+        if (!sosRunning || token !== sosRunToken) break;
+
         if (sosMode === 'torch') {
           try {
             await setTorch(true);
@@ -312,6 +314,7 @@
         }
 
         await sleep(onMs);
+        if (!sosRunning || token !== sosRunToken) break;
 
         setScreenFlash(false);
         if (sosMode === 'torch') {
@@ -324,6 +327,7 @@
         }
 
         await sleep(offMs);
+        if (!sosRunning || token !== sosRunToken) break;
       }
     }
   }
