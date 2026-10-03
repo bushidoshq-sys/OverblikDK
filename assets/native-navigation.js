@@ -64,6 +64,26 @@
   }, true);
 
   const cap = window.Capacitor;
+
+  if (cap?.isNativePlatform?.() && cap?.registerPlugin) {
+    const OfflineEmergency = cap.registerPlugin('OfflineEmergency');
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest?.('a[href]');
+      if (!link) return;
+      const target = new URL(link.href, location.href);
+      const file = target.pathname.split('/').pop() || 'index.html';
+      if (file !== 'noedsituation.html') return;
+
+      event.preventDefault();
+      OfflineEmergency.openIfOffline()
+        .then(({ opened }) => {
+          if (!opened) location.href = target.href;
+        })
+        .catch(() => {
+          location.href = target.href;
+        });
+    }, true);
+  }
   if (!cap?.isNativePlatform?.() || !cap?.registerPlugin) return;
 
   const App = cap.registerPlugin('App');
