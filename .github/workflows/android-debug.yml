@@ -75,3 +75,4 @@ jobs:
           name: OverblikDK-release
           path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
+          retention-days: 7
